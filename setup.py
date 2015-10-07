@@ -4,9 +4,11 @@ from setuptools import setup
 
 setup(name='filemover',
       version='0.1dev',
-      packages=['Directory-Tree-File-Mover',],
+      packages=['directoryTreeFileMover'],
       author='Alexander Persson',
       url='https://github.com/Alecktos/Directory-Tree-File-Mover',
-      license='MIT'
-
+      license='MIT',
+      entry_points = {
+            'console_scripts': ['directoryTreeFileMover = directoryTreeFileMover.directoryTreeFileMover.main']
+      }
 )

@@ -1,6 +1,6 @@
 import unittest
-from file_matcher import FileMatcher
-from file_handler import FileHandler
+from directoryTreeFileMover.file_matcher import FileMatcher
+from directoryTreeFileMover.file_handler import FileHandler
 
 
 class FileMatcherTest(unittest.TestCase):
@@ -23,5 +23,5 @@ class FileMatcherTest(unittest.TestCase):
         self.assertEqual(self.TEST_FILE_RELATIVE_PATH, file_path)
         self.__file_handler.delete_file(self.TEST_FILE_RELATIVE_PATH)
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#     unittest.main()

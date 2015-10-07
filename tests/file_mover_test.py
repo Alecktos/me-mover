@@ -1,6 +1,6 @@
 import unittest
-from file_mover import FileMover
-from file_handler import FileHandler
+from directoryTreeFileMover.file_mover import FileMover
+from directoryTreeFileMover.file_handler import FileHandler
 
 
 class FileMoverTest(unittest.TestCase):

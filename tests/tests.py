@@ -1,4 +1,6 @@
+import os
 import unittest
+import sys
 from file_matcher_test import FileMatcherTest
 from file_mover_test import FileMoverTest
 

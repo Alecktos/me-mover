@@ -14,5 +14,5 @@ def main():
     file_mover.move_file(file_path, 'destination', show_name)
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
