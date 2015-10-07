@@ -1,5 +1,6 @@
 # coding=utf-8
 import os
+import logger
 
 
 class FileMatcher:
@@ -11,6 +12,7 @@ class FileMatcher:
             if os.path.isfile(file_path):
                 match = self.__match_file(keywords, file_name)
                 if match:
+                    logger.log('Found file: ' + file_path)
                     return file_path
         raise Exception('can not find any matching file.')
 
