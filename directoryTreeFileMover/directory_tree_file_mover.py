@@ -8,8 +8,8 @@ __author__ = 'alexander.persson'
 def main():
     show_name = sys.argv[1]
     file_matcher = FileMatcher()
-    file_path = file_matcher.search_file(show_name, 'testfolder/')
+    file_paths = file_matcher.search_files(show_name, 'testfolder/') # TODO: search files borde det vara
 
     file_mover = FileMover()
-    file_mover.move_file(file_path, 'destination', show_name)
+    file_mover.move_files(file_paths, 'destination', show_name) #TODO: borde vara move_files
 

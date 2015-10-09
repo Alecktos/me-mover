@@ -19,9 +19,5 @@ class FileMatcherTest(unittest.TestCase):
     def runTest(self):
         self.__file_handler.create_file(self.TEST_FILE_RELATIVE_PATH)
         search_for = 'The Big Bang Theory'
-        file_path = self.__file_mather.search_file(search_for, self.TEST_DIRECTORY_RELATIVE_PATH)
-        self.assertEqual(self.TEST_FILE_RELATIVE_PATH, file_path)
-        self.__file_handler.delete_file(self.TEST_FILE_RELATIVE_PATH)
-
-# if __name__ == '__main__':
-#     unittest.main()
+        file_paths = self.__file_mather.search_files(search_for, self.TEST_DIRECTORY_RELATIVE_PATH)
+        self.assertEqual(self.TEST_FILE_RELATIVE_PATH, file_paths[0])

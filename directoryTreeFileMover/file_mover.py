@@ -5,7 +5,11 @@ from file_handler import FileHandler
 
 class FileMover:
 
-    def move_file(self, source, root_destination, show_name):
+    def move_files(self, sources, root_destination, show_name):
+        for source in sources:
+            self.__move_file(source, root_destination, show_name)
+
+    def __move_file(self, source, root_destination, show_name):
         file_name = self.__get_file_from_path(source)
         season_number = self.__get_season_number(file_name)
         season_path = (root_destination + '/' + show_name + '/Season '
@@ -16,7 +20,7 @@ class FileMover:
             file_handler.move_file(source, season_path + '/' + file_name)
 
     def __get_season_number(self, file_name):
-        pattern = re.compile('[.][S](\d+)[E]\d+[.]')
+        pattern = re.compile('[.][Ss](\d+)[Ee]\d+[.]')
         match_object = pattern.search(file_name)
         if match_object is None:
             raise Exception('Can not determine season in name')
