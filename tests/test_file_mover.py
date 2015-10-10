@@ -1,3 +1,4 @@
+# coding=utf-8
 import unittest
 from directoryTreeFileMover.file_mover import FileMover
 from directoryTreeFileMover.file_handler import FileHandler
@@ -31,7 +32,7 @@ class FileMoverTest(unittest.TestCase):
 
         self.__create_files(source_file_paths)
         #TODO: Den ska leta upp namnet på serien utifrån sökordet bättre...
-        self.__file_mover.move_files(source_file_paths, self.TEST_DESTINATION_DIRECTORY_ROOT, 'Heroes')
+        self.__file_mover.move_files(source_file_paths, self.TEST_DESTINATION_DIRECTORY_ROOT, ' heroes')
         self.__assert_that_files_has_been_moved(file_names)
 
     def __create_files(self, source_file_paths):

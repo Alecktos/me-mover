@@ -12,12 +12,23 @@ class FileMover:
     def __move_file(self, source, root_destination, show_name):
         file_name = self.__get_file_from_path(source)
         season_number = self.__get_season_number(file_name)
-        season_path = (root_destination + '/' + show_name + '/Season '
-                       + str(season_number))
+        show_name = self.__find_show_name(root_destination, show_name)
+        if not show_name:
+            raise CouldNotFindShowFolderException('Could not find matching show name')
 
+        season_path = root_destination + '/' + show_name + '/Season ' + str(season_number)
         if os.path.isdir(season_path):
             file_handler = FileHandler()
             file_handler.move_file(source, season_path + '/' + file_name)
+        else:
+            raise CouldNotFindSeasonFolderException('could not found matching season folder', season_number)
+
+    def __find_show_name(self, root_directory, searching_show_name):
+        for root, directories, files in os.walk(root_directory, topdown=True):
+            for directory in directories:
+                if directory.lower().strip() == searching_show_name.lower().strip():
+                    return directory
+        return None
 
     def __get_season_number(self, file_name):
         pattern = re.compile('[.][Ss](\d+)[Ee]\d+[.]')
@@ -41,3 +52,16 @@ class FileMover:
     def __get_file_from_path(self, path):
         file_name_index = path.rfind('/')
         return path[file_name_index + 1:]
+
+
+class CouldNotFindShowFolderException(Exception):
+
+        def __init__(self, message):
+            super(CouldNotFindShowFolderException, self).__init__(message)
+
+
+class CouldNotFindSeasonFolderException(Exception):
+
+        def __init__(self, message, season_number):
+            super(CouldNotFindShowFolderException, self).__init__(message)
+            self.season_number = season_number
