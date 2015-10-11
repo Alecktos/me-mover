@@ -10,7 +10,7 @@ class FileMatcher:
         files = []
         keywords = search.split()  # Split on whitespace
         for file_name in os.listdir(path):
-            file_path = path + file_name
+            file_path = path + '/' + file_name
             if not os.path.isfile(file_path):
                 continue
 

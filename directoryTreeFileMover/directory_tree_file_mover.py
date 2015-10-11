@@ -11,7 +11,7 @@ def main():
     show_name = sys.argv[1]
     destination_root = 'destination'
     file_matcher = FileMatcher()
-    file_paths = file_matcher.search_files(show_name, 'testfolder/')
+    file_paths = file_matcher.search_files(show_name, 'sourcefolder')
     file_mover = FileMover()
     show_destination = destination_root + '/' + show_name
 

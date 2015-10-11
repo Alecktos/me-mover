@@ -1,5 +1,6 @@
 import os
 import re
+import logger
 from file_handler import FileHandler
 
 
@@ -20,6 +21,7 @@ class FileMover:
         if os.path.isdir(season_path):
             file_handler = FileHandler()
             file_handler.move_file(source, season_path + '/' + file_name)
+            logger.log(file_name + ' moved to ' + season_path)
         else:
             raise CouldNotFindSeasonFolderException('could not found matching season folder', season_number)
 
@@ -36,7 +38,7 @@ class FileMover:
         if match_object is None:
             raise Exception('Can not determine season in name')
 
-        season_number = match_object.group(1)  # gives me the math in name
+        season_number = match_object.group(1)  # gives the math in name
         return season_number.lstrip('0')
 
     def __is_directory(self, path):
@@ -63,5 +65,5 @@ class CouldNotFindShowFolderException(Exception):
 class CouldNotFindSeasonFolderException(Exception):
 
         def __init__(self, message, season_number):
-            super(CouldNotFindShowFolderException, self).__init__(message)
+            super(CouldNotFindSeasonFolderException, self).__init__(message)
             self.season_number = season_number
