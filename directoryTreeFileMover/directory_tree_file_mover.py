@@ -12,10 +12,10 @@ def main():
     destination_root = 'destination'
     file_matcher = FileMatcher()
     file_paths = file_matcher.search_files(show_name, 'sourcefolder')
-    file_mover = FileMover()
-    show_destination = destination_root + '/' + show_name
 
     try:
+        file_mover = FileMover()
+        show_destination = destination_root + '/' + show_name
         file_mover.move_files(file_paths, destination_root, show_name) #TODO: borde vara move_files
 
     except CouldNotFindShowFolderException:
@@ -25,7 +25,7 @@ def main():
             FileHandler.create_dir(show_destination)
             logger.log('Show folder created ' + show_destination)
 
-    except CouldNotFindShowFolderException, error:
+    except CouldNotFindSeasonFolderException, error:
         season_path = show_destination + '/Season ' + error.season_number
 
         question = 'Season folder does not exist. Create ' + show_destination + '? (yes/no)'
