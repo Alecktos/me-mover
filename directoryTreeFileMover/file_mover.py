@@ -23,7 +23,7 @@ class FileMover:
             file_handler.move_file(source, season_path + '/' + file_name)
             logger.log(file_name + ' moved to ' + season_path)
         else:
-            raise CouldNotFindSeasonFolderException('could not found matching season folder', season_number)
+            raise CouldNotFindSeasonFolderException('could not found matching season folder', show_name, season_number)
 
     def __find_show_name(self, root_directory, searching_show_name):
         for root, directories, files in os.walk(root_directory, topdown=True):
@@ -64,6 +64,7 @@ class CouldNotFindShowFolderException(Exception):
 
 class CouldNotFindSeasonFolderException(Exception):
 
-        def __init__(self, message, season_number):
+        def __init__(self, message, show_name, season_number):
             super(CouldNotFindSeasonFolderException, self).__init__(message)
             self.season_number = season_number
+            self.show_name = show_name

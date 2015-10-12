@@ -26,13 +26,13 @@ def main():
 
 
 def move_files(destination_root, file_paths, force_create_folders, show_name):
-    show_destination = destination_root + '/' + show_name
     try:
         file_mover = FileMover()
         file_mover.move_files(file_paths, destination_root, show_name)  # TODO: borde vara move_files
 
     except CouldNotFindShowFolderException:
         if force_create_folders:
+            show_destination = destination_root + '/' + show_name
             print 'Show folder does not exist. Creating ' + show_destination
             FileHandler().create_dir(show_destination)
             logger.log(show_destination + ' created')
@@ -41,7 +41,7 @@ def move_files(destination_root, file_paths, force_create_folders, show_name):
             print 'Show folder does not exist. Runt with -f to create it'
 
     except CouldNotFindSeasonFolderException, error:
-        season_path = show_destination + '/Season ' + error.season_number
+        season_path = destination_root + '/' + error.show_name + '/Season ' + error.season_number
 
         if force_create_folders:
             print 'Season folder does not exist. Creating ' + season_path

@@ -19,12 +19,10 @@ class FileMatcher:
         return files
 
     def __match_file(self, keywords, file_name):
-        match = True
         for keyword in keywords:
-            if not self.__is_keyboard_part_of_filename(keyword, file_name):
-                match = False
-                break
-        return match
+            if not self.__is_keyword_part_of_filename(keyword, file_name):
+                return False
+        return True
 
-    def __is_keyboard_part_of_filename(self, keyword, file_name):
+    def __is_keyword_part_of_filename(self, keyword, file_name):
         return keyword.lower() in file_name.lower()  # keyword is part of name
