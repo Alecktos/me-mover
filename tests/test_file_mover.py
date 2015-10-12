@@ -21,6 +21,9 @@ class FileMoverTest(unittest.TestCase):
 
     TEST_SHOW_DIRECTORY_NOT_EXIST_FILE_SOURCE_PATH = TEST_SOURCE_PATH + '/Go.On.S01E17.HDTV.x264-LOL'
 
+    TEST_FOLDER_NAMES_DESTINATION_DIRECTORY_PATH = TEST_DESTINATION_DIRECTORY_ROOT + '/abc/Season 9'
+    TEST_FOLDER_NAMES_FOLDER_SOURCE_PATH = TEST_SOURCE_PATH + '/abc.S09E02.DVDRIP.XVID-REWRD'
+
     def setUp(self):
         self.__file_mover = FileMover()
         self.__file_handler = FileHandler()
@@ -35,6 +38,9 @@ class FileMoverTest(unittest.TestCase):
         self.__file_handler.create_dir(self.TEST_SEASON_DIRECTORY_NOT_EXIST_DESTINATION_PATH)
         self.__file_handler.create_dir(self.TEST_SEASON_DIRECTORY_NOT_EXIST_FILE_SOURCE_PATH)
 
+        self.__file_handler.create_dir(self.TEST_FOLDER_NAMES_FOLDER_SOURCE_PATH)
+        self.__file_handler.create_dir(self.TEST_FOLDER_NAMES_DESTINATION_DIRECTORY_PATH)
+
     def tearDown(self):
         self.__file_handler.delete_directory(self.TEST_SOURCE_PATH)
         self.__file_handler.delete_directory(self.TEST_DESTINATION_DIRECTORY_ROOT)
@@ -44,6 +50,7 @@ class FileMoverTest(unittest.TestCase):
         self.__test_file_names([self.TEST_FILE_NAMES_FILE_2_SOURCE_PATH, self.TEST_FILE_NAMES_FILE_3_SOURCE_PATH])
         self.__test_season_directory_not_exist()
         self.__test_show_directory_not_exist()
+        self.__test_folder_names()
 
     def __test_season_directory_not_exist(self):
         with self.assertRaises(CouldNotFindSeasonFolderException):
@@ -60,6 +67,22 @@ class FileMoverTest(unittest.TestCase):
                 self.TEST_DESTINATION_DIRECTORY_ROOT,
                 'Go On'
             )
+
+    def __test_folder_names(self):
+        self.__file_mover.move_files(
+            [self.TEST_FOLDER_NAMES_FOLDER_SOURCE_PATH],
+            self.TEST_DESTINATION_DIRECTORY_ROOT,
+            'abc'
+        )
+        folder_name = self.TEST_FOLDER_NAMES_FOLDER_SOURCE_PATH.split('/')[-1]
+        destination_path = self.TEST_FOLDER_NAMES_DESTINATION_DIRECTORY_PATH + '/' + folder_name
+
+        folder_is_new_path = self.__file_handler.check_directory_existance(destination_path)
+        self.assertTrue(folder_is_new_path)
+
+        folder_is_on_source_path = self.TEST_FOLDER_NAMES_FOLDER_SOURCE_PATH
+        folder_is_in_source = self.__file_handler.check_directory_existance(folder_is_on_source_path)
+        self.assertFalse(folder_is_in_source)
 
     def __test_file_names(self, source_paths):
         self.__file_mover.move_files(source_paths, self.TEST_DESTINATION_DIRECTORY_ROOT, ' heroes')

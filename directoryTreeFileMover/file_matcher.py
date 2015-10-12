@@ -11,12 +11,10 @@ class FileMatcher:
         keywords = search.split()  # Split on whitespace
         for file_name in os.listdir(path):
             file_path = path + '/' + file_name
-            if not os.path.isfile(file_path):
-                continue
 
             match = self.__match_file(keywords, file_name)
             if match:
-                logger.log('Found file: ' + file_path)
+                logger.log('Found file/folder: ' + file_path)
                 files.append(file_path)
         return files
 

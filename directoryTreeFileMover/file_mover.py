@@ -17,9 +17,9 @@ class FileMover:
         if not show_name:
             raise CouldNotFindShowFolderException('Could not find matching show name')
 
+        file_handler = FileHandler()
         season_path = root_destination + '/' + show_name + '/Season ' + str(season_number)
-        if os.path.isdir(season_path):
-            file_handler = FileHandler()
+        if file_handler.check_directory_existance(season_path):  # os.path.isdir(season_path):
             file_handler.move_file(source, season_path + '/' + file_name)
             logger.log(file_name + ' moved to ' + season_path)
         else:

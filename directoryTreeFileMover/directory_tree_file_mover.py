@@ -14,9 +14,9 @@ def main():
     if len(sys.argv) >= 3 and sys.argv[2] == '-f':
         force_create_folders = True
 
-    destination_root = 'destination'
+    destination_root = 'destination'  # /media/MEDIA/SERIER
     file_matcher = FileMatcher()
-    file_paths = file_matcher.search_files(show_name, 'sourcefolder')
+    file_paths = file_matcher.search_files(show_name, 'sourcefolder')  # /media/MEDIA/FINISHED
     if len(file_paths) is 0:
         print 'No matching files found'
 

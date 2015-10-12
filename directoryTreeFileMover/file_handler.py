@@ -13,6 +13,9 @@ class FileHandler(object):
     def check_file_existance(self, file_path):
         return os.path.isfile(file_path)
 
+    def check_directory_existance(self, directory_path):
+        return os.path.isdir(directory_path)
+
     def move_file(self, source, destination):
         os.rename(source, destination)
 
@@ -21,3 +24,4 @@ class FileHandler(object):
 
     def delete_directory(self, directory_path):
         shutil.rmtree(directory_path)
+
