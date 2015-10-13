@@ -1,15 +1,12 @@
-# coding=utf-8
-import os
+import file_handler
 import logger
-
-#TODO: os things should be refactored out
 
 class FileMatcher:
 
     def search_files(self, search, path):
         files = []
         keywords = search.split()  # Split on whitespace
-        for file_name in os.listdir(path):
+        for file_name in file_handler.get_subdirectories(path):
             file_path = path + '/' + file_name
 
             match = self.__match_file(keywords, file_name)

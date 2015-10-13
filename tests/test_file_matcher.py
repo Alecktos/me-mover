@@ -1,6 +1,6 @@
 import unittest
 from directoryTreeFileMover.file_matcher import FileMatcher
-from directoryTreeFileMover.file_handler import FileHandler
+from directoryTreeFileMover import file_handler
 
 
 class FileMatcherTest(unittest.TestCase):
@@ -11,16 +11,12 @@ class FileMatcherTest(unittest.TestCase):
 
     def setUp(self):
         self.__file_mather = FileMatcher()
-        self.__file_handler = FileHandler()
-        self.__file_handler.create_dir(self.TEST_SEARCH_IN_DIRECTORY_PATH)
-
-        self.__file_handler.create_file(self.TEST_FILE_PATH)
-
-        self.__file_handler.create_dir(self.TEST_FOLDER_PATH)
-
+        file_handler.create_dir(self.TEST_SEARCH_IN_DIRECTORY_PATH)
+        file_handler.create_file(self.TEST_FILE_PATH)
+        file_handler.create_dir(self.TEST_FOLDER_PATH)
 
     def tearDown(self):
-        self.__file_handler.delete_directory(self.TEST_SEARCH_IN_DIRECTORY_PATH)
+        file_handler.delete_directory(self.TEST_SEARCH_IN_DIRECTORY_PATH)
 
     def runTest(self):
         self.__test_matching_file()

@@ -3,7 +3,7 @@ import os
 import unittest
 from directoryTreeFileMover.file_mover import FileMover, CouldNotFindSeasonFolderException, \
     CouldNotFindShowFolderException
-from directoryTreeFileMover.file_handler import FileHandler
+from directoryTreeFileMover import file_handler
 
 
 class FileMoverTest(unittest.TestCase):
@@ -26,24 +26,23 @@ class FileMoverTest(unittest.TestCase):
 
     def setUp(self):
         self.__file_mover = FileMover()
-        self.__file_handler = FileHandler()
 
-        self.__file_handler.create_dir(self.TEST_SOURCE_PATH)
+        file_handler.create_dir(self.TEST_SOURCE_PATH)
 
-        self.__file_handler.create_dir(self.TEST_FILE_NAMES_DESTINATION_DIRECTORY_PATH)
-        self.__file_handler.create_file(self.TEST_FILE_NAMES_FILE_1_SOURCE_PATH)
-        self.__file_handler.create_file(self.TEST_FILE_NAMES_FILE_2_SOURCE_PATH)
-        self.__file_handler.create_file(self.TEST_FILE_NAMES_FILE_3_SOURCE_PATH)
+        file_handler.create_dir(self.TEST_FILE_NAMES_DESTINATION_DIRECTORY_PATH)
+        file_handler.create_file(self.TEST_FILE_NAMES_FILE_1_SOURCE_PATH)
+        file_handler.create_file(self.TEST_FILE_NAMES_FILE_2_SOURCE_PATH)
+        file_handler.create_file(self.TEST_FILE_NAMES_FILE_3_SOURCE_PATH)
 
-        self.__file_handler.create_dir(self.TEST_SEASON_DIRECTORY_NOT_EXIST_DESTINATION_PATH)
-        self.__file_handler.create_dir(self.TEST_SEASON_DIRECTORY_NOT_EXIST_FILE_SOURCE_PATH)
+        file_handler.create_dir(self.TEST_SEASON_DIRECTORY_NOT_EXIST_DESTINATION_PATH)
+        file_handler.create_dir(self.TEST_SEASON_DIRECTORY_NOT_EXIST_FILE_SOURCE_PATH)
 
-        self.__file_handler.create_dir(self.TEST_FOLDER_NAMES_FOLDER_SOURCE_PATH)
-        self.__file_handler.create_dir(self.TEST_FOLDER_NAMES_DESTINATION_DIRECTORY_PATH)
+        file_handler.create_dir(self.TEST_FOLDER_NAMES_FOLDER_SOURCE_PATH)
+        file_handler.create_dir(self.TEST_FOLDER_NAMES_DESTINATION_DIRECTORY_PATH)
 
     def tearDown(self):
-        self.__file_handler.delete_directory(self.TEST_SOURCE_PATH)
-        self.__file_handler.delete_directory(self.TEST_DESTINATION_DIRECTORY_ROOT)
+        file_handler.delete_directory(self.TEST_SOURCE_PATH)
+        file_handler.delete_directory(self.TEST_DESTINATION_DIRECTORY_ROOT)
 
     def runTest(self):
         self.__test_file_names([self.TEST_FILE_NAMES_FILE_1_SOURCE_PATH])
@@ -77,11 +76,11 @@ class FileMoverTest(unittest.TestCase):
         folder_name = self.TEST_FOLDER_NAMES_FOLDER_SOURCE_PATH.split('/')[-1]
         destination_path = self.TEST_FOLDER_NAMES_DESTINATION_DIRECTORY_PATH + '/' + folder_name
 
-        folder_is_new_path = self.__file_handler.check_directory_existance(destination_path)
+        folder_is_new_path = file_handler.check_directory_existance(destination_path)
         self.assertTrue(folder_is_new_path)
 
         folder_is_on_source_path = self.TEST_FOLDER_NAMES_FOLDER_SOURCE_PATH
-        folder_is_in_source = self.__file_handler.check_directory_existance(folder_is_on_source_path)
+        folder_is_in_source = file_handler.check_directory_existance(folder_is_on_source_path)
         self.assertFalse(folder_is_in_source)
 
     def __test_file_names(self, source_paths):
@@ -93,8 +92,8 @@ class FileMoverTest(unittest.TestCase):
             file_name = os.path.basename(source_path)
             destination_path = self.TEST_FILE_NAMES_DESTINATION_DIRECTORY_PATH + file_name
 
-            file_is_in_new_path = self.__file_handler.check_file_existance(destination_path)
+            file_is_in_new_path = file_handler.check_file_existance(destination_path)
             self.assertTrue(file_is_in_new_path)
 
-            file_is_in_source_path = self.__file_handler.check_file_existance(source_path)
+            file_is_in_source_path = file_handler.check_file_existance(source_path)
             self.assertFalse(file_is_in_source_path)
