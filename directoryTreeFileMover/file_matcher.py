@@ -1,6 +1,7 @@
 import file_handler
 import logger
 
+
 class FileMatcher:
 
     def search_files(self, search, path):
@@ -13,6 +14,9 @@ class FileMatcher:
             if match:
                 logger.log('Found file/folder: ' + file_path)
                 files.append(file_path)
+
+        if not files:
+            logger.log('No matching files found')
         return files
 
     def __match_file(self, keywords, file_name):

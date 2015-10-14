@@ -1,4 +1,4 @@
-import sys
+import arguments_parser
 import logger
 import file_handler
 from file_matcher import FileMatcher
@@ -8,23 +8,17 @@ __author__ = 'alexander.persson'
 
 
 def main():
-    show_name = sys.argv[1]
-
-    force_create_folders = False
-    if len(sys.argv) >= 3 and sys.argv[2] == '-f':
-        force_create_folders = True
-
-    destination_root = 'destination'  # /media/MEDIA/SERIER
+    show_name = arguments_parser.get_show_name()
+    destination_root = arguments_parser.get_destination_path()
     file_matcher = FileMatcher()
-    file_paths = file_matcher.search_files(show_name, 'sourcefolder')  # /media/MEDIA/FINISHED
-    if len(file_paths) is 0:
-        logger.log('No matching files found')
-
-    move_files(destination_root, file_paths, force_create_folders, show_name)
+    source_path = arguments_parser.get_source_path()
+    file_paths = file_matcher.search_files(show_name, source_path)
+    move_files(destination_root, file_paths, show_name)
     logger.log('Finished')
 
 
-def move_files(destination_root, file_paths, force_create_folders, show_name):
+def move_files(destination_root, file_paths, show_name):
+    force_create_folders = arguments_parser.in_force_mode()
     try:
         file_mover = FileMover()
         file_mover.move_files(file_paths, destination_root, show_name)
