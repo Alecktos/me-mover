@@ -23,7 +23,7 @@ class FileMatcherTest(unittest.TestCase):
         file_handler.delete_directory(self.TEST_DESTINATION_ROOT_FOLDER)
 
     def runTest(self):
-        self.__run_app('"halt and catch fire" -f')
+        self.__run_app('-show-name "halt and catch fire" -force -source sourcefolder -destination destination')
 
     def __run_app(self, args):
         p = subprocess.Popen('python -m directoryTreeFileMover ' + args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)

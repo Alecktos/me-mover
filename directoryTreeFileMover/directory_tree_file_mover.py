@@ -26,10 +26,10 @@ def move_files(destination_root, file_paths, show_name):
     except CouldNotFindShowFolderException:
         show_destination = destination_root + '/' + show_name
         if force_create_folders:
-            logger.info('Show folder does not exist. Creating ' + show_destination)
+            logger.log('Show folder does not exist. Creating ' + show_destination)
             file_handler.create_dir(show_destination)
             logger.log(show_destination + ' created')
-            move_files(destination_root, file_paths, force_create_folders, show_name)
+            move_files(destination_root, file_paths, show_name)
         else:
             logger.log(show_destination + ' folder does not exist. Runt with -f to create it')
 
@@ -40,6 +40,6 @@ def move_files(destination_root, file_paths, show_name):
             logger.log('Season folder does not exist. Creating ' + season_path)
             file_handler.create_dir(season_path)
             logger.log(season_path + ' created')
-            move_files(destination_root, file_paths, force_create_folders, show_name)
+            move_files(destination_root, file_paths, show_name)
         else:
             logger.log(season_path + ' does not exist. Run with -f to create it')

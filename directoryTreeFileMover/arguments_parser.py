@@ -28,11 +28,18 @@ def in_force_mode():
 
 
 def get_show_name():
+    if '-show-name' not in sys.argv:
+        raise ArgumentParserException('-show-name needs to be set')
+
     index = sys.argv.index('-show-name')
-    if '-show-name' not in sys.argv or len(sys.argv - 1) <= index:
-        raise Exception('-show-name needs to be set')
+    if len(sys.argv) - 1 <= index:
+        raise Exception('-show-name value needs to be set')
 
     return sys.argv[index+1]
+
+
+class ArgumentParserException(Exception):
+    pass
 
 
 
