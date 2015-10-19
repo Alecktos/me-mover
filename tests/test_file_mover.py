@@ -1,9 +1,9 @@
 # coding=utf-8
 import os
 import unittest
-from directoryTreeFileMover.file_mover import FileMover, CouldNotFindSeasonFolderException, \
+from episodeMover.file_mover import FileMover, CouldNotFindSeasonFolderException, \
     CouldNotFindShowFolderException
-from directoryTreeFileMover import file_handler
+from episodeMover import file_handler
 
 
 class FileMoverTest(unittest.TestCase):
@@ -13,7 +13,7 @@ class FileMoverTest(unittest.TestCase):
 
     TEST_FILE_NAMES_DESTINATION_DIRECTORY_PATH = TEST_DESTINATION_DIRECTORY_ROOT + '/Heroes/Season 1/'
     TEST_FILE_NAMES_FILE_1_SOURCE_PATH = TEST_SOURCE_PATH + '/HEROES.S01E03.DVDRIP.XVID-REWRD.mkv'
-    TEST_FILE_NAMES_FILE_2_SOURCE_PATH = TEST_SOURCE_PATH + '/i.am.cait.s01e04.hdtv.x264-daview.mp4'
+    TEST_FILE_NAMES_FILE_2_SOURCE_PATH = TEST_SOURCE_PATH + '/new.girl.cait.s01e04.hdtv.x264-daview.mp4'
     TEST_FILE_NAMES_FILE_3_SOURCE_PATH = TEST_SOURCE_PATH + '/HEROES.S01E02.DVDRIP.XVID-REWRD.mkv'
 
     TEST_SEASON_DIRECTORY_NOT_EXIST_FILE_SOURCE_PATH = TEST_SOURCE_PATH + '/Falling.Skies.S02E03.HDTV.x264-ASAP.mp4'

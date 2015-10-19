@@ -3,7 +3,7 @@ import subprocess
 __author__ = 'alexander'
 
 import unittest
-from directoryTreeFileMover import file_handler
+from episodeMover import file_handler
 
 
 class FileMatcherTest(unittest.TestCase):
@@ -26,6 +26,6 @@ class FileMatcherTest(unittest.TestCase):
         self.__run_app('-show-name "halt and catch fire" -force -source sourcefolder -destination destination')
 
     def __run_app(self, args):
-        p = subprocess.Popen('python -m directoryTreeFileMover ' + args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        p = subprocess.Popen('python -m episodeMover ' + args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         for line in p.stdout.readlines():
             print line,

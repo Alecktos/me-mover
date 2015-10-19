@@ -1,6 +1,6 @@
 import unittest
-from directoryTreeFileMover.file_matcher import FileMatcher
-from directoryTreeFileMover import file_handler
+from episodeMover.file_matcher import FileMatcher
+from episodeMover import file_handler
 
 
 class FileMatcherTest(unittest.TestCase):
