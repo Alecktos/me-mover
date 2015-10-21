@@ -16,7 +16,7 @@ class FileMatcher:
                 files.append(file_path)
 
         if not files:
-            logger.log('No matching files found')
+            logger.log('No matching files found: ' + search)
         return files
 
     def __match_file(self, keywords, file_name):
