@@ -5,7 +5,7 @@ Python application for moving TV-show episodes in a specific folder into a three
 file names needs to be specified with S01E05 to be moved correctly. The files will be moved to [specified root directory]/[show name]/[season folder]
 
 ## 1. Install episode-mover
-        python install setup.py
+        python setup.py install
 
 ## 2. Move episodes with episode-mover
 ### Example:
