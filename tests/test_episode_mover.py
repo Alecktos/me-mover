@@ -1,7 +1,4 @@
 import subprocess
-
-__author__ = 'alexander'
-
 import unittest
 from episodeMover import file_handler
 

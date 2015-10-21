@@ -1,4 +1,3 @@
-# coding=utf-8
 import os
 import unittest
 from episodeMover.file_mover import FileMover, CouldNotFindSeasonFolderException, \

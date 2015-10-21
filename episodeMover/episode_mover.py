@@ -4,8 +4,6 @@ import file_handler
 from file_matcher import FileMatcher
 from file_mover import FileMover, CouldNotFindShowFolderException, CouldNotFindSeasonFolderException
 
-__author__ = 'alexander.persson'
-
 
 def main():
     show_name = arguments_parser.get_show_name()

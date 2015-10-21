@@ -1,7 +1,5 @@
 import sys
 
-__author__ = 'Alexander'
-
 
 def get_destination_path():
     destination_path = '.'
