@@ -7,7 +7,7 @@ class FileMatcherTest(unittest.TestCase):
 
     TEST_SEARCH_IN_DIRECTORY_PATH = 'sourcefolder'
     TEST_DESTINATION_ROOT_FOLDER = 'destination'
-    TEST_FILE_NAME = '/Halt.and.Catch.Fire.S02E10.720p.HDTV.x264-KILLERS.mkv'
+    TEST_FILE_NAME = '/Halt.and.Catch.Fire.S02E10.720p.SOMETHING.something-SOMETHING.mkv'
     TEST_FILE_SOURCE_PATH = TEST_SEARCH_IN_DIRECTORY_PATH + TEST_FILE_NAME
 
     def setUp(self):

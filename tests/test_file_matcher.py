@@ -6,8 +6,8 @@ from episodeMover import file_handler
 class FileMatcherTest(unittest.TestCase):
 
     TEST_SEARCH_IN_DIRECTORY_PATH = 'testfolder'
-    TEST_FILE_PATH = TEST_SEARCH_IN_DIRECTORY_PATH + '/The.Big.Bang.Theory.S09E01.HDTV.x264-LOL[rarbg].mp4'
-    TEST_FOLDER_PATH = TEST_SEARCH_IN_DIRECTORY_PATH + '/hey.arnold.S09E01.HDTV.x264-LOL'
+    TEST_FILE_PATH = TEST_SEARCH_IN_DIRECTORY_PATH + '/The.Big.Bang.Theory.S09E01.something.something-something[something].mp4'
+    TEST_FOLDER_PATH = TEST_SEARCH_IN_DIRECTORY_PATH + '/hey.arnold.S09E01.SOMETHING.something-something'
 
     def setUp(self):
         self.__file_mather = FileMatcher()
