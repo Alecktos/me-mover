@@ -1,6 +1,6 @@
 # episode-mover
 
-Python application for moving TV-show episodes in a specific folder into a three structure.
+Python application for moving TV-show episodes in a specific folder into a tree structure.
 
 file names needs to be specified with S01E05 to be moved correctly. The files will be moved to [specified root directory]/[show name]/[season folder]
 
