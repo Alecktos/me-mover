@@ -1,4 +1,4 @@
-from episode_mover import main
+import main
 
 
-main()
+main.main()

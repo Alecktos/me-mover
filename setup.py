@@ -9,6 +9,6 @@ setup(name='episode-mover',
       url='https://github.com/Alecktos/Directory-Tree-File-Mover',
       license='MIT',
       entry_points={
-            'console_scripts': ['episode-mover = episodeMover.episode_mover:main']
+            'console_scripts': ['episode-mover = episodeMover.main:main']
       }
 )
