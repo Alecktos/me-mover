@@ -1,6 +1,6 @@
 import subprocess
 import unittest
-from episodeMover import file_handler
+from memover import file_handler
 
 
 class FileMatcherTest(unittest.TestCase):
@@ -26,7 +26,7 @@ class FileMatcherTest(unittest.TestCase):
 
     @staticmethod
     def __run_app(args):
-        p = subprocess.Popen('python -m episodeMover ' + args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        p = subprocess.Popen('python -m memover ' + args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         for line in p.stdout.readlines():
             print line,
 

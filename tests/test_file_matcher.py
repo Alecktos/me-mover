@@ -1,6 +1,6 @@
 import unittest
-from episodeMover.file_matcher import FileMatcher
-from episodeMover import file_handler
+from memover.file_matcher import FileMatcher
+from memover import file_handler
 
 
 class FileMatcherTest(unittest.TestCase):

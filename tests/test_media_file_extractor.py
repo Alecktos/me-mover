@@ -1,6 +1,6 @@
 import unittest
 
-from episodeMover.media_file_extractor import MediaFileExtractor, Type, WrongMediatypeException
+from memover.media_file_extractor import MediaFileExtractor, Type, WrongMediatypeException
 
 
 class MediaFileExtractorTest(unittest.TestCase):

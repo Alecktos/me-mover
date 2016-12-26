@@ -2,13 +2,13 @@ __author__ = 'alexander.persson'
 
 from setuptools import setup
 
-setup(name='episode-mover',
+setup(name='me-mover',
       version='0.2dev',
-      packages=['episodeMover'],
+      packages=['memover'],
       author='Alexander Persson',
       url='https://github.com/Alecktos/Directory-Tree-File-Mover',
       license='MIT',
       entry_points={
-            'console_scripts': ['episode-mover = episodeMover.main:main']
+            'console_scripts': ['me-mover = memover.main:main']
       }
 )
