@@ -59,7 +59,7 @@ def __move_based_on_file():
     if not __arguments_are_valid(arguments):
         return
 
-    mover.move_media_by_path(file_path, show_destination_path, movie_destination_path, show_source_path)
+    mover.move_media_by_path(file_path, show_destination_path, movie_destination_path)
 
 
 def __arguments_are_valid(arguments):
