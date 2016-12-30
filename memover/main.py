@@ -11,12 +11,10 @@ def main():
         return
 
     if command == arguments_parser.Commands.SHOW:
-        logger.log('moving on show name')
         __move_based_on_show()
         return
 
     if command == arguments_parser.Commands.FILE:
-        logger.log('moving on file path')
         __move_based_on_file()
         return
 
