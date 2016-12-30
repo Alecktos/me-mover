@@ -9,8 +9,8 @@ class AppTest(unittest.TestCase):
     __SHOW_DESTINATION_DIRECTORY = 'show-destination'
     __MOVIE_DESTINATION_DIRECTORY = 'movie-destination'
     __TV_SHOW_FILE_NAME_1 = 'Halt.and.Catch.Fire.S02E10.720p.SOMETHING.something-SOMETHING.mkv'
-    __TV_SHOW_FILE_NAME_2 = 'Vikings.S04E15.HDTV.x264-KILLERS[ettv].mkv'
-    __MOVIE_FILE_NAME_1 = 'Kevin.Hart.What.Now.2016.DVDRip.XviD.AC3-EVO.mp4'
+    __TV_SHOW_FILE_NAME_2 = 'Vikings.S04E15.HDTV.xTTT-RR[abf].mkv'
+    __MOVIE_FILE_NAME_1 = 'Kevin.Hart.What.Now.2016.DVDRip.DIVX.741-RO.mp4'
 
     def setUp(self):
         file_handler.create_dir(self.__SOURCE_DIRECTORY)
@@ -32,13 +32,13 @@ class AppTest(unittest.TestCase):
         self.__assert_file_not_in_old_path(self.__SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_1)
 
     def test_moving_movie_by_file(self):
-        self.__run_app('file -file-path sourcefolder/Kevin.Hart.What.Now.2016.DVDRip.XviD.AC3-EVO.mp4 -show-destination show-destination -movie-destination movie-destination')
+        self.__run_app('file -file-path sourcefolder/Kevin.Hart.What.Now.2016.DVDRip.DIVX.741-RO.mp4 -show-destination show-destination -movie-destination movie-destination')
         destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/' + self.__MOVIE_FILE_NAME_1
         self.__assert_file_in_new_path(destination_path)
         self.__assert_file_not_in_old_path(self.__SOURCE_DIRECTORY + '/' + self.__MOVIE_FILE_NAME_1)
 
     def test_moving_show_by_file(self):
-        self.__run_app('file -file-path sourcefolder/Vikings.S04E15.HDTV.x264-KILLERS[ettv].mkv -show-destination show-destination -movie-destination movie-destination')
+        self.__run_app('file -file-path sourcefolder/Vikings.S04E15.HDTV.xTTT-RR[abf].mkv -show-destination show-destination -movie-destination movie-destination')
         destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/Vikings/Season 4/' + self.__TV_SHOW_FILE_NAME_2
         self.__assert_file_in_new_path(destination_path)
         self.__assert_file_not_in_old_path(self.__SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_2)
