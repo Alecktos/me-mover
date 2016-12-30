@@ -1,4 +1,4 @@
-# episode-mover
+# me-mover
 
 Python application for moving movies and tv-shows in a specified file structure.
 
