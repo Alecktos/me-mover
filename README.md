@@ -12,7 +12,7 @@ TV-shows will be moved to ``[sorted tv-show root directory]/[show name]/[season 
         # or run it directly 
         python -m memover
 
-## 2. Move episodes with episode-mover
+## 2. Move episodes with me-mover
 ### Examples:
     memover tvshow -show-name "halt and catch fire" -show-source sourcefolder -show-destination media/sorted-tv-shows
 Halt.and.Catch.Fire.S02E08.mp4 and Halt.and.Catch.Fire.S02E09.mp4 in media/inbox-tv-shows these will be moved to media/sorted-tv-shows/Halt And Catch Fire/Season 2/Halt.and.Catch.Fire.S02E08.mp4 (Halt.and.Catch.Fire.S02E09.mp4 will be placed in the same directory). If the show or season directory does not exist it will be created.
