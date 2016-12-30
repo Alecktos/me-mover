@@ -19,8 +19,8 @@ class FileMatcherTest(unittest.TestCase):
         file_handler.delete_directory(self.TEST_SEARCH_IN_DIRECTORY_PATH)
         file_handler.delete_directory(self.TEST_DESTINATION_ROOT_FOLDER)
 
-    def runTest(self):
-        self.__run_app('-show-name "halt and catch fire" -source sourcefolder -show-destination destination -movie-destination destination')
+    def test_moving_show_by_name(self):
+        self.__run_app('tvshow -show-name "halt and catch fire" -show-source sourcefolder -show-destination destination -movie-destination destination')
         self.__assert_file_in_new_path()
         self.__assert_file_not_in_old_path()
 
@@ -31,7 +31,7 @@ class FileMatcherTest(unittest.TestCase):
             print line,
 
     def __assert_file_in_new_path(self):
-        destination_path = self.TEST_DESTINATION_ROOT_FOLDER + '/halt and catch fire/Season 2' + self.TEST_FILE_NAME
+        destination_path = self.TEST_DESTINATION_ROOT_FOLDER + '/Halt And Catch Fire/Season 2' + self.TEST_FILE_NAME
         file_is_in_new_path = file_handler.check_file_existance(destination_path)
         self.assertTrue(file_is_in_new_path)
 

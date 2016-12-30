@@ -1,8 +1,8 @@
 import unittest
-from memover import mover, file_handler
+from memover import file_handler, mover
 
 
-class TestMediaFileMover(unittest.TestCase):
+class MoverTest(unittest.TestCase):
 
     __SOURCE_DIRECTORY_PATH = 'sourcefolder'
     __SHOW_DESTINATION_ROOT_FOLDER = 'destination_show'
@@ -21,14 +21,14 @@ class TestMediaFileMover(unittest.TestCase):
         file_handler.delete_directory(self.__SHOW_DESTINATION_ROOT_FOLDER)
         file_handler.delete_directory(self.__MOVIE_DESTINATION_ROOT_FOLDER)
 
-    def test_move_movie(self):
-        pass
-        # destination_path = self.__SHOW_DESTINATION_ROOT_FOLDER + '/Halt and Catch Fire/Season 2' + self.__TV_SHOW_FILE_NAME
-        #
-        # mover.move_file(
-        #     self.__TV_SHOW_FILE_SOURCE_PATH,
-        #     self.__SHOW_DESTINATION_ROOT_FOLDER,
-        #     self.__MOVIE_DESTINATION_ROOT_FOLDER)
-        #
-        # file_in_new_path = file_handler.check_file_existance(destination_path)
-        # self.assertTrue(file_in_new_path)
+    def test_move_show_by_name(self):
+        mover.move_episodes_by_name(
+            'halt and catch fire',
+            self.__SHOW_DESTINATION_ROOT_FOLDER,
+            self.__SOURCE_DIRECTORY_PATH)
+
+        destination_path = self.__SHOW_DESTINATION_ROOT_FOLDER + '/Halt And Catch Fire/Season 2' + self.__TV_SHOW_FILE_NAME
+        file_is_in_new_path = file_handler.check_file_existance(destination_path)
+        self.assertTrue(file_is_in_new_path)
+
+
