@@ -20,7 +20,7 @@ Halt.and.Catch.Fire.S02E08.mp4 and Halt.and.Catch.Fire.S02E09.mp4 in media/inbox
     memover file -file-path sourcefolder/Star.Wars.The.Clone.Wars.BluRay.1080p.x264.5.1.mp4 -show-destination media/sorted-tv-shows -movie-destination media/movies
 Will move the movie to the media/movies/Star.Wars.The.Clone.Wars.BluRay.1080p.x264.5.1.mp4
 
-    file -file-path sourcefolder/Vikings.S04E15.720p.mkv -show-destination media/sorted-tv-shows -movie-destination media/movies    
+    memover file -file-path sourcefolder/Vikings.S04E15.720p.mkv -show-destination media/sorted-tv-shows -movie-destination media/movies    
 Will move episode 15 Season 4 of Vikings to media/sorted-tv-shows/Vikings/Season 4/Vikings.S04E15.720p.mkv
 
 ### Commands:
