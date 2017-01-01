@@ -1,61 +1,75 @@
 import unittest
+import file_moved_assertion
 from memover import file_handler, mover
 
 
-class MoverTest(unittest.TestCase):
+class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
 
     __SOURCE_DIRECTORY = 'sourcefolder'
     __SHOW_DESTINATION_DIRECTORY = 'destination_show'
     __MOVIE_DESTINATION_DIRECTORY = 'destination_movie'
-    __TV_SHOW_FILE_NAME_1 = 'Halt.and.Catch.Fire.S02E10.720p.SOMETHING.something-SOMETHING.mkv'
-    __TV_SHOW_FILE_NAME_2 = 'The.Last.Man.on.Earth.S02E03.Dead.Man.Walking.720p.WEB-DL.x123.BBA.mp4'
-    __MOVIE_FILE_NAME_1 = 'Fantastic Beast and Where To Find Them 2016 HD-TS x264-CPG.mkv'
 
     def setUp(self):
         file_handler.create_dir(self.__MOVIE_DESTINATION_DIRECTORY)
         file_handler.create_dir(self.__SHOW_DESTINATION_DIRECTORY)
+        file_handler.create_dir(self.__SHOW_DESTINATION_DIRECTORY + '/Shameless/Season 7/')
         file_handler.create_dir(self.__SOURCE_DIRECTORY)
-        file_handler.create_file(self.__SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_1)
-        file_handler.create_file(self.__SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_2)
-        file_handler.create_file(self.__SOURCE_DIRECTORY + '/' + self.__MOVIE_FILE_NAME_1)
 
     def tearDown(self):
         file_handler.delete_directory(self.__SOURCE_DIRECTORY)
-        file_handler.delete_directory(self.__SHOW_DESTINATION_DIRECTORY)
+        file_handler.delete_directory('destination_show')
         file_handler.delete_directory(self.__MOVIE_DESTINATION_DIRECTORY)
 
     def test_move_show_by_name(self):
+        tv_show_file_name = 'Halt.and.Catch.Fire.S02E10.720p.SOMETHING.something-SOMETHING.mkv'
+        file_handler.create_file(self.__SOURCE_DIRECTORY + '/' + tv_show_file_name)
+
         mover.move_episodes_by_name(
             'halt and catch fire',
             self.__SHOW_DESTINATION_DIRECTORY,
             self.__SOURCE_DIRECTORY)
 
-        destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/Halt And Catch Fire/Season 2/' + self.__TV_SHOW_FILE_NAME_1
+        destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/Halt And Catch Fire/Season 2/' + tv_show_file_name
         file_is_in_new_path = file_handler.check_file_existance(destination_path)
         self.assertTrue(file_is_in_new_path)
 
-        source_path = self.__SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_1
+        source_path = self.__SOURCE_DIRECTORY + '/' + tv_show_file_name
         file_is_in_old_path = file_handler.check_file_existance(source_path)
         self.assertFalse(file_is_in_old_path)
 
     def test_move_show_by_file_path(self):
-        source_file_path = self.__SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_2
+        tv_show_file_name = 'The.Last.Man.on.Earth.S02E03.Dead.Man.Walking.720p.WEB-DL.x123.BBA.mp4'
+        file_handler.create_file(self.__SOURCE_DIRECTORY + '/' + tv_show_file_name)
+
+        source_file_path = self.__SOURCE_DIRECTORY + '/' + tv_show_file_name
         mover.move_media_by_path(source_file_path, self.__SHOW_DESTINATION_DIRECTORY, self.__MOVIE_DESTINATION_DIRECTORY)
 
-        destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/The Last Man on Earth/Season 2/' + self.__TV_SHOW_FILE_NAME_2
-        file_is_in_path = file_handler.check_file_existance(destination_path)
-        self.assertTrue(file_is_in_path)
-
-        file_is_in_old_path = file_handler.check_file_existance(source_file_path)
-        self.assertFalse(file_is_in_old_path)
+        destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/The Last Man on Earth/Season 2/' + tv_show_file_name
+        self.assertFileMoved(source_file_path, destination_path)
 
     def test_move_movie_by_file_path(self):
-        source_file_path = self.__SOURCE_DIRECTORY + '/' + self.__MOVIE_FILE_NAME_1
+        movie_file_name = 'Fantastic Beast and Where To Find Them 2016 HD-TS x264-CPG.mkv'
+        file_handler.create_file(self.__SOURCE_DIRECTORY + '/' + movie_file_name)
+
+        source_file_path = self.__SOURCE_DIRECTORY + '/' + movie_file_name
         mover.move_media_by_path(source_file_path, self.__SHOW_DESTINATION_DIRECTORY, self.__MOVIE_DESTINATION_DIRECTORY)
 
-        destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/' + self.__MOVIE_FILE_NAME_1
-        file_is_in_new_path = file_handler.check_file_existance(destination_path)
-        self.assertTrue(file_is_in_new_path)
+        destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/' + movie_file_name
+        self.assertFileMoved(source_file_path, destination_path)
 
-        file_is_in_old_path = file_handler.check_file_existance(source_file_path)
-        self.assertFalse(file_is_in_old_path)
+    def test_move_show_into_existing_season_directory(self):
+        tv_show_file_name = 'Shameless.US.S07E02.720p.HDTV.X264-DIMENSION[rarbg]'
+        file_source_path = self.__SOURCE_DIRECTORY + '/' + tv_show_file_name
+        file_handler.create_file(file_source_path)
+
+        # move by name
+        mover.move_episodes_by_name('Shameless', self.__SHOW_DESTINATION_DIRECTORY, self.__SOURCE_DIRECTORY)
+
+        file_destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/Shameless/Season 7/' + tv_show_file_name
+        self.assertFileMoved(file_source_path, file_destination_path)
+
+        # move by file
+        file_handler.delete_file(file_destination_path)
+        file_handler.create_file(file_source_path)
+        mover.move_media_by_path(file_source_path, self.__SHOW_DESTINATION_DIRECTORY, self.__MOVIE_DESTINATION_DIRECTORY)
+        self.assertFileMoved(file_source_path, file_destination_path)

@@ -1,8 +1,9 @@
 import unittest
+import file_moved_assertion
 from memover import file_handler, episode_mover
 
 
-class FileMoverTest(unittest.TestCase):
+class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
 
     __DIRECTORY_ROOT = 'destination'
     __SOURCE_PATH = 'source'
@@ -50,8 +51,4 @@ class FileMoverTest(unittest.TestCase):
 
     def __assert_that_files_has_been_moved(self, source_paths, destination_paths):
         for index, source_path in enumerate(source_paths):
-            file_is_in_new_path = file_handler.check_file_existance(destination_paths[index])
-            self.assertTrue(file_is_in_new_path)
-
-            file_is_not_in_source_path = file_handler.check_file_existance(source_path)
-            self.assertFalse(file_is_not_in_source_path)
+            self.assertFileMoved(source_path, destination_paths[index])

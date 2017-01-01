@@ -20,7 +20,7 @@ class FileMatcherTest(unittest.TestCase):
         self.__test_matching_file()
         self.__test_matching_folder()
 
-    def __test_matching_files(self):
+    def __test_matching_file(self):
         search_for = 'The Big Bang Theory'
         file_paths = file_matcher.search_files(search_for, self.__SOURCE_DIRECTORY_PATH)
         self.assertEquals(1, len(file_paths))

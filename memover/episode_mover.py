@@ -1,3 +1,5 @@
+import re
+
 import logger
 import file_handler
 from media_file_extractor import MediaFileExtractor
@@ -39,10 +41,27 @@ def __create_season_folder(root_destination, show_name, season_number):
 
 
 def __find_show_name_dir(root_directory, searching_show_name):
-    for directory_name in file_handler.get_subdirectories(root_directory):
-        if directory_name.lower().strip() == searching_show_name.lower().strip():
-            return directory_name
-    return None
+    search_query = searching_show_name
+
+    # remove words with one or two letters if number of characters are bugger then five
+    if len(search_query) > 5 and len(search_query.split()) >= 2:
+        shortword_regex = re.compile(r'\W*\b\w{1,2}\b')
+        search_query = shortword_regex.sub('', search_query)
+
+    search_query = search_query.lower().strip()
+
+    found_directories = filter(
+        lambda dir_name: search_query in dir_name.lower().strip(),
+        file_handler.get_subdirectories(root_directory)
+    )
+
+    if len(found_directories) > 1:
+        raise MultipleDirectoryMatchesException(searching_show_name, root_directory)
+
+    if len(found_directories) is 0:
+        return None
+
+    return found_directories[0]
 
 
 def __is_right_season_directory(path, season_number):
@@ -51,3 +70,11 @@ def __is_right_season_directory(path, season_number):
     if season_name in path:
         return True
     return False
+
+
+class MultipleDirectoryMatchesException(Exception):
+
+    def __init__(self, show_name, destination_folder):
+        super(MultipleDirectoryMatchesException, self).__init__(
+            show_name + ' matches multiple directories in ' + destination_folder
+        )
