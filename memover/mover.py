@@ -10,6 +10,12 @@ def move_episodes_by_name(show_name, show_destination_root, show_source_path):
 
 
 def move_media_by_path(file_path, show_destination_path, movie_destination_path):
+    if file_handler.path_is_directory(file_path):
+        for sub_file_path in file_handler.get_directory_content(file_path):
+            move_media_by_path(file_path + '/' + sub_file_path, show_destination_path, movie_destination_path)
+        file_handler.delete_directory(file_path)
+        return
+
     media_file_extractor = MediaFileExtractor(file_path)
     media_type = media_file_extractor.get_type()
     if media_type is Type.MOVIE:

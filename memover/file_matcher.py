@@ -5,7 +5,7 @@ import logger
 def search_files(search, path):
     files = []
     keywords = search.split()  # Split on whitespace
-    for file_name in file_handler.get_subdirectories(path):
+    for file_name in file_handler.get_directory_content(path):
         file_path = path + '/' + file_name
 
         match = __match_file(keywords, file_name)

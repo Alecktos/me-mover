@@ -30,5 +30,18 @@ def delete_directory(directory_path):
     shutil.rmtree(directory_path)
 
 
-def get_subdirectories(directory_path):
+def get_directory_content(directory_path):
+    if not path_is_directory(directory_path):
+        raise PathIsNotDirectoryException(directory_path)
+
     return os.listdir(directory_path)
+
+
+def path_is_directory(path):
+    return os.path.isdir(path)
+
+
+class PathIsNotDirectoryException(Exception):
+
+    def __init__(self, path):
+        super(PathIsNotDirectoryException, self).__init__(path + ' is not a directory')

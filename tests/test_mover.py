@@ -73,3 +73,20 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         file_handler.create_file(file_source_path)
         mover.move_media_by_path(file_source_path, self.__SHOW_DESTINATION_DIRECTORY, self.__MOVIE_DESTINATION_DIRECTORY)
         self.assertFileMoved(file_source_path, file_destination_path)
+
+    def test_moving_files_in_directory(self):
+        folder_path = self.__SOURCE_DIRECTORY + '/hey.arnold.season1.720p.webdl'
+        file_handler.create_dir(folder_path)
+        source_file_path_1 = folder_path + '/hey.arnold.S09E01.SOMETHING.something-something'
+        file_handler.create_file(source_file_path_1)
+
+        source_file_path_2 = folder_path + '/hey.arnold.S09E02.SOMETHING.something-something'
+        file_handler.create_file(source_file_path_2)
+
+        mover.move_media_by_path(folder_path, self.__SHOW_DESTINATION_DIRECTORY, self.__MOVIE_DESTINATION_DIRECTORY)
+
+        file_destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/hey arnold/Season 9/hey.arnold.S09E01.SOMETHING.something-something'
+        self.assertFileMoved(source_file_path_1, file_destination_path)
+
+        file_destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/hey arnold/Season 9/hey.arnold.S09E02.SOMETHING.something-something'
+        self.assertFileMoved(source_file_path_2, file_destination_path)

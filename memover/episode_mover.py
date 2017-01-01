@@ -52,7 +52,7 @@ def __find_show_name_dir(root_directory, searching_show_name):
 
     found_directories = filter(
         lambda dir_name: search_query in dir_name.lower().strip(),
-        file_handler.get_subdirectories(root_directory)
+        file_handler.get_directory_content(root_directory)
     )
 
     if len(found_directories) > 1:
