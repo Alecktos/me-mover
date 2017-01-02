@@ -13,20 +13,27 @@ class MediaFileExtractor:
     def __init__(self, file_path):
         self.__file_path = file_path
         self.__file_name = os.path.basename(file_path)
-        reg_tv = re.compile('(.+?)[ .][Ss](\d\d?)[Ee](\d\d?).*?(?:[ .](\d{3}\d?p)|\Z)?')
-        self.__reg_tv_result = reg_tv.match(self.__file_name)
+        self.__reg_tv_result = self.__match_path(self.__file_name)
         self.__type = self.__extract_type()
+        if self.__type is Type.MOVIE:
+            parent_name = file_path.split('/')[-2]
+            self.__reg_tv_result = self.__match_path(parent_name)
+            self.__type = self.__extract_type()
+
+    def __match_path(self, file_name):
+        reg_tv = re.compile('(.+?)[ .][Ss](\d\d?)[Ee](\d\d?).*?(?:[ .](\d{3}\d?p)|\Z)?')
+        return reg_tv.match(file_name)
+
+    def __extract_type(self):
+        if self.__reg_tv_result is None:
+            return Type.MOVIE
+        return Type.TV_SHOW
 
     def get_file_path(self):
         return self.__file_path
 
     def get_file_name(self):
         return self.__file_name
-
-    def __extract_type(self):
-        if self.__reg_tv_result is None:
-            return Type.MOVIE
-        return Type.TV_SHOW
 
     def get_type(self):
         return self.__type

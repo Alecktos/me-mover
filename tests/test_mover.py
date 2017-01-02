@@ -160,3 +160,12 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
 
         file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/200 Cigarettes 200.DVDRIP.NVesub.mp4'
         self.assertFileMoved(file_2_path, file_destination_path)
+
+    def test_moving_wrong_formatted_episode_inside_right_formated_directory(self):
+        folder_path = self.__SOURCE_DIRECTORY + '/The.Big.Bang.Theory.S10E09.HDTV.x264-LOL[ettv]'
+        file_handler.create_dir(folder_path)
+        file_path = folder_path + '/the.big.bang.theory.1009.hdtv-lol[ettv].mkv'
+        file_handler.create_file(file_path)
+
+        mover.move_media_by_path(file_path, self.__SHOW_DESTINATION_DIRECTORY, self.__MOVIE_DESTINATION_DIRECTORY)
+        self.assertFileMoved(folder_path, self.__SHOW_DESTINATION_DIRECTORY + '/The Big Bang Theory/Season 10/the.big.bang.theory.1009.hdtv-lol[ettv].mkv')
