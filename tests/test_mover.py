@@ -12,7 +12,6 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
     def setUp(self):
         file_handler.create_dir(self.__MOVIE_DESTINATION_DIRECTORY)
         file_handler.create_dir(self.__SHOW_DESTINATION_DIRECTORY)
-        file_handler.create_dir(self.__SHOW_DESTINATION_DIRECTORY + '/Shameless/Season 7/')
         file_handler.create_dir(self.__SOURCE_DIRECTORY)
 
     def tearDown(self):
@@ -59,7 +58,9 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/' + movie_file_name
         self.assertFileMoved(source_file_path, destination_path)
 
-    def test_move_show_into_existing_season_directory(self):
+    def test_move_shows_into_existing_season_directory(self):
+        # Test with two letter word in the end of file name that should be stripped
+        file_handler.create_dir(self.__SHOW_DESTINATION_DIRECTORY + '/Shameless/Season 7/')
         tv_show_file_name = 'Shameless.US.S07E02.720p.HDTV.X264-DIMENSION[rarbg]'
         file_source_path = self.__SOURCE_DIRECTORY + '/' + tv_show_file_name
         file_handler.create_file(file_source_path)
@@ -79,6 +80,22 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         file_handler.delete_file(file_destination_path)
         file_handler.create_file(file_source_path)
         mover.move_media_by_path(file_source_path, self.__SHOW_DESTINATION_DIRECTORY, self.__MOVIE_DESTINATION_DIRECTORY)
+        self.assertFileMoved(file_source_path, file_destination_path)
+
+        # Test with two letter word in the middle of file name that should not be stripped when matching
+        file_handler.create_dir(self.__SHOW_DESTINATION_DIRECTORY + '/The Last Man on Earth/Season 2/')
+        tv_show_file_name = 'The.Last.Man.on.Earth.S02E02.The.Boo.720p.KOL-OL.A300.MP#.mp4'
+        file_source_path = self.__SOURCE_DIRECTORY + '/' + tv_show_file_name
+        file_handler.create_file(file_source_path)
+
+        mover.move_media_by_name(
+            'The Last Man on Earth',
+            self.__SOURCE_DIRECTORY,
+            self.__SHOW_DESTINATION_DIRECTORY,
+            self.__MOVIE_DESTINATION_DIRECTORY
+        )
+
+        file_destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/The Last Man on Earth/Season 2/' + tv_show_file_name
         self.assertFileMoved(file_source_path, file_destination_path)
 
     def test_moving_episodes_by_file_in_directory(self):
