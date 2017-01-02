@@ -53,8 +53,8 @@ def __move_based_on_file():
 
     arguments = {
         Arguments.FILE_PATH: file_path,
-        Arguments.SHOW_DESTINATION: show_destination_path,
         Arguments.SOURCE: show_source_path,
+        Arguments.SHOW_DESTINATION: show_destination_path,
         Arguments.MOVIE_DESTINATION: movie_destination_path
     }
 
