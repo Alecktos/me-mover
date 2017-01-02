@@ -23,7 +23,7 @@ def get_movies_destination_path():
 
 
 def __get_destination_path(destination_argument):
-    destination_path = '.'
+    destination_path = None
     if destination_argument in sys.argv:
         index = sys.argv.index(destination_argument)
         destination_path = sys.argv[index + 1]
