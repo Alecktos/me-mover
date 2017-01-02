@@ -18,6 +18,7 @@ def move_media_by_path(file_path, show_destination_path, movie_destination_path)
         file_handler.delete_directory(file_path)
         return
 
+    logger.log('moving file: ' + file_path)
     media_file_extractor = MediaFileExtractor(file_path)
     media_type = media_file_extractor.get_type()
     if media_type is Type.MOVIE:
