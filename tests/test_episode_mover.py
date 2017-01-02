@@ -51,4 +51,3 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
             media_file_extractor = MediaFileExtractor(source_path)
             episode_mover.move_file(self.__SHOW_DESTINATION_PATH, media_file_extractor)
             self.assertFileMoved(source_path, destination_paths[index])
-

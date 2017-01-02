@@ -113,11 +113,23 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
 
         self.assertFileMoved(file_path_1, self.__SHOW_DESTINATION_DIRECTORY + '/The Last Man On Earth/Season 1/The.Last.Man.On.Earth.S01E13.720p.5.1Ch.Web-DL.ReEnc-DeeJayAhmed.mkv')
 
-    def test_moving_movie_by_name_in_directory(self):
-        folder_path = self.__SOURCE_DIRECTORY + '/200 Cigarettes 1999.DVDRIP.Xvid.NVesub-'
+    def test_moving_movie_in_directory(self):
+        folder_path = self.__SOURCE_DIRECTORY + '/007 Going For Old Time HD-TS x264-CPG'
         file_handler.create_dir(folder_path)
-        file_path = folder_path + '/200 Cigarettes 1999.DVDRIP.Xvid.NVesub-123.mp4'
+        file_path = folder_path + '/007 Going For Old Time  HD-TS x264-CPG.mp4'
         file_handler.create_file(file_path)
+        mover.move_media_by_path(file_path, self.__SHOW_DESTINATION_DIRECTORY, self.__MOVIE_DESTINATION_DIRECTORY)
+        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/007 Going For Old Time  HD-TS x264-CPG.mp4'
+        self.assertFileMoved(file_path, file_destination_path)
+
+    def test_moving_movies_by_name(self):
+        file_1_folder_path = self.__SOURCE_DIRECTORY + '/200 Cigarettes 1999.DVDRIP.Xvid.NVesub-'
+        file_handler.create_dir(file_1_folder_path)
+        file_1_path = file_1_folder_path + '/200 Cigarettes 1999.DVDRIP.Xvid.NVesub-123.mp4'
+        file_handler.create_file(file_1_path)
+
+        file_2_path = self.__SOURCE_DIRECTORY + '/200 Cigarettes 200.DVDRIP.NVesub.mp4'
+        file_handler.create_file(file_2_path)
 
         mover.move_media_by_name(
             '200 Cigarettes',
@@ -127,13 +139,7 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         )
 
         file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/200 Cigarettes 1999.DVDRIP.Xvid.NVesub-123.mp4'
-        self.assertFileMoved(file_path, file_destination_path)
+        self.assertFileMoved(file_1_folder_path, file_destination_path)
 
-    def test_moving_movie_in_directory(self):
-        folder_path = self.__SOURCE_DIRECTORY + '/007 Going For Old Time HD-TS x264-CPG'
-        file_handler.create_dir(folder_path)
-        file_path = folder_path + '/007 Going For Old Time  HD-TS x264-CPG.mp4'
-        file_handler.create_file(file_path)
-        mover.move_media_by_path(file_path, self.__SHOW_DESTINATION_DIRECTORY, self.__MOVIE_DESTINATION_DIRECTORY)
-        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/007 Going For Old Time  HD-TS x264-CPG.mp4'
-        self.assertFileMoved(file_path, file_destination_path)
+        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/200 Cigarettes 200.DVDRIP.NVesub.mp4'
+        self.assertFileMoved(file_2_path, file_destination_path)
