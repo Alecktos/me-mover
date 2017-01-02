@@ -24,10 +24,12 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         tv_show_file_name = 'Halt.and.Catch.Fire.S02E10.720p.SOMETHING.something-SOMETHING.mkv'
         file_handler.create_file(self.__SOURCE_DIRECTORY + '/' + tv_show_file_name)
 
-        mover.move_episodes_by_name(
+        mover.move_media_by_name(
             'halt and catch fire',
+            self.__SOURCE_DIRECTORY,
             self.__SHOW_DESTINATION_DIRECTORY,
-            self.__SOURCE_DIRECTORY)
+            self.__MOVIE_DESTINATION_DIRECTORY
+        )
 
         destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/Halt And Catch Fire/Season 2/' + tv_show_file_name
         file_is_in_new_path = file_handler.check_file_existance(destination_path)
@@ -63,7 +65,12 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         file_handler.create_file(file_source_path)
 
         # move by name
-        mover.move_episodes_by_name('Shameless', self.__SHOW_DESTINATION_DIRECTORY, self.__SOURCE_DIRECTORY)
+        mover.move_media_by_name(
+            'Shameless',
+            self.__SOURCE_DIRECTORY,
+            self.__SHOW_DESTINATION_DIRECTORY,
+            self.__MOVIE_DESTINATION_DIRECTORY
+        )
 
         file_destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/Shameless/Season 7/' + tv_show_file_name
         self.assertFileMoved(file_source_path, file_destination_path)
@@ -90,6 +97,37 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
 
         file_destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/hey arnold/Season 9/hey.arnold.S09E02.SOMETHING.something-something.mp4'
         self.assertFileMoved(source_file_path_2, file_destination_path)
+
+    def test_moving_episodes_by_name_in_directory(self):
+        folder_path = self.__SOURCE_DIRECTORY + '/The.Last.Man.On.Earth.S01.Season.1.720p.5.1Ch.Web-DL.ReEnc-DeeJayAhmed'
+        file_handler.create_dir(folder_path)
+        file_path_1 = folder_path + '/The.Last.Man.On.Earth.S01E13.720p.5.1Ch.Web-DL.ReEnc-DeeJayAhmed.mkv'
+        file_handler.create_file(file_path_1)
+
+        mover.move_media_by_name(
+            'The last Man On Earth',
+            self.__SOURCE_DIRECTORY,
+            self.__SHOW_DESTINATION_DIRECTORY,
+            self.__MOVIE_DESTINATION_DIRECTORY
+        )
+
+        self.assertFileMoved(file_path_1, self.__SHOW_DESTINATION_DIRECTORY + '/The Last Man On Earth/Season 1/The.Last.Man.On.Earth.S01E13.720p.5.1Ch.Web-DL.ReEnc-DeeJayAhmed.mkv')
+
+    def test_moving_movie_by_name_in_directory(self):
+        folder_path = self.__SOURCE_DIRECTORY + '/200 Cigarettes 1999.DVDRIP.Xvid.NVesub-'
+        file_handler.create_dir(folder_path)
+        file_path = folder_path + '/200 Cigarettes 1999.DVDRIP.Xvid.NVesub-123.mp4'
+        file_handler.create_file(file_path)
+
+        mover.move_media_by_name(
+            '200 Cigarettes',
+            self.__SOURCE_DIRECTORY,
+            self.__SHOW_DESTINATION_DIRECTORY,
+            self.__MOVIE_DESTINATION_DIRECTORY
+        )
+
+        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/200 Cigarettes 1999.DVDRIP.Xvid.NVesub-123.mp4'
+        self.assertFileMoved(file_path, file_destination_path)
 
     def test_moving_movie_in_directory(self):
         folder_path = self.__SOURCE_DIRECTORY + '/007 Going For Old Time HD-TS x264-CPG'

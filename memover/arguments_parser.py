@@ -2,15 +2,15 @@ import sys
 
 
 class Commands:
-    SHOW = 'tvshow'
+    NAME = 'name'
     FILE = 'file'
 
 
 class Arguments:
     SHOW_DESTINATION = '-show-destination'
     MOVIE_DESTINATION = '-movie-destination'
-    SHOW_SOURCE = '-show-source'
-    SHOW_NAME = '-show-name'
+    SOURCE = '-source'
+    NAME = '-name'
     FILE_PATH = '-file-path'
 
 
@@ -32,8 +32,8 @@ def __get_destination_path(destination_argument):
 
 def get_show_source_path():
     source_path = '.'
-    if Arguments.SHOW_SOURCE in sys.argv:
-        index = sys.argv.index(Arguments.SHOW_SOURCE)
+    if Arguments.SOURCE in sys.argv:
+        index = sys.argv.index(Arguments.SOURCE)
         source_path = sys.argv[index + 1]
     return source_path
 
@@ -47,10 +47,10 @@ def get_file_path():
 
 
 def get_show_name():
-    if Arguments.SHOW_NAME not in sys.argv:
+    if Arguments.NAME not in sys.argv:
         return None
 
-    index = sys.argv.index(Arguments.SHOW_NAME)
+    index = sys.argv.index(Arguments.NAME)
     return sys.argv[index+1]
 
 
@@ -58,7 +58,7 @@ def get_command():
     if len(sys.argv) < 2:
         return None
 
-    if sys.argv[1] == Commands.SHOW or sys.argv[1] == Commands.FILE:
+    if sys.argv[1] == Commands.NAME or sys.argv[1] == Commands.FILE:
         return sys.argv[1]
     return None
 

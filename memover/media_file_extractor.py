@@ -33,23 +33,23 @@ class MediaFileExtractor:
 
     def get_tv_show_name(self):
         if self.get_type() is Type.MOVIE:
-            raise WrongMediatypeException('Wrong media type')
+            raise WrongMediaTypeException('Wrong media type')
 
         return self.__reg_tv_result.group(1).replace('.', ' ')
 
     def get_season_number(self):
         if self.get_type() is Type.MOVIE:
-            raise WrongMediatypeException('Wrong media type')
+            raise WrongMediaTypeException('Wrong media type')
 
         return int(self.__reg_tv_result.group(2))
 
     def get_episode_number(self):
         if self.get_type() is Type.MOVIE:
-            raise WrongMediatypeException('Wrong media type')
+            raise WrongMediaTypeException('Wrong media type')
 
         return self.__reg_tv_result.group(3)
 
 
-class WrongMediatypeException(Exception):
+class WrongMediaTypeException(Exception):
     def __init__(self, message):
-        super(WrongMediatypeException, self).__init__(message)
+        super(WrongMediaTypeException, self).__init__(message)

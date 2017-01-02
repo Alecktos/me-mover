@@ -1,23 +1,24 @@
 import unittest
 import file_moved_assertion
 from memover import file_handler, episode_mover
+from memover.media_file_extractor import MediaFileExtractor
 
 
 class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
 
-    __DIRECTORY_ROOT = 'destination'
+    __SHOW_DESTINATION_PATH = 'show-destination'
     __SOURCE_PATH = 'source'
 
     __NEW_GIRL_FILE_SOURCE_PATH = __SOURCE_PATH + '/new.girl.s01e04.something.something-something.mp4'
-    __NEW_GIRL_FILE_DESTINATION_PATH = __DIRECTORY_ROOT + '/new girl/Season 1/new.girl.s01e04.something.something-something.mp4'
+    __NEW_GIRL_FILE_DESTINATION_PATH = __SHOW_DESTINATION_PATH + '/new girl/Season 1/new.girl.s01e04.something.something-something.mp4'
 
     __HEROES_FILE_1_SOURCE_PATH = __SOURCE_PATH + '/HEROES.S01E03.something.something-something.mkv'
-    __HEROES_FILE_1_DESTINATION_PATH = __DIRECTORY_ROOT + '/Heroes/Season 1/HEROES.S01E03.something.something-something.mkv'
+    __HEROES_FILE_1_DESTINATION_PATH = __SHOW_DESTINATION_PATH + '/Heroes/Season 1/HEROES.S01E03.something.something-something.mkv'
 
     __HEROES_FILE_2_SOURCE_PATH = __SOURCE_PATH + '/HEROES.S01E02.something.something-something.mkv'
-    __HEROES_FILE_2_DESTINATION_PATH = __DIRECTORY_ROOT + '/Heroes/Season 1/HEROES.S01E02.something.something-something.mkv'
+    __HEROES_FILE_2_DESTINATION_PATH = __SHOW_DESTINATION_PATH + '/Heroes/Season 1/HEROES.S01E02.something.something-something.mkv'
 
-    __ABC_SEASON_DESTINATION_DIRECTORY_PATH = __DIRECTORY_ROOT + '/ABC/Season 9'
+    __ABC_SEASON_DESTINATION_DIRECTORY_PATH = __SHOW_DESTINATION_PATH + '/ABC/Season 9'
     __ABC_FILE_SOURCE_PATH = __SOURCE_PATH + '/abc.S09E02.something.something-something.mp4'
     __ABC_FILE_DESTINATION_PATH = __ABC_SEASON_DESTINATION_DIRECTORY_PATH + '/abc.S09E02.something.something-something.mp4'
 
@@ -33,7 +34,7 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
 
     def tearDown(self):
         file_handler.delete_directory(self.__SOURCE_PATH)
-        file_handler.delete_directory(self.__DIRECTORY_ROOT)
+        file_handler.delete_directory(self.__SHOW_DESTINATION_PATH)
 
     def runTest(self):
         self.__test_moving_files([self.__HEROES_FILE_1_SOURCE_PATH], [self.__HEROES_FILE_1_DESTINATION_PATH])
@@ -46,9 +47,8 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
             [self.__ABC_FILE_DESTINATION_PATH])  # test where season dir already exist
 
     def __test_moving_files(self, source_paths, destination_paths):
-        episode_mover.move_files(source_paths, self.__DIRECTORY_ROOT)
-        self.__assert_that_files_has_been_moved(source_paths, destination_paths)
-
-    def __assert_that_files_has_been_moved(self, source_paths, destination_paths):
         for index, source_path in enumerate(source_paths):
+            media_file_extractor = MediaFileExtractor(source_path)
+            episode_mover.move_file(self.__SHOW_DESTINATION_PATH, media_file_extractor)
             self.assertFileMoved(source_path, destination_paths[index])
+

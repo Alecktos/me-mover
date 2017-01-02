@@ -4,9 +4,11 @@ from media_file_extractor import MediaFileExtractor, Type
 import file_handler
 
 
-def move_episodes_by_name(show_name, show_destination_root, show_source_path):
-    file_paths = file_matcher.search_files(show_name, show_source_path)
-    __move_episodes(show_destination_root, file_paths)
+def move_media_by_name(name, source_path, show_destination_path, movie_destination_path):
+    paths = file_matcher.search_files(name, source_path)
+
+    for path in paths:
+        move_media_by_path(path, show_destination_path, movie_destination_path)
 
 
 def move_media_by_path(file_path, show_destination_path, movie_destination_path):
@@ -21,7 +23,7 @@ def move_media_by_path(file_path, show_destination_path, movie_destination_path)
     if media_type is Type.MOVIE:
         __move_movie(media_file_extractor, movie_destination_path)
     else:
-        episode_mover.move_file(show_destination_path, file_path, media_file_extractor)
+        episode_mover.move_file(show_destination_path, media_file_extractor)
 
 
 def __move_movie(media_file_extractor, movie_destination_path):
@@ -30,6 +32,3 @@ def __move_movie(media_file_extractor, movie_destination_path):
     else:
         logger.log('Folder does not exist: ' + movie_destination_path)
 
-
-def __move_episodes(destination_root, file_paths):
-    episode_mover.move_files(file_paths, destination_root)

@@ -10,8 +10,8 @@ def main():
         logger.log('No Command')
         return
 
-    if command == arguments_parser.Commands.SHOW:
-        __move_based_on_show()
+    if command == arguments_parser.Commands.NAME:
+        __move_based_on_name()
         return
 
     if command == arguments_parser.Commands.FILE:
@@ -21,24 +21,28 @@ def main():
     logger.log('No action was made')
 
 
-def __move_based_on_show():
+def __move_based_on_name():
     show_name = arguments_parser.get_show_name(),
     show_destination_path = arguments_parser.get_shows_destination_path(),
-    show_source_path = arguments_parser.get_show_source_path()
+    movie_destination_path = arguments_parser.get_movies_destination_path()
+    source_path = arguments_parser.get_show_source_path()
 
     arguments = {
-        Arguments.SHOW_NAME: show_name,
+        Arguments.NAME: show_name,
+        Arguments.SOURCE: source_path,
         Arguments.SHOW_DESTINATION: show_destination_path,
-        Arguments.SHOW_SOURCE: show_source_path
+        Arguments.MOVIE_DESTINATION: movie_destination_path
     }
 
     if not __arguments_are_valid(arguments):
         return
 
-    mover.move_episodes_by_name(
+    mover.move_media_by_name(
         arguments_parser.get_show_name(),
+        arguments_parser.get_show_source_path(),
         arguments_parser.get_shows_destination_path(),
-        arguments_parser.get_show_source_path())
+        arguments_parser.get_movies_destination_path()
+    )
 
 
 def __move_based_on_file():
@@ -50,7 +54,7 @@ def __move_based_on_file():
     arguments = {
         Arguments.FILE_PATH: file_path,
         Arguments.SHOW_DESTINATION: show_destination_path,
-        Arguments.SHOW_SOURCE: show_source_path,
+        Arguments.SOURCE: show_source_path,
         Arguments.MOVIE_DESTINATION: movie_destination_path
     }
 

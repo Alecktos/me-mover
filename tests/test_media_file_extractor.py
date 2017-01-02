@@ -1,6 +1,6 @@
 import unittest
 
-from memover.media_file_extractor import MediaFileExtractor, Type, WrongMediatypeException
+from memover.media_file_extractor import MediaFileExtractor, Type, WrongMediaTypeException
 
 
 class MediaFileExtractorTest(unittest.TestCase):
@@ -33,7 +33,7 @@ class MediaFileExtractorTest(unittest.TestCase):
         self.assertEqual('01', media_file_extractor.get_episode_number())
 
         media_file_extractor = MediaFileExtractor(self.__MOVIE_PATHS[0])
-        self.assertRaises(WrongMediatypeException, media_file_extractor.get_episode_number)
+        self.assertRaises(WrongMediaTypeException, media_file_extractor.get_episode_number)
 
     def text_extract_season(self):
         media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS)
@@ -44,4 +44,4 @@ class MediaFileExtractorTest(unittest.TestCase):
         self.assertEqual('02', season_number)
 
         media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS)
-        self.assertRaises(WrongMediatypeException, media_file_extractor.get_season_number())
+        self.assertRaises(WrongMediaTypeException, media_file_extractor.get_season_number())
