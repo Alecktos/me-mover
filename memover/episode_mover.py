@@ -43,6 +43,8 @@ def __find_show_name_dir(root_directory, searching_show_name):
 
     search_query = search_query.lower().strip()
 
+    logger.log('searching for matching folders in ' + root_directory + ' for query ' + search_query + '. Searching show name: ' + searching_show_name)
+
     found_directories = filter(
         lambda dir_name: search_query in dir_name.lower().strip(),
         file_handler.get_directory_content(root_directory)
