@@ -19,7 +19,7 @@ def check_directory_existance(directory_path):
 
 
 def move_file(source, destination):
-    os.rename(source, destination)
+    shutil.move(source, destination)
 
 
 def create_dir(directory_path):
