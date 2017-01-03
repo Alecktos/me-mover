@@ -39,7 +39,7 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         self.assertFalse(file_is_in_old_path)
 
     def test_move_show_by_file_path(self):
-        tv_show_file_name = 'The.Last.Man.on.Earth.S02E03.Dead.Man.Walking.720p.WEB-DL.x123.BBA.mp4'
+        tv_show_file_name = 'The.Last.Man.on.Earth.S02E03.Dead.Man.Walking.Wrong-DL.x123.BBA.mp4'
         file_handler.create_file(self.__SOURCE_DIRECTORY + '/' + tv_show_file_name)
 
         source_file_path = self.__SOURCE_DIRECTORY + '/' + tv_show_file_name
@@ -49,7 +49,7 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         self.assertFileMoved(source_file_path, destination_path)
 
     def test_move_movie_by_file_path(self):
-        movie_file_name = 'Fantastic Beast and Where To Find Them 2016 HD-TS x264-CPG.mkv'
+        movie_file_name = 'Fantastic Beast and Where To Find Them 2016 HD-AA x111-ABC.mkv'
         file_handler.create_file(self.__SOURCE_DIRECTORY + '/' + movie_file_name)
 
         source_file_path = self.__SOURCE_DIRECTORY + '/' + movie_file_name
@@ -142,10 +142,10 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
     def test_moving_movies_by_name(self):
         file_1_folder_path = self.__SOURCE_DIRECTORY + '/200 Cigarettes 1999.DVDRIP.Xvid.NVesub-'
         file_handler.create_dir(file_1_folder_path)
-        file_1_path = file_1_folder_path + '/200 Cigarettes 1999.DVDRIP.Xvid.NVesub-123.mp4'
+        file_1_path = file_1_folder_path + '/200 Cigarettes 1999.___RIP.Xvid.NVesub-123.mp4'
         file_handler.create_file(file_1_path)
 
-        file_2_path = self.__SOURCE_DIRECTORY + '/200 Cigarettes 200.DVDRIP.NVesub.mp4'
+        file_2_path = self.__SOURCE_DIRECTORY + '/200 Cigarettes 200.DADRAP.NVesub.mp4'
         file_handler.create_file(file_2_path)
 
         mover.move_media_by_name(
@@ -155,17 +155,17 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
             self.__MOVIE_DESTINATION_DIRECTORY
         )
 
-        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/200 Cigarettes 1999.DVDRIP.Xvid.NVesub-123.mp4'
+        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/200 Cigarettes 1999.___RIP.Xvid.NVesub-123.mp4'
         self.assertFileMoved(file_1_folder_path, file_destination_path)
 
-        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/200 Cigarettes 200.DVDRIP.NVesub.mp4'
+        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/200 Cigarettes 200.DADRAP.NVesub.mp4'
         self.assertFileMoved(file_2_path, file_destination_path)
 
     def test_moving_wrong_formatted_episode_inside_right_formated_directory(self):
-        folder_path = self.__SOURCE_DIRECTORY + '/The.Big.Bang.Theory.S10E09.HDTV.x264-LOL[ettv]'
+        folder_path = self.__SOURCE_DIRECTORY + '/The.Big.Bang.Theory.S10E09.HDTV.CCCC-ARD[axel]'
         file_handler.create_dir(folder_path)
-        file_path = folder_path + '/the.big.bang.theory.1009.hdtv-lol[ettv].mkv'
+        file_path = folder_path + '/the.big.bang.theory.1009.fktv-uuu[axel].mkv'
         file_handler.create_file(file_path)
 
         mover.move_media_by_path(file_path, self.__SHOW_DESTINATION_DIRECTORY, self.__MOVIE_DESTINATION_DIRECTORY)
-        self.assertFileMoved(folder_path, self.__SHOW_DESTINATION_DIRECTORY + '/The Big Bang Theory/Season 10/the.big.bang.theory.1009.hdtv-lol[ettv].mkv')
+        self.assertFileMoved(folder_path, self.__SHOW_DESTINATION_DIRECTORY + '/The Big Bang Theory/Season 10/the.big.bang.theory.1009.fktv-uuu[axel].mkv')

@@ -11,7 +11,7 @@ class MediaFileExtractorTest(unittest.TestCase):
     ]
 
     __MOVIE_PATHS = [
-        'testar/test/The.Great.Gatsby.2012.BluRay.1080p.DTS.x224-AAA.mkv'
+        'testar/test/The.Great.Gatsby.2012.StenRay.123p.DTS.x224-AAA.mkv'
     ]
 
     def test_type(self):
