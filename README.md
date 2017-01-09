@@ -8,7 +8,8 @@ TV-shows will be moved to ``[sorted tv-show root directory]/[show name]/[season 
         git clone https://github.com/Alecktos/me-mover.git
         cd me-mover
         
-        python setup.py install 
+        python setup.py install
+        python memover
         # or run it directly 
         python -m memover
 
