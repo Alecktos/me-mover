@@ -36,7 +36,7 @@ def __create_season_folder(root_destination, show_name, season_number):
 def __find_show_name_dir(root_directory, searching_show_name):
     search_query = searching_show_name
 
-    # remove words with one or two letters int the beginning of the name if number of characters are bugger then five
+    # remove words with one or two letters int the beginning of the name if number of characters are bigger then five
     if len(search_query) > 5 and len(search_query.split()) >= 2:
         shortword_regex = re.compile(r'^\w{1,2}\b|\b\w{1,2}$')
         search_query = shortword_regex.sub('', search_query)
@@ -52,6 +52,12 @@ def __find_show_name_dir(root_directory, searching_show_name):
 
     if len(found_directories) > 1:
         raise MultipleDirectoryMatchesException(searching_show_name, root_directory)
+
+    if len(found_directories) is 0 and 'proper' in search_query:
+        return __find_show_name_dir(
+            root_directory,
+            search_query.replace('proper', '').strip()
+        )  # remove proper key word, trim string and try again
 
     if len(found_directories) is 0:
         return None

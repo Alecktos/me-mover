@@ -22,6 +22,10 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
     __ABC_FILE_SOURCE_PATH = __SOURCE_PATH + '/abc.S09E02.something.something-something.mp4'
     __ABC_FILE_DESTINATION_PATH = __ABC_SEASON_DESTINATION_DIRECTORY_PATH + '/abc.S09E02.something.something-something.mp4'
 
+    __BIG_BANG_THEORY_DESTINATION_DIRECTORY_PATH = __SHOW_DESTINATION_PATH + '/The Big Bang Theory/Season 10'
+    __BIG_BANG_THEORY_SOURCE_PATH = __SOURCE_PATH + '/The.Big.Bang.Theory.PROPER.S10E13.720p.HDTV.q123-FLOOR.mkv'
+    __BIG_BANG_THEORY_DESTINATION_PATH = __BIG_BANG_THEORY_DESTINATION_DIRECTORY_PATH + '/The.Big.Bang.Theory.PROPER.S10E13.720p.HDTV.q123-FLOOR.mkv'
+
     def setUp(self):
         file_handler.create_dir(self.__SOURCE_PATH)
 
@@ -29,8 +33,10 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         file_handler.create_file(self.__NEW_GIRL_FILE_SOURCE_PATH)
         file_handler.create_file(self.__HEROES_FILE_2_SOURCE_PATH)
         file_handler.create_file(self.__ABC_FILE_SOURCE_PATH)
+        file_handler.create_file(self.__BIG_BANG_THEORY_SOURCE_PATH)
 
         file_handler.create_dir(self.__ABC_SEASON_DESTINATION_DIRECTORY_PATH)
+        file_handler.create_dir(self.__BIG_BANG_THEORY_DESTINATION_DIRECTORY_PATH)
 
     def tearDown(self):
         file_handler.delete_directory(self.__SOURCE_PATH)
@@ -45,6 +51,10 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         self.__test_moving_files(
             [self.__ABC_FILE_SOURCE_PATH],
             [self.__ABC_FILE_DESTINATION_PATH])  # test where season dir already exist
+
+        self.__test_moving_files(
+            [self.__BIG_BANG_THEORY_SOURCE_PATH],
+            [self.__BIG_BANG_THEORY_DESTINATION_PATH])  # test that we match against correct dist dir when the file is marked as PROPER
 
     def __test_moving_files(self, source_paths, destination_paths):
         for index, source_path in enumerate(source_paths):
