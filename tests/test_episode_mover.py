@@ -26,8 +26,9 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
     __BIG_BANG_THEORY_SOURCE_PATH = __SOURCE_PATH + '/The.Big.Bang.Theory.PROPER.S10E13.720p.HDTV.q123-FLOOR.mkv'
     __BIG_BANG_THEORY_DESTINATION_PATH = __BIG_BANG_THEORY_DESTINATION_DIRECTORY_PATH + '/The.Big.Bang.Theory.PROPER.S10E13.720p.HDTV.q123-FLOOR.mkv'
 
-    __NEW_GIRL_FILE_ORIGINAL = 'New.Girl.S06E15.720p.HDTV.x264-SVA[rarbg]'
-    __NEW_GIRL_FILE_PROPER = 'New.Girl.S06E15.PROPER.720p.HDTV.x264-KILLERS[rarbg]'
+    __NEW_GIRL_FILE_ORIGINAL_2 = 'New.Girl.S06E14.720p.HDTV.x264-FLEET.mkv'
+    __NEW_GIRL_FILE_ORIGINAL_1 = 'New.Girl.S06E15.720p.HDTV.x264-SVA[rarbg].mkv'
+    __NEW_GIRL_FILE_PROPER = 'New.Girl.S06E15.PROPER.720p.HDTV.x264-KILLERS[rarbg].mkv'
 
     def setUp(self):
         file_handler.create_dir(self.__SOURCE_PATH)
@@ -42,7 +43,8 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         file_handler.create_dir(self.__BIG_BANG_THEORY_DESTINATION_DIRECTORY_PATH)
 
         file_handler.create_dir(self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/')
-        file_handler.create_file(self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/' + self.__NEW_GIRL_FILE_ORIGINAL)
+        file_handler.create_file(self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/' + self.__NEW_GIRL_FILE_ORIGINAL_1)
+        file_handler.create_file(self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/' + self.__NEW_GIRL_FILE_ORIGINAL_2)
         file_handler.create_file(self.__SOURCE_PATH + '/' + self.__NEW_GIRL_FILE_PROPER)
 
     def tearDown(self):
@@ -65,11 +67,16 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
 
     def test_proper_episode_replaces_old(self):
         proper_file_source_path = self.__SOURCE_PATH + '/' + self.__NEW_GIRL_FILE_PROPER
-        proper_file_destination_path = self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/' + self.__NEW_GIRL_FILE_ORIGINAL
+        proper_file_destination_path = self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/' + self.__NEW_GIRL_FILE_PROPER
         self.__assert_moving_files([proper_file_source_path], [proper_file_destination_path])
 
-        wrong_file_destination_path = self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/' + self.__NEW_GIRL_FILE_PROPER
-        self.assertFalse(file_handler.check_file_existance(wrong_file_destination_path))
+        # original 1 should not exist anymore
+        original_1_path = self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/' + self.__NEW_GIRL_FILE_ORIGINAL_1
+        self.assertFalse(file_handler.check_file_existance(original_1_path))
+
+        # original 2 should still exist
+        original_2_path = self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/' + self.__NEW_GIRL_FILE_ORIGINAL_2
+        self.assertTrue(file_handler.check_file_existance(original_2_path))
 
     def __assert_moving_files(self, source_paths, destination_paths):
         for index, source_path in enumerate(source_paths):

@@ -44,7 +44,21 @@ class MediaFileExtractor:
 
         return self.__reg_tv_result.group(1).replace('.', ' ')
 
+    def get_season(self):
+        """
+        :return: the original season number from file name
+        """
+
+        if self.get_type() is Type.MOVIE:
+            raise WrongMediaTypeException('Wrong media type')
+
+        return self.__reg_tv_result.group(2)
+
     def get_season_number(self):
+        """
+        :return: the season number in form of an integer value
+        """
+
         if self.get_type() is Type.MOVIE:
             raise WrongMediaTypeException('Wrong media type')
 

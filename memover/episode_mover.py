@@ -24,10 +24,13 @@ def __remove_old_if_new_is_proper(media_file_extractor, season_dir_path):
     if not media_file_extractor.episode_is_marked_proper():
         return
 
-    # todo I need show name, season number and episode number. And then I need to compose these so that
-    # todo I can found the old file and remove it
-    search_query = ''
-    file_matcher.search_files(search_query, season_dir_path)
+    search_query = media_file_extractor.get_tv_show_name() + ' S' + media_file_extractor.get_season() + ' E' + media_file_extractor.get_episode_number()
+    files = file_matcher.search_files(search_query, season_dir_path)
+    if len(files) is 0:
+        return
+
+    assert len(files) is 1, 'should never find more then one file'
+    file_handler.delete_file(files[0])
 
 
 def __create_show_dir(root_destination, show_name):

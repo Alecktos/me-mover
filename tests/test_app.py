@@ -57,8 +57,8 @@ class AppTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
 
     def test_that_proper_replace_old_episode(self):
         self.__run_app('file -file-path sourcefolder/New.Girl.S06E15.PROPER.720p.HDTV.x264-KILLERS[rarbg] -show-destination show-destination -movie-destination movie-destination')
-        proper_file_destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/New Girl/Season 6/' + self.__TV_SHOW_FILE_NAME_3_ORIGINAL
-        wrong_file_destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/New Girl/Season 6/' + self.__TV_SHOW_FILE_NAME_3_PROPER
+        proper_file_destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/New Girl/Season 6/' + self.__TV_SHOW_FILE_NAME_3_PROPER
+        wrong_file_destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/New Girl/Season 6/' + self.__TV_SHOW_FILE_NAME_3_ORIGINAL
         self.assertFalse(file_handler.check_file_existance(wrong_file_destination_path))
         self.assertFileMoved(self.__SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_3_PROPER, proper_file_destination_path)
 
