@@ -40,10 +40,6 @@ def get_directory_content(directory_path):
 def path_is_directory(path):
     return os.path.isdir(path)
 
-def path_is_file():
-
-
-
 class PathIsNotDirectoryException(Exception):
 
     def __init__(self, path):

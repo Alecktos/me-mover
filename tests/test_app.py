@@ -26,6 +26,7 @@ class AppTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         file_handler.create_file(self.__SOURCE_DIRECTORY + '/' + self.__MOVIE_FILE_NAME_1)
         file_handler.create_file(self.__SOURCE_DIRECTORY + '/' + self.__MOVIE_FILE_NAME_2)
 
+        file_handler.create_dir(self.__SHOW_DESTINATION_DIRECTORY + '/New Girl/Season 6/')
         file_handler.create_file(self.__SHOW_DESTINATION_DIRECTORY + '/New Girl/Season 6/' + self.__TV_SHOW_FILE_NAME_3_ORIGINAL)
         file_handler.create_file(self.__SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_3_PROPER)
 
