@@ -4,6 +4,7 @@ import logger
 import file_handler
 import file_matcher
 
+
 def move_file(root_destination, media_file_extractor):
     show_name_dir_name = __find_show_name_dir(root_destination, media_file_extractor.get_tv_show_name())
     if not show_name_dir_name:
@@ -68,7 +69,7 @@ def __find_show_name_dir(root_directory, searching_show_name):
     if len(found_directories) > 1:
         raise MultipleDirectoryMatchesException(searching_show_name, root_directory)
 
-    if len(found_directories) is 0 and 'proper' in search_query: #TODO: refaktorera
+    if len(found_directories) is 0 and 'proper' in search_query:
         return __find_show_name_dir(
             root_directory,
             search_query.replace('proper', '').strip()
