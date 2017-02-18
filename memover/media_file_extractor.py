@@ -56,6 +56,9 @@ class MediaFileExtractor:
 
         return self.__reg_tv_result.group(3)
 
+    def episode_is_marked_proper(self):
+        return '.proper.' in self.__file_name.lower()
+
 
 class WrongMediaTypeException(Exception):
     def __init__(self, message):
