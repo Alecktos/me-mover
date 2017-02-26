@@ -78,6 +78,13 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         original_2_path = self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/' + self.__NEW_GIRL_FILE_ORIGINAL_2
         self.assertTrue(file_handler.check_file_existance(original_2_path))
 
+    def test_release_year_not_part_of_filename(self):
+        Timeless.2016.S01E06.720p.WEB-DL.Jaskier.Rus.Eng.mkv
+        Fixa i media_file_exractor.... Ta bort ifrån namnet. Tänk inte på bakåt kompabilitet
+
+
+        pass
+
     def __assert_moving_files(self, source_paths, destination_paths):
         for index, source_path in enumerate(source_paths):
             media_file_extractor = MediaFileExtractor(source_path)
