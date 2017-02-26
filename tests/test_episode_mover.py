@@ -30,6 +30,9 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
     __NEW_GIRL_FILE_ORIGINAL_1 = 'New.Girl.S06E15.720p.HDTV.x264-SVA[rarbg].mkv'
     __NEW_GIRL_FILE_PROPER = 'New.Girl.S06E15.PROPER.720p.HDTV.x264-KILLERS[rarbg].mkv'
 
+    __TIMELESS_FILE_SOURCE_PATH = __SOURCE_PATH + '/Timeless.2016.S01E06.720p.KONG-GG.maker.MAK.SWE.mkv'
+    __TIMELESS_FILE_DESTINATION_PATH = __SHOW_DESTINATION_PATH + '/Timeless/Season 1/Timeless.2016.S01E06.720p.KONG-GG.maker.MAK.SWE.mkv'
+
     def setUp(self):
         file_handler.create_dir(self.__SOURCE_PATH)
 
@@ -46,6 +49,8 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         file_handler.create_file(self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/' + self.__NEW_GIRL_FILE_ORIGINAL_1)
         file_handler.create_file(self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/' + self.__NEW_GIRL_FILE_ORIGINAL_2)
         file_handler.create_file(self.__SOURCE_PATH + '/' + self.__NEW_GIRL_FILE_PROPER)
+
+        file_handler.create_file(self.__TIMELESS_FILE_SOURCE_PATH)
 
     def tearDown(self):
         file_handler.delete_directory(self.__SOURCE_PATH)
@@ -65,6 +70,11 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
             [self.__BIG_BANG_THEORY_SOURCE_PATH],
             [self.__BIG_BANG_THEORY_DESTINATION_PATH])  # test that we match against correct dist dir when the file is marked as PROPER
 
+        self.__assert_moving_files(
+            [self.__TIMELESS_FILE_SOURCE_PATH],
+            [self.__TIMELESS_FILE_DESTINATION_PATH]
+        )
+
     def test_proper_episode_replaces_old(self):
         proper_file_source_path = self.__SOURCE_PATH + '/' + self.__NEW_GIRL_FILE_PROPER
         proper_file_destination_path = self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/' + self.__NEW_GIRL_FILE_PROPER
@@ -77,13 +87,6 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         # original 2 should still exist
         original_2_path = self.__SHOW_DESTINATION_PATH + '/New Girl/Season 6/' + self.__NEW_GIRL_FILE_ORIGINAL_2
         self.assertTrue(file_handler.check_file_existance(original_2_path))
-
-    def test_release_year_not_part_of_filename(self):
-        Timeless.2016.S01E06.720p.WEB-DL.Jaskier.Rus.Eng.mkv
-        Fixa i media_file_exractor.... Ta bort ifrån namnet. Tänk inte på bakåt kompabilitet
-
-
-        pass
 
     def __assert_moving_files(self, source_paths, destination_paths):
         for index, source_path in enumerate(source_paths):
