@@ -2,6 +2,7 @@
 import os
 import re
 import datetime
+import file_handler
 
 class Type:
     MOVIE = 0
@@ -26,11 +27,11 @@ class MediaFileExtractor:
     def get_file_name(self):
         return self.__file_name
 
-    def get_type(self):
+    def get_media_type(self):
         return self.__type
 
     def get_tv_show_name(self):
-        if self.get_type() is Type.MOVIE:
+        if self.get_media_type() is Type.MOVIE:
             raise WrongMediaTypeException('Wrong media type')
 
         show_name_words = self.__reg_tv_result.group(1)\
@@ -46,7 +47,7 @@ class MediaFileExtractor:
         :return: the original season number from file name
         """
 
-        if self.get_type() is Type.MOVIE:
+        if self.get_media_type() is Type.MOVIE:
             raise WrongMediaTypeException('Wrong media type')
 
         return self.__reg_tv_result.group(2)
@@ -56,19 +57,22 @@ class MediaFileExtractor:
         :return: the season number in form of an integer value
         """
 
-        if self.get_type() is Type.MOVIE:
+        if self.get_media_type() is Type.MOVIE:
             raise WrongMediaTypeException('Wrong media type')
 
         return int(self.__reg_tv_result.group(2))
 
     def get_episode_number(self):
-        if self.get_type() is Type.MOVIE:
+        if self.get_media_type() is Type.MOVIE:
             raise WrongMediaTypeException('Wrong media type')
 
         return self.__reg_tv_result.group(3)
 
     def episode_is_marked_proper(self):
         return '.proper.' in self.__file_name.lower()
+
+    def get_file_type(self):
+        return file_handler.get_file_type(self.get_file_path())
 
     def __extract_type(self):
         if self.__reg_tv_result is None:

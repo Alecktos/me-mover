@@ -2,6 +2,11 @@ import file_handler
 import logger
 
 
+def search_files_with_file_type(search, path, file_type):
+    files = search_files(search, path)
+    return filter(lambda found_file: file_handler.get_file_type(found_file) == file_type, files)
+
+
 def search_files(search, path):
     files = []
     keywords = search.split()  # Split on whitespace

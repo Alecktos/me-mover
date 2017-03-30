@@ -41,6 +41,10 @@ def path_is_directory(path):
     return os.path.isdir(path)
 
 
+def get_file_type(path):
+    return os.path.splitext(path)[1]
+
+
 class PathIsNotDirectoryException(Exception):
 
     def __init__(self, path):

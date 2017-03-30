@@ -23,6 +23,7 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
     __TV_SHOW_2_FILE_ORIGINAL_1 = 'Mordeaa.S06E15.720p.HDTV.x264-Sallad[rarbgag].mkv'
     __TV_SHOW_2_FILE_ORIGINAL_1_NFO = 'Mordeaa.S06E15.720p.HDTV.x264-Sallad[rarbgag].nfo'
     __TV_SHOW_2_FILE_PROPER = 'Mordeaa.S06E15.PROPER.720p.HDTV.x264-ARGON-[123].mkv'
+    __TV_SHOW_2_FILE_PROPER_NFO = 'Mordeaa.S06E15.PROPER.720p.HDTV.x264-ARGON-[123].nfo'
 
     __TV_SHOW_3_SEASON_DESTINATION_DIRECTORY_PATH = __SHOW_DESTINATION_PATH + '/ABC/Season 9'
     __TV_SHOW_3_FILE_SOURCE_PATH = __SOURCE_PATH + '/abc.S09E02.something.something-something.mp4'
@@ -64,6 +65,7 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         file_handler.create_file(self.__SHOW_DESTINATION_PATH + '/Mordeaa/Season 6/' + self.__TV_SHOW_2_FILE_3_ORIGINAL_2)
         file_handler.create_file(self.__SHOW_DESTINATION_PATH + '/Mordeaa/Season 6/' + self.__TV_SHOW_2_FILE_ORIGINAL_2_NFO)
         file_handler.create_file(self.__SOURCE_PATH + '/' + self.__TV_SHOW_2_FILE_PROPER)
+        file_handler.create_file(self.__SOURCE_PATH + '/' + self.__TV_SHOW_2_FILE_PROPER_NFO)
 
         file_handler.create_dir(self.__SAMPLE_FILE_SOURCE_DIRECTORY)
         file_handler.create_file(self.__SAMPLE_FILE_1_SOURCE_PATH)
@@ -101,9 +103,18 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         )
 
     def test_proper_episode_replaces_old(self):
+        # moving media flle
         proper_file_source_path = self.__SOURCE_PATH + '/' + self.__TV_SHOW_2_FILE_PROPER
         proper_file_destination_path = self.__SHOW_DESTINATION_PATH + '/Mordeaa/Season 6/' + self.__TV_SHOW_2_FILE_PROPER
-        self.__assert_moving_files([proper_file_source_path], [proper_file_destination_path])
+
+        # moving random file with same file name
+        proper_file_source_path_nfo = self.__SOURCE_PATH + '/' + self.__TV_SHOW_2_FILE_PROPER_NFO
+        proper_file_destination_path_nfo = self.__SHOW_DESTINATION_PATH + '/Mordeaa/Season 6/' + self.__TV_SHOW_2_FILE_PROPER_NFO
+
+        self.__assert_moving_files(
+            [proper_file_source_path, proper_file_source_path_nfo],
+            [proper_file_destination_path, proper_file_destination_path_nfo]
+        )
 
         # original 1 should not exist anymore
         original_1_path = self.__SHOW_DESTINATION_PATH + '/Mordeaa/Season 6/' + self.__TV_SHOW_2_FILE_ORIGINAL_1
@@ -120,7 +131,11 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         self.assertTrue(file_handler.check_file_existance(original_2_path))
 
     def __assert_moving_files(self, source_paths, destination_paths):
+        # first loop and move everything
         for index, source_path in enumerate(source_paths):
             media_file_extractor = MediaFileExtractor(source_path)
             episode_mover.move_file(self.__SHOW_DESTINATION_PATH, media_file_extractor)
+
+        # run assertions after moving
+        for index, source_path in enumerate(source_paths):
             self.assertFileMoved(source_path, destination_paths[index])

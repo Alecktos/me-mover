@@ -20,7 +20,7 @@ def move_media_by_path(file_path, show_destination_path, movie_destination_path)
 
     logger.log('moving file: ' + file_path)
     media_file_extractor = MediaFileExtractor(file_path)
-    media_type = media_file_extractor.get_type()
+    media_type = media_file_extractor.get_media_type()
     if media_type is Type.MOVIE:
         __move_movie(media_file_extractor, movie_destination_path)
     else:

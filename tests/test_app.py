@@ -15,8 +15,8 @@ class AppTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
     __MOVIE_FILE_NAME_1 = 'Fenix.Hart.And.Not.2001.DVDRip.DIVX.741-RO.mp4'
     __MOVIE_FILE_NAME_2 = 'ColdCraft (2016) FinSub CDROMRip x264 KORIG'
 
-    __TV_SHOW_FILE_NAME_3_ORIGINAL = 'Old.Stuff.S02E15.720p.HDTV.x264-SVA[rarbg]'
-    __TV_SHOW_FILE_NAME_3_PROPER = 'Old.Stuff.S02E15.PROPER.720p.HDTV.x264-KILLERS[rarbg]'
+    __TV_SHOW_FILE_NAME_3_ORIGINAL = 'Old.Stuff.S02E15.720p.HDTV.x264-SVA[rarbg].cold'
+    __TV_SHOW_FILE_NAME_3_PROPER = 'Old.Stuff.S02E15.PROPER.720p.HDTV.x264-KILLERS[rarbg].cold'
 
     def setUp(self):
         file_handler.create_dir(self.__SOURCE_DIRECTORY)
@@ -66,7 +66,7 @@ class AppTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         self.assertFileMoved(self.__SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_2, destination_path)
 
     def test_that_proper_replace_old_episode(self):
-        self.__run_app('file -file-path sourcefolder/Old.Stuff.S02E15.PROPER.720p.HDTV.x264-KILLERS[rarbg] -show-destination show-destination -movie-destination movie-destination')
+        self.__run_app('file -file-path sourcefolder/Old.Stuff.S02E15.PROPER.720p.HDTV.x264-KILLERS[rarbg].cold -show-destination show-destination -movie-destination movie-destination')
         proper_file_destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/Old Stuff/Season 2/' + self.__TV_SHOW_FILE_NAME_3_PROPER
         wrong_file_destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/Old Stuff/Season 2/' + self.__TV_SHOW_FILE_NAME_3_ORIGINAL
         self.assertFalse(file_handler.check_file_existance(wrong_file_destination_path))

@@ -16,13 +16,13 @@ class MediaFileExtractorTest(unittest.TestCase):
 
     def test_type(self):
         media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[0])
-        self.assertEqual(Type.TV_SHOW, media_file_extractor.get_type())
+        self.assertEqual(Type.TV_SHOW, media_file_extractor.get_media_type())
 
         media_file_extractor = MediaFileExtractor(self.__MOVIE_PATHS[0])
-        self.assertEqual(Type.MOVIE, media_file_extractor.get_type())
+        self.assertEqual(Type.MOVIE, media_file_extractor.get_media_type())
 
         media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[1])
-        self.assertEqual(Type.TV_SHOW, media_file_extractor.get_type())
+        self.assertEqual(Type.TV_SHOW, media_file_extractor.get_media_type())
 
     def test_extract_episode(self):
         media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[0])
