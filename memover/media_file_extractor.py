@@ -16,6 +16,8 @@ class MediaFileExtractor:
         self.__file_name = os.path.basename(file_path)
         self.__reg_tv_result = self.__match_path(self.__file_name)
         self.__type = self.__extract_type()
+
+        # check if parent folder gives a episode match i type is movie
         if self.__type is Type.MOVIE:
             parent_name = file_path.split('/')[-2]
             self.__reg_tv_result = self.__match_path(parent_name)
@@ -40,6 +42,8 @@ class MediaFileExtractor:
 
         show_name_words = self.__extract_release_date(show_name_words)
         show_name_words = self.__extract_sample_word(show_name_words)
+        show_name_words = self.__extract_meta_info(show_name_words)
+        show_name_words = self.__trim_garbage_chars(show_name_words)
         return ' '.join(show_name_words)
 
     def get_season(self):
@@ -99,6 +103,30 @@ class MediaFileExtractor:
     @staticmethod
     def __extract_sample_word(show_name_words):
         return map(lambda word: re.sub('\W*sample\W*', '', word, 0, re.IGNORECASE), show_name_words)
+
+    @staticmethod
+    def __extract_meta_info(show_name_words):
+        if '[' in show_name_words and ']' in show_name_words:
+            start_meta_info = show_name_words.index('[')
+            end_meta_info = show_name_words.index(']')
+            del show_name_words[start_meta_info:end_meta_info + 1]
+            return MediaFileExtractor.__extract_meta_info(show_name_words)
+
+        return show_name_words
+
+    @staticmethod
+    def __trim_garbage_chars(show_name_words):
+        garbage_chars = ['-']
+
+        if show_name_words[0] in garbage_chars:
+            show_name_words.remove(show_name_words[0])
+            return MediaFileExtractor.__trim_garbage_chars(show_name_words)
+
+        if show_name_words[-1] in garbage_chars:
+            show_name_words.remove(show_name_words[-1])
+            return MediaFileExtractor.__extract_meta_info(show_name_words)
+
+        return show_name_words
 
 
 class WrongMediaTypeException(Exception):

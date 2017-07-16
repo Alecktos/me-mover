@@ -7,7 +7,8 @@ class MediaFileExtractorTest(unittest.TestCase):
 
     __TV_SHOWS_PATHS = [
         'testar/test/Another.Another.S02E03.720p.SOMETHING.SOMETHING-SOMETHING.mp4',
-        'testar/intetest/Other.Other.Other.Other.S09E01.something.something-something[something].mp4'
+        'testar/intetest/Other.Other.Other.Other.S09E01.something.something-something[something].mp4',
+        'testar/[ www.flobbing.com ] - Longer.S01E02.HaHV.Maam-A/Information Downloaded From www.akkero.com.txt'
     ]
 
     __MOVIE_PATHS = [
@@ -35,13 +36,20 @@ class MediaFileExtractorTest(unittest.TestCase):
         media_file_extractor = MediaFileExtractor(self.__MOVIE_PATHS[0])
         self.assertRaises(WrongMediaTypeException, media_file_extractor.get_episode_number)
 
-    def text_extract_season(self):
-        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS)
-        season_number = media_file_extractor.get_season_number()
-        self.assertEqual('09', season_number)
-
-        season_number = media_file_extractor.get_season_number()
+    def test_extract_season(self):
+        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[0])
+        season_number = media_file_extractor.get_season()
         self.assertEqual('02', season_number)
 
-        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS)
-        self.assertRaises(WrongMediaTypeException, media_file_extractor.get_season_number())
+        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[1])
+        season_number = media_file_extractor.get_season()
+        self.assertEqual('09', season_number)
+
+        media_file_extractor = MediaFileExtractor(self.__MOVIE_PATHS[0])
+        self.assertRaises(WrongMediaTypeException, media_file_extractor.get_season)
+
+    def test_extract_show_name(self):
+        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[2])
+        show_name = media_file_extractor.get_tv_show_name()
+        self.assertEqual('Longer', show_name)
+

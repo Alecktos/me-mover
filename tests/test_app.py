@@ -18,6 +18,9 @@ class AppTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
     __TV_SHOW_FILE_NAME_3_ORIGINAL = 'Old.Stuff.S02E15.720p.HDTV.x264-SVA[rarbg].cold'
     __TV_SHOW_FILE_NAME_3_PROPER = 'Old.Stuff.S02E15.PROPER.720p.HDTV.x264-KILLERS[rarbg].cold'
 
+    __TV_SHOW_FILE_NAME_4 = 'Information Downloaded From www.akkero.com.txt'
+    __TV_SHOW_FILE_NAME_4_PARENT_FOLDER = '[ www.gallero.it ] - Longer.S01E02.abg.AQS-A'
+
     def setUp(self):
         file_handler.create_dir(self.__SOURCE_DIRECTORY)
         file_handler.create_dir(self.__SHOW_DESTINATION_DIRECTORY)
@@ -32,10 +35,22 @@ class AppTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         file_handler.create_file(self.__SHOW_DESTINATION_DIRECTORY + '/Old Stuff/Season 2/' + self.__TV_SHOW_FILE_NAME_3_ORIGINAL)
         file_handler.create_file(self.__SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_3_PROPER)
 
+        parent_path = self.__SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_4_PARENT_FOLDER
+        file_handler.create_dir(parent_path)
+        file_handler.create_file(parent_path + '/' + self.__TV_SHOW_FILE_NAME_4)
+
     def tearDown(self):
         file_handler.delete_directory(self.__SOURCE_DIRECTORY)
         file_handler.delete_directory(self.__SHOW_DESTINATION_DIRECTORY)
         file_handler.delete_directory(self.__MOVIE_DESTINATION_DIRECTORY)
+
+    def test_moving_shows_with_wrong_formated_parent_folder(self):
+        self.__run_app('file -file-path sourcefolder/[\ www.gallero.it\ ]\ -\ Longer.S01E02.abg.AQS-A/Information\ Downloaded\ From\ www.akkero.com.txt -show-destination show-destination -movie-destination movie-destination')
+        destination_path = self.__SHOW_DESTINATION_DIRECTORY + '/Longer/Season 1/' + self.__TV_SHOW_FILE_NAME_4
+        self.assertFileMoved(
+            self.__SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_4_PARENT_FOLDER + '/' + self.__TV_SHOW_FILE_NAME_4,
+            destination_path
+        )
 
     def test_moving_show_by_episode(self):
         """
