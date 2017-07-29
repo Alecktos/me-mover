@@ -1,8 +1,8 @@
 # coding=utf-8
 import os
 import re
-import datetime
 import file_handler
+import show_name_extractor
 
 class Type:
     MOVIE = 0
@@ -36,15 +36,7 @@ class MediaFileExtractor:
         if self.get_media_type() is Type.MOVIE:
             raise WrongMediaTypeException('Wrong media type')
 
-        show_name_words = self.__reg_tv_result.group(1)\
-            .replace('.', ' ')\
-            .split()
-
-        show_name_words = self.__extract_release_date(show_name_words)
-        show_name_words = self.__extract_sample_word(show_name_words)
-        show_name_words = self.__extract_meta_info(show_name_words)
-        show_name_words = self.__trim_garbage_chars(show_name_words)
-        return ' '.join(show_name_words)
+        return show_name_extractor.extract_clean_show_name(self.__reg_tv_result.group(1))
 
     def get_season(self):
         """
@@ -87,46 +79,6 @@ class MediaFileExtractor:
     def __match_path(file_name):
         reg_tv = re.compile('(.+?)[ .][Ss](\d\d?)[Ee](\d\d?).*?(?:[ .](\d{3}\d?p)|\Z)?')
         return reg_tv.match(file_name)
-
-    @staticmethod
-    def __extract_release_date(show_name_words):
-        d1 = datetime.date(2000, 1, 1)
-        d2 = datetime.date.today()
-
-        try:
-            last_word_date = datetime.datetime.strptime(show_name_words[-1], '%Y').date()
-            if d1 <= last_word_date <= d2:
-                del show_name_words[-1]
-        finally:
-            return show_name_words
-
-    @staticmethod
-    def __extract_sample_word(show_name_words):
-        return map(lambda word: re.sub('\W*sample\W*', '', word, 0, re.IGNORECASE), show_name_words)
-
-    @staticmethod
-    def __extract_meta_info(show_name_words):
-        if '[' in show_name_words and ']' in show_name_words:
-            start_meta_info = show_name_words.index('[')
-            end_meta_info = show_name_words.index(']')
-            del show_name_words[start_meta_info:end_meta_info + 1]
-            return MediaFileExtractor.__extract_meta_info(show_name_words)
-
-        return show_name_words
-
-    @staticmethod
-    def __trim_garbage_chars(show_name_words):
-        garbage_chars = ['-']
-
-        if show_name_words[0] in garbage_chars:
-            show_name_words.remove(show_name_words[0])
-            return MediaFileExtractor.__trim_garbage_chars(show_name_words)
-
-        if show_name_words[-1] in garbage_chars:
-            show_name_words.remove(show_name_words[-1])
-            return MediaFileExtractor.__extract_meta_info(show_name_words)
-
-        return show_name_words
 
 
 class WrongMediaTypeException(Exception):

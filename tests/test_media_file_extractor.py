@@ -8,7 +8,8 @@ class MediaFileExtractorTest(unittest.TestCase):
     __TV_SHOWS_PATHS = [
         'testar/test/Another.Another.S02E03.720p.SOMETHING.SOMETHING-SOMETHING.mp4',
         'testar/intetest/Other.Other.Other.Other.S09E01.something.something-something[something].mp4',
-        'testar/[ www.flobbing.com ] - Longer.S01E02.HaHV.Maam-A/Information Downloaded From www.akkero.com.txt'
+        'testar/[ www.flobbing.com ] - Longer.S01E02.HaHV.Maam-A/Information Downloaded From www.akkero.com.txt',
+        'testar/www.Lobertar.com - Long.S01E02.720p.KOOK.asdf-Risig/Stuff from www.Lobertar.com.mkv'
     ]
 
     __MOVIE_PATHS = [
@@ -53,3 +54,7 @@ class MediaFileExtractorTest(unittest.TestCase):
         show_name = media_file_extractor.get_tv_show_name()
         self.assertEqual('Longer', show_name)
 
+    def test_extract_urls(self):
+        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[3])
+        show_name = media_file_extractor.get_tv_show_name()
+        self.assertEqual('Long', show_name)
