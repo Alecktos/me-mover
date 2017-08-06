@@ -39,4 +39,3 @@ Will move Vikings season 4 episode 15 of to media/sorted-tv-shows/Vikings/Season
 
 ### Run tests
     python -m unittest discover tests
-
