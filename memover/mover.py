@@ -1,7 +1,9 @@
-import episode_mover, logger
+import episode_mover
+import logger
 import file_matcher
-from media_file_extractor import MediaFileExtractor, Type
+from media_file_extractor import get_type, Type, MovieFile, EpisodeFile
 import file_handler
+import movie_mover
 
 
 def move_media_by_name(name, source_path, show_destination_path, movie_destination_path):
@@ -19,17 +21,8 @@ def move_media_by_path(file_path, show_destination_path, movie_destination_path)
         return
 
     logger.log('moving file: ' + file_path)
-    media_file_extractor = MediaFileExtractor(file_path)
-    media_type = media_file_extractor.get_media_type()
+    media_type = get_type(file_path)
     if media_type is Type.MOVIE:
-        __move_movie(media_file_extractor, movie_destination_path)
+        movie_mover.move(movie_destination_path, MovieFile(file_path))
     else:
-        episode_mover.move_file(show_destination_path, media_file_extractor)
-
-
-def __move_movie(media_file_extractor, movie_destination_path):
-    if file_handler.check_directory_existance(movie_destination_path):
-        file_handler.move_file(media_file_extractor.get_file_path(), movie_destination_path + '/' + media_file_extractor.get_file_name())
-    else:
-        logger.log('Folder does not exist: ' + movie_destination_path)
-
+        episode_mover.move_file(show_destination_path, EpisodeFile(file_path))

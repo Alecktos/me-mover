@@ -1,7 +1,7 @@
 import unittest
 import file_moved_assertion
 from memover import file_handler, episode_mover
-from memover.media_file_extractor import MediaFileExtractor
+from memover.media_file_extractor import EpisodeFile
 
 
 class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
@@ -133,8 +133,8 @@ class FileMoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
     def __assert_moving_files(self, source_paths, destination_paths):
         # first loop and move everything
         for index, source_path in enumerate(source_paths):
-            media_file_extractor = MediaFileExtractor(source_path)
-            episode_mover.move_file(self.__SHOW_DESTINATION_PATH, media_file_extractor)
+            episode_file = EpisodeFile(source_path)
+            episode_mover.move_file(self.__SHOW_DESTINATION_PATH, episode_file)
 
         # run assertions after moving
         for index, source_path in enumerate(source_paths):

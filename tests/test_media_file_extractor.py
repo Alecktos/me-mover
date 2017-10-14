@@ -1,6 +1,6 @@
 import unittest
 
-from memover.media_file_extractor import MediaFileExtractor, Type, WrongMediaTypeException
+from memover.media_file_extractor import get_type, Type, WrongMediaTypeException, EpisodeFile
 
 
 class MediaFileExtractorTest(unittest.TestCase):
@@ -17,44 +17,38 @@ class MediaFileExtractorTest(unittest.TestCase):
     ]
 
     def test_type(self):
-        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[0])
-        self.assertEqual(Type.TV_SHOW, media_file_extractor.get_media_type())
+        self.assertEqual(Type.TV_SHOW, get_type(self.__TV_SHOWS_PATHS[0]))
 
-        media_file_extractor = MediaFileExtractor(self.__MOVIE_PATHS[0])
-        self.assertEqual(Type.MOVIE, media_file_extractor.get_media_type())
+        self.assertEqual(Type.MOVIE, get_type(self.__MOVIE_PATHS[0]))
 
-        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[1])
-        self.assertEqual(Type.TV_SHOW, media_file_extractor.get_media_type())
+        self.assertEqual(Type.TV_SHOW, get_type(self.__TV_SHOWS_PATHS[1]))
 
     def test_extract_episode(self):
-        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[0])
+        media_file_extractor = EpisodeFile(self.__TV_SHOWS_PATHS[0])
         episode_number = media_file_extractor.get_episode_number()
         self.assertEqual('03', episode_number)
 
-        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[1])
+        media_file_extractor = EpisodeFile(self.__TV_SHOWS_PATHS[1])
         self.assertEqual('01', media_file_extractor.get_episode_number())
 
-        media_file_extractor = MediaFileExtractor(self.__MOVIE_PATHS[0])
-        self.assertRaises(WrongMediaTypeException, media_file_extractor.get_episode_number)
+        # self.assertRaises(Exception, MyClass, foo)
+        self.assertRaises(WrongMediaTypeException, EpisodeFile, self.__MOVIE_PATHS[0])
 
     def test_extract_season(self):
-        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[0])
+        media_file_extractor = EpisodeFile(self.__TV_SHOWS_PATHS[0])
         season_number = media_file_extractor.get_season()
         self.assertEqual('02', season_number)
 
-        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[1])
+        media_file_extractor = EpisodeFile(self.__TV_SHOWS_PATHS[1])
         season_number = media_file_extractor.get_season()
         self.assertEqual('09', season_number)
 
-        media_file_extractor = MediaFileExtractor(self.__MOVIE_PATHS[0])
-        self.assertRaises(WrongMediaTypeException, media_file_extractor.get_season)
-
     def test_extract_show_name(self):
-        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[2])
+        media_file_extractor = EpisodeFile(self.__TV_SHOWS_PATHS[2])
         show_name = media_file_extractor.get_tv_show_name()
         self.assertEqual('Longer', show_name)
 
     def test_extract_urls(self):
-        media_file_extractor = MediaFileExtractor(self.__TV_SHOWS_PATHS[3])
+        media_file_extractor = EpisodeFile(self.__TV_SHOWS_PATHS[3])
         show_name = media_file_extractor.get_tv_show_name()
         self.assertEqual('Long', show_name)
