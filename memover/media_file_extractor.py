@@ -41,13 +41,15 @@ def __match_episode(path):
 class MovieFile:
     def __init__(self, file_path):
         self.__file_path = file_path
-        self.__file_name = file_handler.get_last_path_part(file_path)
 
     def get_file_path(self):
         return self.__file_path
 
     def get_file_name(self):
-        return self.__file_name
+        return file_handler.get_last_path_part(self.__file_path)
+
+    def get_movie_name(self):
+        return file_handler.get_file_name_from_path(self.__file_path)
 
 
 class EpisodeFile:

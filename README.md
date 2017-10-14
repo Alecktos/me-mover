@@ -35,6 +35,9 @@ Will move Vikings season 4 episode 15 of to media/sorted-tv-shows/Vikings/Season
     -show-destination   Destination root directory for tv-shows.
     -movie-destination  Destination directory for movies
 
+### Misc
+If not present a directory will be created for each moved movie.
+
 ## Development
 
 ### Run tests

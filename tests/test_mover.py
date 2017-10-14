@@ -55,7 +55,7 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         source_file_path = self.__SOURCE_DIRECTORY + '/' + movie_file_name
         mover.move_media_by_path(source_file_path, self.__SHOW_DESTINATION_DIRECTORY, self.__MOVIE_DESTINATION_DIRECTORY)
 
-        destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/' + movie_file_name
+        destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/' + file_handler.get_file_name_from_path(movie_file_name) + '/' + movie_file_name
         self.assertFileMoved(source_file_path, destination_path)
 
     def test_move_shows_into_existing_season_directory(self):
@@ -136,7 +136,7 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
         file_path = folder_path + '/007 Going For Old Time  HD-TS x264-CPG.mp4'
         file_handler.create_file(file_path)
         mover.move_media_by_path(file_path, self.__SHOW_DESTINATION_DIRECTORY, self.__MOVIE_DESTINATION_DIRECTORY)
-        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/007 Going For Old Time  HD-TS x264-CPG.mp4'
+        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/007 Going For Old Time  HD-TS x264-CPG/007 Going For Old Time  HD-TS x264-CPG.mp4'
         self.assertFileMoved(file_path, file_destination_path)
 
     def test_moving_movies_by_name(self):
@@ -155,10 +155,10 @@ class MoverTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
             self.__MOVIE_DESTINATION_DIRECTORY
         )
 
-        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/201 Coolings 1999.___RIP.Xvid.NVesub-123.mp4'
+        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/201 Coolings 1999.___RIP.Xvid.NVesub-123/201 Coolings 1999.___RIP.Xvid.NVesub-123.mp4'
         self.assertFileMoved(file_1_folder_path, file_destination_path)
 
-        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/201 Coolings 200.DADRAP.NVesub.mp4'
+        file_destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/201 Coolings 200.DADRAP.NVesub/201 Coolings 200.DADRAP.NVesub.mp4'
         self.assertFileMoved(file_2_path, file_destination_path)
 
     def test_moving_wrong_formatted_episode_inside_right_formated_directory(self):

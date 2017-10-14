@@ -49,6 +49,11 @@ def get_last_path_part(path):
     return os.path.basename(path)
 
 
+def get_file_name_from_path(path):
+    last_part = get_last_path_part(path)
+    return os.path.splitext(last_part)[0]
+
+
 class PathIsNotDirectoryException(Exception):
 
     def __init__(self, path):

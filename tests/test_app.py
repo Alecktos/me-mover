@@ -82,12 +82,12 @@ class AppTest(unittest.TestCase, file_moved_assertion.FileMovedAssertion):
 
     def test_moving_movie_by_name(self):
         self.__run_by_name('ColdCraft')
-        destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/' + self.__MOVIE_FILE_NAME_2
+        destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/' + self.__MOVIE_FILE_NAME_2 + '/' + self.__MOVIE_FILE_NAME_2
         self.assertFileMoved(self.__SOURCE_DIRECTORY + '/' + self.__MOVIE_FILE_NAME_2, destination_path)
 
     def test_moving_movie_by_file(self):
         self.__run_by_file('sourcefolder/Fenix.Hart.And.Not.2001.DVDRip.DIVX.741-RO.mp4')
-        destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/' + self.__MOVIE_FILE_NAME_1
+        destination_path = self.__MOVIE_DESTINATION_DIRECTORY + '/Fenix.Hart.And.Not.2001.DVDRip.DIVX.741-RO/' + self.__MOVIE_FILE_NAME_1
         self.assertFileMoved(self.__SOURCE_DIRECTORY + '/' + self.__MOVIE_FILE_NAME_1, destination_path)
 
     def test_moving_show_by_file(self):
