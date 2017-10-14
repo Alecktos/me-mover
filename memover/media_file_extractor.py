@@ -33,7 +33,7 @@ def __match_episode(path):
     :param path: a path to something that is assumed to be a episode
     :return: extracted episode data (season, episode, show name)
     """
-    file_basename = os.path.basename(path)
+    file_basename = file_handler.get_last_path_part(path)
     reg_tv = re.compile('(.+?)[ .][Ss](\d\d?)[Ee](\d\d?).*?(?:[ .](\d{3}\d?p)|\Z)?')
     return reg_tv.match(file_basename)
 
@@ -41,7 +41,7 @@ def __match_episode(path):
 class MovieFile:
     def __init__(self, file_path):
         self.__file_path = file_path
-        self.__file_name = os.path.basename(file_path)
+        self.__file_name = file_handler.get_last_path_part(file_path)
 
     def get_file_path(self):
         return self.__file_path
