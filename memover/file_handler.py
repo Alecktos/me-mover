@@ -36,6 +36,9 @@ def get_directory_content(directory_path):
 
     return os.listdir(directory_path)
 
+def get_files_recursively(directory_path):
+    pass
+
 
 def path_is_directory(path):
     return os.path.isdir(path)

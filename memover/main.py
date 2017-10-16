@@ -25,7 +25,7 @@ def __move_based_on_name():
     show_name = arguments_parser.get_show_name(),
     show_destination_path = arguments_parser.get_shows_destination_path(),
     movie_destination_path = arguments_parser.get_movies_destination_path()
-    source_path = arguments_parser.get_show_source_path()
+    source_path = arguments_parser.get_source_path()
 
     arguments = {
         Arguments.NAME: show_name,
@@ -37,9 +37,15 @@ def __move_based_on_name():
     if not __arguments_are_valid(arguments):
         return
 
+    # unzip files
+
+    # rename subtitles
+    
+
+    # move files
     mover.move_media_by_name(
         arguments_parser.get_show_name(),
-        arguments_parser.get_show_source_path(),
+        arguments_parser.get_source_path(),
         arguments_parser.get_shows_destination_path(),
         arguments_parser.get_movies_destination_path()
     )
@@ -48,7 +54,7 @@ def __move_based_on_name():
 def __move_based_on_file():
     file_path = arguments_parser.get_file_path()
     show_destination_path = arguments_parser.get_shows_destination_path()
-    show_source_path = arguments_parser.get_show_source_path()
+    show_source_path = arguments_parser.get_source_path()
     movie_destination_path = arguments_parser.get_movies_destination_path()
 
     arguments = {

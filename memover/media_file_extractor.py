@@ -8,6 +8,7 @@ import show_name_extractor
 class Type:
     MOVIE = 0
     TV_SHOW = 1
+    SUBTITLE = 2
 
 
 def get_type(path):
@@ -38,6 +39,18 @@ def __match_episode(path):
     return reg_tv.match(file_basename)
 
 
+class SubtitleFile:
+    def __init__(self, file_path, show_file_name):
+        self.__file_path = file_path
+
+    def get_source_file_path(self):
+        return self.__file_path
+
+    def get_new_file_name(self):
+        #todo check if file_path conatins eng. Otherwise name it same a show file name
+        pass
+
+
 class MovieFile:
     def __init__(self, file_path):
         self.__file_path = file_path
@@ -57,7 +70,6 @@ class EpisodeFile:
     def __init__(self, file_path):
         self.__file_path = file_path
         self.__file_name = os.path.basename(file_path)
-
         self.__reg_tv_result = _get_episode_info(self.__file_path)
 
         if self.__reg_tv_result is None:
