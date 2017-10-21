@@ -36,9 +36,6 @@ def get_directory_content(directory_path):
 
     return os.listdir(directory_path)
 
-def get_files_recursively(directory_path):
-    pass
-
 
 def path_is_directory(path):
     return os.path.isdir(path)
@@ -55,6 +52,10 @@ def get_last_path_part(path):
 def get_file_name_from_path(path):
     last_part = get_last_path_part(path)
     return os.path.splitext(last_part)[0]
+
+
+def get_file_size(path):
+    return os.path.getsize(path)
 
 
 class PathIsNotDirectoryException(Exception):
