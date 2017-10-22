@@ -30,11 +30,24 @@ def delete_directory(directory_path):
     shutil.rmtree(directory_path)
 
 
+def directory_is_empty(directory_path):
+    return not get_directory_content(directory_path)
+
+
 def get_directory_content(directory_path):
     if not path_is_directory(directory_path):
         raise PathIsNotDirectoryException(directory_path)
 
     return os.listdir(directory_path)
+
+
+def get_files(directory_path):
+    if not path_is_directory(directory_path):
+        raise PathIsNotDirectoryException(directory_path)
+
+    for root, dirs, files in os.walk(directory_path):
+        for name in files:
+            yield root + '/' + name
 
 
 def path_is_directory(path):
@@ -51,7 +64,19 @@ def get_last_path_part(path):
 
 def get_file_name_from_path(path):
     last_part = get_last_path_part(path)
-    return os.path.splitext(last_part)[0]
+    return get_path_without_extension(last_part)
+
+
+def get_path_without_extension(path):
+    return os.path.splitext(path)[0]
+
+
+def get_parent(path):
+    return os.path.dirname(path)
+
+
+def get_file_size(path):
+    return os.path.getsize(path)
 
 
 class PathIsNotDirectoryException(Exception):

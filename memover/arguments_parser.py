@@ -30,7 +30,7 @@ def __get_destination_path(destination_argument):
     return destination_path
 
 
-def get_show_source_path():
+def get_source_path():
     source_path = '.'
     if Arguments.SOURCE in sys.argv:
         index = sys.argv.index(Arguments.SOURCE)
