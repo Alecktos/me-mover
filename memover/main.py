@@ -2,6 +2,7 @@ import arguments_parser
 from arguments_parser import Arguments
 import logger
 import mover
+import subtitles
 
 
 def main():
@@ -37,10 +38,8 @@ def __move_based_on_name():
     if not __arguments_are_valid(arguments):
         return
 
-    # unzip files
-
     # rename subtitles
-    
+    subtitles.rename_and_move(arguments_parser.get_source_path())
 
     # move files
     mover.move_media_by_name(

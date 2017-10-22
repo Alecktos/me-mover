@@ -35,6 +35,9 @@ Will move Vikings season 4 episode 15 of to media/sorted-tv-shows/Vikings/Season
     -show-destination   Destination root directory for tv-shows.
     -movie-destination  Destination directory for movies
 
+### Subtitles
+Subtitles of types .srt, .smi, .ssa, .ass, .vtt will be renamed to the name of the video being moved.
+
 ### Misc
 A parent directory will be created for each moved movie.
 
