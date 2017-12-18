@@ -62,12 +62,14 @@ def get_last_path_part(path):
     return os.path.basename(path)
 
 
-def get_file_name_from_path(path):
-    last_part = get_last_path_part(path)
-    return get_path_without_extension(last_part)
+def get_last_name_from_path(path):
+    path_removed_extension = get_path_without_extension(path)
+    return get_last_path_part(path_removed_extension)
 
 
 def get_path_without_extension(path):
+    if path_is_directory(path):
+        return path
     return os.path.splitext(path)[0]
 
 
