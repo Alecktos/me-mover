@@ -40,7 +40,7 @@ def get_source_path():
 
 def get_file_path():
     if Arguments.FILE_PATH not in sys.argv:
-        return None
+        raise ArgumentNotSetException(Arguments.FILE_PATH)
 
     index = sys.argv.index(Arguments.FILE_PATH)
     return sys.argv[index+1]
@@ -48,7 +48,7 @@ def get_file_path():
 
 def get_show_name():
     if Arguments.NAME not in sys.argv:
-        return None
+        raise ArgumentNotSetException(Arguments.NAME)
 
     index = sys.argv.index(Arguments.NAME)
     return sys.argv[index+1]
@@ -56,9 +56,14 @@ def get_show_name():
 
 def get_command():
     if len(sys.argv) < 2:
-        return None
+        raise ArgumentNotSetException('move command')
 
     if sys.argv[1] == Commands.NAME or sys.argv[1] == Commands.FILE:
         return sys.argv[1]
     return None
 
+
+class ArgumentNotSetException(Exception):
+
+    def __init__(self, argument):
+        super(ArgumentNotSetException, self).__init__(argument + ' needs to be set ')
