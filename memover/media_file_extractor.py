@@ -82,7 +82,7 @@ class EpisodeFile:
         return self.__file_name
 
     def get_tv_show_name(self):
-        return show_name_extractor.extract_clean_show_name(self.__reg_tv_result.group(1))
+        return show_name_extractor.extract_delete_test_dirs_show_name(self.__reg_tv_result.group(1))
 
     def get_season(self):
         """

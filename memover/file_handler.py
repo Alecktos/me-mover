@@ -7,6 +7,8 @@ def delete_file(path):
 
 
 def create_file(path):
+    if not os.path.exists(get_parent(path)):
+        os.makedirs(get_parent(path))
     os.open(path, os.O_CREAT)
 
 

@@ -2,7 +2,7 @@ import datetime
 import re
 
 
-def extract_clean_show_name(show_name):
+def extract_delete_test_dirs_show_name(show_name):
     show_name_words = __extract_urls(show_name) \
         .replace('.', ' ') \
         .split()
