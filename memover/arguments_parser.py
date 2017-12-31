@@ -31,10 +31,11 @@ def __get_destination_path(destination_argument):
 
 
 def get_source_path():
-    source_path = '.'
-    if Arguments.SOURCE in sys.argv:
-        index = sys.argv.index(Arguments.SOURCE)
-        source_path = sys.argv[index + 1]
+    if Arguments.SOURCE not in sys.argv:
+        raise ArgumentNotSetException(Arguments.SOURCE)
+
+    index = sys.argv.index(Arguments.SOURCE)
+    source_path = sys.argv[index + 1]
     return source_path
 
 

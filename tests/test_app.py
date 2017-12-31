@@ -95,6 +95,11 @@ class AppTest(unittest.TestCase, file_mover_tester.FileMoverTester):
         self.assertFalse(file_handler.check_file_existance(wrong_file_destination_path))
         self.assertFileMoved(self._SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_3_PROPER, proper_file_destination_path)
 
+    def test_moving_file_by_parent(self):
+        source_dir = self._SOURCE_DIRECTORY + self.__TV_SHOW_FILE_NAME_4_PARENT_FOLDER + '/'
+        self.__run_by_file('sourcefolder/[\ www.gallero.it\ ]\ -\ Longer.S01E02.abg.AQS-A')
+        self.assertFileMoved(source_dir, self._SHOW_DESTINATION_DIRECTORY + '/Longer/Season 1/' + self.__TV_SHOW_FILE_NAME_4)
+
     @staticmethod
     def __run_by_name(show_name):
         AppTest.__run_app('name -name "' + show_name + '" -source sourcefolder -show-destination show-destination -movie-destination movie-destination')

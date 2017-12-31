@@ -8,6 +8,9 @@ class _BiggestFile:
 
 
 def rename_and_move(source_directory):
+    if not file_handler.path_is_directory(source_directory):
+        return
+
     subtitle_files = []
     biggest_file = _BiggestFile()  # assuming that the media file is the biggest file we can found.
 

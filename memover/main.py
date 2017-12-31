@@ -19,7 +19,7 @@ def main():
                 arguments_parser.get_shows_destination_path(),
                 arguments_parser.get_movies_destination_path()
             )
-        __move_media(move_function)
+        __move_media(move_function, arguments_parser.get_source_path())
         return
 
     if command == arguments_parser.Commands.FILE:
@@ -30,12 +30,12 @@ def main():
                 arguments_parser.get_movies_destination_path()
             )
 
-        __move_media(move_function)
+        __move_media(move_function, arguments_parser.get_file_path())
         return
 
     logger.log('No action was made')
 
 
-def __move_media(move_function):
-    subtitles.rename_and_move(arguments_parser.get_source_path())
+def __move_media(move_function, path):
+    subtitles.rename_and_move(path)
     move_function()
