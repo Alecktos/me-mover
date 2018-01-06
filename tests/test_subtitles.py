@@ -1,73 +1,71 @@
 import unittest
 from memover import file_handler, subtitles
+from tests.utils import file_mover_tester
 
 
-class MediaFileExtractorTest(unittest.TestCase):
+class MediaFileExtractorTest(unittest.TestCase, file_mover_tester.FileMoverTester):
 
-    __SOURCE_FILES = [
-        'testing/test/Another.Another.S02E03.bigfile.mp4',
-        'testing/intetest/Other.Other.Other.Other.S09E01.something.something-something[something].swe.srt',
-        'testing/Other.Other.Other.Other.S09E01.something.something-something[something].smi',
-        'testing/[ www.flobbing.com ] - /Other.Other.Other.Other.S09E01.something.something-something[something].ssa',
-        'testing/[ www.flobbing.com ] - Longer.S01E02.HaHV.Maam-A/Information Downloaded From www.akkero.com.ass',
-        'testing/a/b/www.Lobertar.com - Long.S01E02.720p.KOOK.asdf-Risig/Stuff from www.Lobertar.com.vtt',
-        'testing/www.Lobertar.com - Long.S01E02.720p.KOOK.asdf-Risig/Stuff from www.Lobertar.com.txt',
-        'testing/intetest/Other.Other.Other.Other.S09E01.something.something-something[something].eng.srt'
-    ]
-
-    __SUBTITLES_FILES = [
-        'testing/test/Another.Another.S02E03.bigfile.en.smi',
-        'testing/test/Another.Another.S02E03.bigfile.en2.ssa',
-        'testing/test/Another.Another.S02E03.bigfile.en3.ass',
-        'testing/test/Another.Another.S02E03.bigfile.en4.vtt',
-        'testing/test/Another.Another.S02E03.bigfile.en5.srt',
-        'testing/test/Another.Another.S02E03.bigfile.en6.srt',
-    ]
+    def setUp(self):
+        self._create_test_dirs()
 
     def tearDown(self):
-        file_handler.delete_directory('testing')
+        self._delete_test_dirs()
 
     def test_renaming_subs(self):
-        file_handler.create_dir('testing/test')
-        file_handler.create_dir('testing/intetest')
-        file_handler.create_dir('testing/[ www.flobbing.com ] - ')
-        file_handler.create_dir('testing/[ www.flobbing.com ] - Longer.S01E02.HaHV.Maam-A')
-        file_handler.create_dir('testing/a/b/www.Lobertar.com - Long.S01E02.720p.KOOK.asdf-Risig')
-        file_handler.create_dir('testing/www.Lobertar.com - Long.S01E02.720p.KOOK.asdf-Risig')
-        for path in self.__SOURCE_FILES:
-            file_handler.create_file(path)
+        source_files = [
+            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.mp4',
+            'a_movie_with_subs/intetest/Other.Other.Other.Other.S09E01.something.something-something[something].swe.srt',
+            'a_movie_with_subs/Other.Other.Other.Other.S09E01.something.something-something[something].smi',
+            'a_movie_with_subs/[ www.flobbing.com ] - /Other.Other.Other.Other.S09E01.something.something-something[something].ssa',
+            'a_movie_with_subs/[ www.flobbing.com ] - Longer.S01E02.HaHV.Maam-A/Information Downloaded From www.akkero.com.ass',
+            'a_movie_with_subs/a/b/www.Lobertar.com - Long.S01E02.720p.KOOK.asdf-Risig/Stuff from www.Lobertar.com.vtt',
+            'a_movie_with_subs/www.Lobertar.com - Long.S01E02.720p.KOOK.asdf-Risig/Stuff from www.Lobertar.com.txt',
+            'a_movie_with_subs/intetest/Other.Other.Other.Other.S09E01.something.something-something[something].eng.srt'
+        ]
+
+        subtitles_file = [
+            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.en.smi',
+            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.en2.ssa',
+            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.en3.ass',
+            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.en4.vtt',
+            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.en5.srt',
+            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.en6.srt',
+        ]
+
+        for source_file in source_files:
+            self._createSourceFile(source_file)
 
         # make the first file the biggest
-        with open(self.__SOURCE_FILES[0], 'wb') as bigfile:
+        with open(self._SOURCE_DIRECTORY + source_files[0], 'wb') as bigfile:
             bigfile.seek(1048575)
             bigfile.write('0')
 
-        subtitles.rename_and_move('testing')
+        subtitles.rename_and_move(self._SOURCE_DIRECTORY)
 
-        for path in self.__SUBTITLES_FILES:
-            self.assertTrue(file_handler.check_file_existance(path))
+        for path in subtitles_file:
+            self.assertTrue(file_handler.check_file_existance(self._SOURCE_DIRECTORY + path))
 
         #  assert that none sub files have not changed
-        self.assertTrue(file_handler.check_file_existance(self.__SOURCE_FILES[0]))
+        self.assertTrue(file_handler.check_file_existance(self._SOURCE_DIRECTORY + source_files[0]))
 
         self.assertFalse(
-            file_handler.check_directory_existance(file_handler.get_parent(self.__SOURCE_FILES[1]))
+            file_handler.check_directory_existance(file_handler.get_parent(self._SOURCE_DIRECTORY + source_files[1]))
         )
 
         self.assertFalse(
-            file_handler.check_file_existance(self.__SOURCE_FILES[2])
+            file_handler.check_file_existance(self._SOURCE_DIRECTORY + source_files[2])
         )
 
         self.assertFalse(
-            file_handler.check_directory_existance(file_handler.get_parent(self.__SOURCE_FILES[3]))
+            file_handler.check_directory_existance(file_handler.get_parent(self._SOURCE_DIRECTORY + source_files[3]))
         )
 
         self.assertFalse(
-            file_handler.check_file_existance(file_handler.get_parent(self.__SOURCE_FILES[4]))
+            file_handler.check_file_existance(file_handler.get_parent(self._SOURCE_DIRECTORY + source_files[4]))
         )
 
         self.assertFalse(
             file_handler.check_directory_existance('testing/1')
         )
 
-        self.assertTrue(file_handler.check_file_existance(self.__SOURCE_FILES[6]))
+        self.assertTrue(file_handler.check_file_existance(self._SOURCE_DIRECTORY + source_files[6]))
