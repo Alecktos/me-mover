@@ -113,17 +113,17 @@ class FileMoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         # original 1 should not exist anymore
         original_1_path = self._SHOW_DESTINATION_DIRECTORY + '/Mordeaa/Season 6/' + self.__TV_SHOW_2_FILE_ORIGINAL_1
-        self.assertFalse(file_handler.check_file_existance(original_1_path))
+        self.assertFalse(file_handler.file_exist(original_1_path))
 
         original_1_path = self._SHOW_DESTINATION_DIRECTORY + '/Mordeaa/Season 6/' + self.__TV_SHOW_2_FILE_ORIGINAL_1_NFO
-        self.assertFalse(file_handler.check_file_existance(original_1_path))
+        self.assertFalse(file_handler.file_exist(original_1_path))
 
         # original 2 should still exist
         original_2_path = self._SHOW_DESTINATION_DIRECTORY + '/Mordeaa/Season 6/' + self.__TV_SHOW_2_FILE_3_ORIGINAL_2
-        self.assertTrue(file_handler.check_file_existance(original_2_path))
+        self.assertTrue(file_handler.file_exist(original_2_path))
 
         original_2_path = self._SHOW_DESTINATION_DIRECTORY + '/Mordeaa/Season 6/' + self.__TV_SHOW_2_FILE_ORIGINAL_2_NFO
-        self.assertTrue(file_handler.check_file_existance(original_2_path))
+        self.assertTrue(file_handler.file_exist(original_2_path))
 
     def __assert_tv_shows_files(self, source_paths, destination_paths):
         # first loop and move everything
@@ -133,4 +133,4 @@ class FileMoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         # run assertions after moving
         for index, source_path in enumerate(source_paths):
-            self.assertFileMoved(source_path, destination_paths[index])
+            self._assert_file_moved(source_path, destination_paths[index])

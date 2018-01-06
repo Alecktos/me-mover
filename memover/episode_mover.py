@@ -12,7 +12,7 @@ def move_file(root_destination, episode_file):
 
     season_number = str(episode_file.get_season_number())
     season_path = root_destination + '/' + show_name_dir_name + '/Season ' + season_number
-    if file_handler.check_directory_existance(season_path):
+    if file_handler.directory_exist(season_path):
         __remove_old_if_new_is_proper(episode_file, season_path)
     else:
         __create_season_folder(root_destination, show_name_dir_name, season_number)

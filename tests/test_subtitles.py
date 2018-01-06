@@ -1,5 +1,5 @@
 import unittest
-from memover import file_handler, subtitles
+from memover import file_handler, subtitles, mover
 from tests.utils import file_mover_tester
 
 
@@ -32,40 +32,75 @@ class MediaFileExtractorTest(unittest.TestCase, file_mover_tester.FileMoverTeste
             'a_movie_with_subs/test/Another.Another.S02E03.bigfile.en6.srt',
         ]
 
+        # Create source files
         for source_file in source_files:
             self._createSourceFile(source_file)
 
         # make the first file the biggest
-        with open(self._SOURCE_DIRECTORY + source_files[0], 'wb') as bigfile:
-            bigfile.seek(1048575)
-            bigfile.write('0')
+        self.__make_file_bigger(source_files[0])
 
         subtitles.rename_and_move(self._SOURCE_DIRECTORY)
 
         for path in subtitles_file:
-            self.assertTrue(file_handler.check_file_existance(self._SOURCE_DIRECTORY + path))
+            self.assertTrue(file_handler.file_exist(self._SOURCE_DIRECTORY + path))
 
         #  assert that none sub files have not changed
-        self.assertTrue(file_handler.check_file_existance(self._SOURCE_DIRECTORY + source_files[0]))
+        self.assertTrue(file_handler.file_exist(self._SOURCE_DIRECTORY + source_files[0]))
 
         self.assertFalse(
-            file_handler.check_directory_existance(file_handler.get_parent(self._SOURCE_DIRECTORY + source_files[1]))
+            file_handler.directory_exist(file_handler.get_parent(self._SOURCE_DIRECTORY + source_files[1]))
         )
 
         self.assertFalse(
-            file_handler.check_file_existance(self._SOURCE_DIRECTORY + source_files[2])
+            file_handler.file_exist(self._SOURCE_DIRECTORY + source_files[2])
         )
 
         self.assertFalse(
-            file_handler.check_directory_existance(file_handler.get_parent(self._SOURCE_DIRECTORY + source_files[3]))
+            file_handler.directory_exist(file_handler.get_parent(self._SOURCE_DIRECTORY + source_files[3]))
         )
 
         self.assertFalse(
-            file_handler.check_file_existance(file_handler.get_parent(self._SOURCE_DIRECTORY + source_files[4]))
+            file_handler.file_exist(file_handler.get_parent(self._SOURCE_DIRECTORY + source_files[4]))
         )
 
         self.assertFalse(
-            file_handler.check_directory_existance('testing/1')
+            file_handler.directory_exist('testing/1')
         )
 
-        self.assertTrue(file_handler.check_file_existance(self._SOURCE_DIRECTORY + source_files[6]))
+        self.assertTrue(file_handler.file_exist(self._SOURCE_DIRECTORY + source_files[6]))
+
+    def test_moving_movie_with_sub_dir(self):
+        class Destinations:
+
+            def __init__(self, source, destination = None):
+                self.source = source
+                self.destination = destination if destination is not None else self.source
+
+        movie_path = 'Castles.at.Sky.ghj'
+
+        paths = [
+            Destinations(movie_path + '/Castles.at.Sky.ghj.mp4'),
+            Destinations(movie_path + '/Castles.at.Sky.ghj.nfo'),
+            Destinations(movie_path + '/subs/English.srt', movie_path + '/Castles.at.Sky.ghj.en.srt'),
+            Destinations(movie_path + '/something_else.paa')
+        ]
+
+        for oath in paths:
+            self._createSourceFile(oath.source)
+
+        self.__make_file_bigger(paths[0].source)
+
+        mover.move_media_by_path(
+            self._SOURCE_DIRECTORY + movie_path,
+            self._SHOW_DESTINATION_DIRECTORY,
+            self._MOVIE_DESTINATION_DIRECTORY
+        )
+
+        for path in paths:
+            self._assert_file_moved(path.source, self._MOVIE_DESTINATION_DIRECTORY + '/' + path.destination)
+
+    def __make_file_bigger(self, file_path):
+        with open(self._SOURCE_DIRECTORY + file_path, 'wb') as bigfile:
+            bigfile.seek(1048575)
+            bigfile.write('0')
+

@@ -12,11 +12,11 @@ def create_file(path):
     os.open(path, os.O_CREAT)
 
 
-def check_file_existance(file_path):
+def file_exist(file_path):
     return os.path.isfile(file_path)
 
 
-def check_directory_existance(directory_path):
+def directory_exist(directory_path):
     return os.path.isdir(directory_path)
 
 
