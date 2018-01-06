@@ -1,8 +1,6 @@
 import arguments_parser
-from arguments_parser import Arguments
 import logger
 import mover
-import subtitles
 
 
 def main():
@@ -12,30 +10,20 @@ def main():
         return
 
     if command == arguments_parser.Commands.NAME:
-        def move_function():
-            mover.move_media_by_name(
-                arguments_parser.get_show_name(),
-                arguments_parser.get_source_path(),
-                arguments_parser.get_shows_destination_path(),
-                arguments_parser.get_movies_destination_path()
-            )
-        __move_media(move_function, arguments_parser.get_source_path())
+        mover.move_media_by_name(
+            arguments_parser.get_show_name(),
+            arguments_parser.get_source_path(),
+            arguments_parser.get_shows_destination_path(),
+            arguments_parser.get_movies_destination_path()
+        )
         return
 
     if command == arguments_parser.Commands.FILE:
-        def move_function():
-            mover.move_media_by_path(
-                arguments_parser.get_file_path(),
-                arguments_parser.get_shows_destination_path(),
-                arguments_parser.get_movies_destination_path()
-            )
-
-        __move_media(move_function, arguments_parser.get_file_path())
+        mover.move_media_by_path(
+            arguments_parser.get_file_path(),
+            arguments_parser.get_shows_destination_path(),
+            arguments_parser.get_movies_destination_path()
+        )
         return
 
     logger.log('No action was made')
-
-
-def __move_media(move_function, path):
-    subtitles.rename_and_move(path)
-    move_function()

@@ -4,6 +4,7 @@ import file_matcher
 from media_file_extractor import get_type, Type, MovieFile, EpisodeFile
 import file_handler
 import movie_mover
+import subtitles
 
 
 def move_media_by_name(name, source_path, show_destination_path, movie_destination_path):
@@ -14,6 +15,8 @@ def move_media_by_name(name, source_path, show_destination_path, movie_destinati
 
 
 def move_media_by_path(file_path, show_destination_path, movie_destination_path):
+    subtitles.rename_and_move(file_path)
+
     if file_handler.path_is_directory(file_path):
         for sub_file_path in file_handler.get_directory_content(file_path):
             __move_media_file(file_path + '/' + sub_file_path, show_destination_path, movie_destination_path, file_path)
