@@ -43,11 +43,12 @@ def get_directory_content(directory_path):
     return os.listdir(directory_path)
 
 
-def get_files(directory_path):
-    if not path_is_directory(directory_path):
-        raise PathIsNotDirectoryException(directory_path)
+def get_files(path):
+    if not path_is_directory(path):
+        yield path
+        return
 
-    for root, dirs, files in os.walk(directory_path):
+    for root, dirs, files in os.walk(path):
         for name in files:
             yield root + '/' + name
 

@@ -13,7 +13,7 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     def test_move_show_by_name(self):
         tv_show_file_name = 'All.the.Things.Fire.S02E10.720p.SOMETHING.something-SOMETHING.mkv'
-        file_handler.create_file(self._SOURCE_DIRECTORY + '/' + tv_show_file_name)
+        file_handler.create_file(self._SOURCE_DIRECTORY + tv_show_file_name)
 
         mover.move_media_by_name(
             'all the things fire',
@@ -91,7 +91,7 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
         self._assert_file_moved(file_source_path, file_destination_path)
 
     def test_moving_episodes_by_file_in_directory(self):
-        folder_path = self._SOURCE_DIRECTORY + '/hey.arnold.season1.720p.webdl'
+        folder_path = self._SOURCE_DIRECTORY + 'hey.arnold.season1.720p.webdl'
         file_handler.create_dir(folder_path)
         source_file_path_1 = folder_path + '/hey.arnold.S09E01.SOMETHING.something-something'
         file_handler.create_file(source_file_path_1)
@@ -120,10 +120,10 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
             self._MOVIE_DESTINATION_DIRECTORY
         )
 
-        self._assert_file_moved(file_path_1, self._SHOW_DESTINATION_DIRECTORY + '/Cool And Welcome To Earth/Season 1/Cool.And.Welcome.To.Earth.S01E13.720p.5.1Ch.Web-DL.ReEnc-DeeJayAhmed.mkv')
+        self._assert_file_moved(file_path_1, self._SHOW_DESTINATION_DIRECTORY + 'Cool And Welcome To Earth/Season 1/Cool.And.Welcome.To.Earth.S01E13.720p.5.1Ch.Web-DL.ReEnc-DeeJayAhmed.mkv')
 
     def test_moving_movie_in_directory(self):
-        folder_path = self._SOURCE_DIRECTORY + '/007 Going For Old Time HD-TS x264-CPG'
+        folder_path = self._SOURCE_DIRECTORY + '007 Going For Old Time HD-TS x264-CPG'
         file_handler.create_dir(folder_path)
         file_path = folder_path + '/007 Going For Old Time  HD-TS x264-CPG.mp4'
         file_handler.create_file(file_path)
@@ -132,7 +132,7 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
         self._assert_file_moved(file_path, file_destination_path)
 
     def test_moving_movie_with_image(self):
-        folder_path = self._SOURCE_DIRECTORY + '/Konstig (2017) [1080p] [JKL.KL]'
+        folder_path = self._SOURCE_DIRECTORY + 'Konstig (2017) [1080p] [JKL.KL]'
         file_handler.create_dir(folder_path)
         source_file_path = folder_path + '/WWW.YTS.AG.jpg'
         file_handler.create_file(source_file_path)
@@ -172,6 +172,8 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
         self._assert_file_moved(folder_path, self._SHOW_DESTINATION_DIRECTORY + '/My Stuff Us On/Season 10/my.stuff.us.on.1009.fktv-uuu[axel].mkv')
 
     def test_moving_episode_in_season_dir(self):
-        source_path = self._createSourceFile('Kan Inte/season 3/Kan Inte S03R02 Apptest')
+        folder_path = 'Kan Inte/season 3/'
+        file_name = 'Kan Inte S03E02 Apptest'
+        source_path = self._createSourceFile(folder_path + file_name)
         mover.move_media_by_path(self._SOURCE_DIRECTORY + 'Kan Inte', self._SHOW_DESTINATION_DIRECTORY, self._MOVIE_DESTINATION_DIRECTORY)
-        self._assert_file_moved(source_path, self._SHOW_DESTINATION_DIRECTORY + 'Season 3/' + 'Kan Inte S03R02 Apptest')
+        self._assert_file_moved(source_path, self._SHOW_DESTINATION_DIRECTORY + '/' + folder_path + file_name)

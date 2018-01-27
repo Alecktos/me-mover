@@ -1,7 +1,13 @@
 import file_handler
+from media_file_extractor import MovieFile
 
 
-def move(movie_destination_path, movie_file, source_root_path):
+def move(movie_destination_path, path):
+    for file_path in file_handler.get_files(path):
+        __move_file(movie_destination_path, MovieFile(file_path), path)
+
+
+def __move_file(movie_destination_path, movie_file, source_root_path):
     if not file_handler.directory_exist(movie_destination_path):
         raise NoMovieDestinationDir('Folder does not exist: ' + movie_destination_path)
 

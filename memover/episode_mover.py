@@ -1,11 +1,16 @@
 import re
-
 import logger
 import file_handler
 import file_matcher
+from media_file_extractor import EpisodeFile
 
 
-def move_file(root_destination, episode_file):
+def move(root_destination, path):
+    for file_path in file_handler.get_files(path):
+        __move_file(root_destination, EpisodeFile(file_path))
+
+
+def __move_file(root_destination, episode_file):
     show_name_dir_name = __find_show_name_dir(root_destination, episode_file.get_tv_show_name())
     if not show_name_dir_name:
         show_name_dir_name = __create_show_dir(root_destination, episode_file.get_tv_show_name())

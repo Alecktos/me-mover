@@ -4,8 +4,8 @@ from memover import file_handler
 class FileMoverTester:
 
     _SOURCE_DIRECTORY = 'sourcefolder/'
-    _SHOW_DESTINATION_DIRECTORY = 'show-destination'
-    _MOVIE_DESTINATION_DIRECTORY = 'movie-destination'
+    _SHOW_DESTINATION_DIRECTORY = 'show-destination/'
+    _MOVIE_DESTINATION_DIRECTORY = 'movie-destination/'
 
     def _create_test_dirs(self):
         file_handler.create_dir(self._SOURCE_DIRECTORY)

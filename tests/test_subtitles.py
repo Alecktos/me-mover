@@ -72,7 +72,7 @@ class MediaFileExtractorTest(unittest.TestCase, file_mover_tester.FileMoverTeste
     def test_moving_movie_with_sub_dir(self):
         class Destinations:
 
-            def __init__(self, source, destination = None):
+            def __init__(self, source, destination=None):
                 self.source = source
                 self.destination = destination if destination is not None else self.source
 
@@ -97,7 +97,7 @@ class MediaFileExtractorTest(unittest.TestCase, file_mover_tester.FileMoverTeste
         )
 
         for path in paths:
-            self._assert_file_moved(path.source, self._MOVIE_DESTINATION_DIRECTORY + '/' + path.destination)
+            self._assert_file_moved(path.source, self._MOVIE_DESTINATION_DIRECTORY + path.destination)
 
     def __make_file_bigger(self, file_path):
         with open(self._SOURCE_DIRECTORY + file_path, 'wb') as bigfile:
