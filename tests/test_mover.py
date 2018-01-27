@@ -166,9 +166,12 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     def test_moving_wrong_formatted_episode_inside_right_formated_directory(self):
         folder_path = self._SOURCE_DIRECTORY + '/My.Stuff.Us.On.S10E09.HDTV.CCCC-ARD[axel]'
-        file_handler.create_dir(folder_path)
-        file_path = folder_path + '/my.stuff.us.on.1009.fktv-uuu[axel].mkv'
-        file_handler.create_file(file_path)
+        source_path = self._createSourceFile(folder_path + '/my.stuff.us.on.1009.fktv-uuu[axel].mkv')
 
-        mover.move_media_by_path(file_path, self._SHOW_DESTINATION_DIRECTORY, self._MOVIE_DESTINATION_DIRECTORY)
+        mover.move_media_by_path(source_path, self._SHOW_DESTINATION_DIRECTORY, self._MOVIE_DESTINATION_DIRECTORY)
         self._assert_file_moved(folder_path, self._SHOW_DESTINATION_DIRECTORY + '/My Stuff Us On/Season 10/my.stuff.us.on.1009.fktv-uuu[axel].mkv')
+
+    def test_moving_episode_in_season_dir(self):
+        source_path = self._createSourceFile('Kan Inte/season 3/Kan Inte S03R02 Apptest')
+        mover.move_media_by_path(self._SOURCE_DIRECTORY + 'Kan Inte', self._SHOW_DESTINATION_DIRECTORY, self._MOVIE_DESTINATION_DIRECTORY)
+        self._assert_file_moved(source_path, self._SHOW_DESTINATION_DIRECTORY + 'Season 3/' + 'Kan Inte S03R02 Apptest')

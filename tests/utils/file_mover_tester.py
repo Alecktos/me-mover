@@ -19,6 +19,7 @@ class FileMoverTester:
 
     def _createSourceFile(self, relative_path):
         file_handler.create_file(self._SOURCE_DIRECTORY + relative_path)
+        return self._SOURCE_DIRECTORY + relative_path
 
     def _assert_file_moved(self, source_path, destination_path):
         file_is_in_new_path = file_handler.file_exist(destination_path)
