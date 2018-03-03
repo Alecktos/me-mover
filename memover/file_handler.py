@@ -43,6 +43,43 @@ def get_directory_content(directory_path):
     return os.listdir(directory_path)
 
 
+def get_biggest_files(dir_path, root_path):
+    # traverse up a folder structure. Finding the biggest file
+    while True:
+        biggest_file = get_biggest_file(dir_path)
+
+        if biggest_file.exist():
+            yield biggest_file
+
+        if dir_path.strip('/') == root_path.strip('/'):
+            break
+
+        dir_path = get_parent(dir_path)
+
+
+def get_biggest_file(dir_path):
+    class BiggestFile:
+        def __init__(self):
+            self.size = -1
+            self.path = None
+
+        def exist(self):
+            return self.size is not -1
+
+    biggest_file = BiggestFile()
+
+    for file in get_directory_content(dir_path):
+        file = dir_path + '/' + file
+        if path_is_directory(file):
+            continue
+        file_size = get_file_size(file)
+        if biggest_file.size < file_size:
+            biggest_file.size = get_file_size(file)
+            biggest_file.path = file
+
+    return biggest_file
+
+
 def get_files(path):
     if not path_is_directory(path):
         yield path
@@ -76,6 +113,7 @@ def get_path_without_extension(path):
     return os.path.splitext(path)[0]
 
 
+# Get the file's parent directory
 def get_parent(path):
     return os.path.dirname(path)
 

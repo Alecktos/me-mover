@@ -177,3 +177,58 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
         source_path = self._createSourceFile(folder_path + file_name)
         mover.move_media_by_path(self._SOURCE_DIRECTORY + 'Kan Inte', self._SHOW_DESTINATION_DIRECTORY, self._MOVIE_DESTINATION_DIRECTORY)
         self._assert_file_moved(source_path, self._SHOW_DESTINATION_DIRECTORY + '/' + folder_path + file_name)
+
+
+    def test_moving_multiple_episodes_with_subtitles_and_instruction_file(self):
+        self._createSourceFile('Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV.srt')
+        self._createSourceFile('Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV.mkv')
+        self._set_size_in_mb('Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV.mkv', 60)
+
+        self._createSourceFile('Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E02 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E02 (Generationen X) HDTV.srt')
+        self._createSourceFile('Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E02 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E02 (Generationen X) HDTV.mkv')
+        self._set_size_in_mb('Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E02 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E02 (Generationen X) HDTV.mkv', 61)
+
+        self._createSourceFile('Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E03 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E03 (Generationen X) HDTV.srt')
+        self._createSourceFile('Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E03 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E03 (Generationen X) HDTV.mkv')
+        self._set_size_in_mb('Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E03 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E03 (Generationen X) HDTV.mkv', 62)
+
+        self._createSourceFile('Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Instructions.txt')
+
+        mover.move_media_by_path(self._SOURCE_DIRECTORY + 'Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p', self._SHOW_DESTINATION_DIRECTORY, self._MOVIE_DESTINATION_DIRECTORY)
+
+        self._assert_file_moved(
+            'Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV.srt',
+            'show-destination/Kalla Rander, Valla Calla/Season 1/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV.en.srt'
+        )
+
+        self._assert_file_moved(
+            'Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV.mkv',
+            'show-destination/Kalla Rander, Valla Calla/Season 1/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV.mkv'
+        )
+
+        self._assert_file_moved(
+            'Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E02 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E02 (Generationen X) HDTV.srt',
+            'show-destination/Kalla Rander, Valla Calla/Season 1/Kalla Rander, Valla Calla S01E02 (Generationen X) HDTV.en.srt'
+        )
+
+        self._assert_file_moved(
+            'Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E02 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E02 (Generationen X) HDTV.mkv',
+            'show-destination/Kalla Rander, Valla Calla/Season 1/Kalla Rander, Valla Calla S01E02 (Generationen X) HDTV.mkv'
+        )
+
+        self._assert_file_moved(
+            'Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E03 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E03 (Generationen X) HDTV.srt',
+            'show-destination/Kalla Rander, Valla Calla/Season 1/Kalla Rander, Valla Calla S01E03 (Generationen X) HDTV.en.srt'
+        )
+
+        self._assert_file_moved(
+            'Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E03 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E03 (Generationen X) HDTV.mkv',
+            'show-destination/Kalla Rander, Valla Calla/Season 1/Kalla Rander, Valla Calla S01E03 (Generationen X) HDTV.mkv'
+        )
+
+        self._assert_file_moved(
+            'Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Instructions.txt',
+            'show-destination/Kalla Rander, Valla Calla/Instructions.txt'
+        )
+
+

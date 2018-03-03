@@ -2,15 +2,28 @@ import re
 import logger
 import file_handler
 import file_matcher
-from media_file_extractor import EpisodeFile
+from media_file_extractor import EpisodeFile, WrongMediaTypeException
 
 
 def move(root_destination, path):
+    failed_moved_files = []
+
     for file_path in file_handler.get_files(path):
-        __move_file(root_destination, EpisodeFile(file_path))
+        try:
+            current_show_destination_path = __move_file_to_show_destination(root_destination, EpisodeFile(file_path))
+
+            # move all failed files to root of  show path
+            for failed_moved_file_path in failed_moved_files:
+                file_handler.move_file(
+                    failed_moved_file_path,
+                    current_show_destination_path + file_handler.get_last_path_part(failed_moved_file_path))
+                failed_moved_files = []
+
+        except WrongMediaTypeException:
+            failed_moved_files.append(file_path)
 
 
-def __move_file(root_destination, episode_file):
+def __move_file_to_show_destination(root_destination, episode_file):
     show_name_dir_name = __find_show_name_dir(root_destination, episode_file.get_tv_show_name())
     if not show_name_dir_name:
         show_name_dir_name = __create_show_dir(root_destination, episode_file.get_tv_show_name())
@@ -24,6 +37,7 @@ def __move_file(root_destination, episode_file):
 
     file_handler.move_file(episode_file.get_file_path(), season_path + '/' + episode_file.get_file_name())
     logger.log(episode_file.get_file_name() + ' moved to ' + season_path)
+    return root_destination + '/' + show_name_dir_name + '/'
 
 
 def __remove_old_if_new_is_proper(media_file_extractor, season_dir_path):

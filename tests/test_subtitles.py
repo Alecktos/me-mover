@@ -13,7 +13,7 @@ class MediaFileExtractorTest(unittest.TestCase, file_mover_tester.FileMoverTeste
 
     def test_renaming_subs(self):
         source_files = [
-            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.mp4',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.mp4',
             'a_movie_with_subs/intetest/Other.Other.Other.Other.S09E01.something.something-something[something].swe.srt',
             'a_movie_with_subs/Other.Other.Other.Other.S09E01.something.something-something[something].smi',
             'a_movie_with_subs/[ www.flobbing.com ] - /Other.Other.Other.Other.S09E01.something.something-something[something].ssa',
@@ -24,12 +24,12 @@ class MediaFileExtractorTest(unittest.TestCase, file_mover_tester.FileMoverTeste
         ]
 
         subtitles_file = [
-            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.en.smi',
-            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.en2.ssa',
-            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.en3.ass',
-            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.en4.vtt',
-            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.en5.srt',
-            'a_movie_with_subs/test/Another.Another.S02E03.bigfile.en6.srt',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.en.smi',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.en2.ssa',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.en3.ass',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.en4.vtt',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.en5.srt',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.en6.srt',
         ]
 
         # Create source files
@@ -37,7 +37,7 @@ class MediaFileExtractorTest(unittest.TestCase, file_mover_tester.FileMoverTeste
             self._createSourceFile(source_file)
 
         # make the first file the biggest
-        self.__make_file_bigger(source_files[0])
+        self._set_size_in_mb(source_files[0], 60)
 
         subtitles.rename_and_move(self._SOURCE_DIRECTORY)
 
@@ -85,10 +85,10 @@ class MediaFileExtractorTest(unittest.TestCase, file_mover_tester.FileMoverTeste
             Destinations(movie_path + '/something_else.paa')
         ]
 
-        for oath in paths:
-            self._createSourceFile(oath.source)
+        for path in paths:
+            self._createSourceFile(path.source)
 
-        self.__make_file_bigger(paths[0].source)
+        self._set_size_in_mb(paths[0].source, 60)
 
         mover.move_media_by_path(
             self._SOURCE_DIRECTORY + movie_path,
@@ -98,9 +98,4 @@ class MediaFileExtractorTest(unittest.TestCase, file_mover_tester.FileMoverTeste
 
         for path in paths:
             self._assert_file_moved(path.source, self._MOVIE_DESTINATION_DIRECTORY + path.destination)
-
-    def __make_file_bigger(self, file_path):
-        with open(self._SOURCE_DIRECTORY + file_path, 'wb') as bigfile:
-            bigfile.seek(1048575)
-            bigfile.write('0')
 
