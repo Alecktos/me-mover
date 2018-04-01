@@ -304,6 +304,24 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         self.__validate_season_1_moved(episodes, show_name)
 
+    def test_moving_one_season_different_naming_schemes(self):
+        show_name = 'Kande inte [Flera-Audio]/'
+
+        episodes = (
+            '01 - djksalo-jjjSub].mkv',
+            '02 - djksalo-jjjulti-Sub].mkv',
+            '03 - djksalo-jjjSub].mkv',
+            '04 - djksalo-jjjSub].mkv',
+            '05 - djksalo-jjjub].mkv',
+            '06 - djksalo-jjjulti-Sub].mkv',
+            '07 - djksalo-jjj[Multi-Sub].mkv',
+            '08 - djksalo-jjjulti-Sub].mkv',
+            '09 - djksalo-jjjudio][Multi-Sub].mkv',
+            '10 - djksalo-jjj.mkv'
+        )
+
+        self.__validate_season_1_moved(episodes, show_name)
+
     def __validate_season_1_moved(self, episodes, show_name):
 
         for episode in episodes:

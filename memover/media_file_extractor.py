@@ -53,14 +53,19 @@ def __contains_episode_number(file_path):
 
 
 def _get_episode_number_matches(file_path):
-    return re.findall(r'((?<=(\s|_))\d+(?=(\s|_)))', file_path)
+    matches = re.findall(r'((?<=(\s|_))\d+(?=(\s|_)))', file_path)
+    if len(matches) is 0:
+        matches = re.findall(r'(\d+(?=(\s|_)))', file_path)
+    return matches
 
 
 def _get_show_name(file_path):
-    show_name = re.search(r'.*(?=(\s|_)\d+(\s|_))', file_path)
+    local_path = file_handler.get_last_path_part(file_path)
+    show_name = re.search(r'.*(?=(\s|_)\d+(\s|_))', local_path)
     if show_name:
         return show_name.group(0)
-    return None
+    parent_path = file_handler.get_parent(file_path)  # fall back on parent hoping it contains show name
+    return file_handler.get_last_path_part(parent_path)
 
 
 def __path_contains_at_least_one_episode(path):
@@ -127,7 +132,7 @@ class EpisodeFile:
             # fallback on just getting the episode number and assuming it's first season
             local_file = file_handler.get_last_path_part(file_path)
             matches = _get_episode_number_matches(local_file)
-            show_name = _get_show_name(local_file)
+            show_name = _get_show_name(file_path)
 
             if len(matches) is 0 or not show_name:
                 raise WrongMediaTypeException('Can not parse episode')
