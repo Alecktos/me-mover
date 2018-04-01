@@ -65,12 +65,12 @@ class AppTest(unittest.TestCase, file_mover_tester.FileMoverTester):
         Undocumented but should be possible to move specific episode based by name, season and episode. Used internally
         """
         self.__run_by_name('con with fire fire S01E01')
-        destination_path = self._SHOW_DESTINATION_DIRECTORY + 'Con with Fire Fire/Season 1/' + self.__TV_SHOW_FILE_NAME_3
+        destination_path = self._SHOW_DESTINATION_DIRECTORY + 'Con with fire Fire/Season 1/' + self.__TV_SHOW_FILE_NAME_3
         self._assert_file_moved(self._SOURCE_DIRECTORY + '/' + self.__TV_SHOW_FILE_NAME_3, destination_path)
 
     def test_moving_show_by_name(self):
         self.__run_by_name('con with fire fire')
-        destination_path = self._SHOW_DESTINATION_DIRECTORY + 'Con with Fire Fire/Season 2/' + self.__TV_SHOW_FILE_NAME_1
+        destination_path = self._SHOW_DESTINATION_DIRECTORY + 'Con with fire Fire/Season 2/' + self.__TV_SHOW_FILE_NAME_1
         self._assert_file_moved(self._SOURCE_DIRECTORY + self.__TV_SHOW_FILE_NAME_1, destination_path)
 
     def test_moving_movie_by_name(self):

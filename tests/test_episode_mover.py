@@ -33,7 +33,7 @@ class FileMoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
         self.__TV_SHOW_4_DESTINATION_PATH = self.__TV_SHOW_4_DESTINATION_DIRECTORY_PATH + '/Ab.Cd.Ef.Gh.PROPER.S10E13.720p.HDTV.q123-FLOOR.mkv'
         
         self.__TV_SHOW_5_FILE_SOURCE_PATH = 'Kongrass.2016.S01E06.720p.KONG-GG.maker.MAK.SWE.mkv'
-        self.__TV_SHOW_5_DESTINATION_PATH = self._SHOW_DESTINATION_DIRECTORY + 'Kongrass/Season 1/KOngrass.2016.S01E06.720p.KONG-GG.maker.MAK.SWE.mkv'
+        self.__TV_SHOW_5_DESTINATION_PATH = self._SHOW_DESTINATION_DIRECTORY + 'Kongrass/Season 1/Kongrass.2016.S01E06.720p.KONG-GG.maker.MAK.SWE.mkv'
         
         self.__SAMPLE_FILE_SOURCE_DIRECTORY = 'Felkod.S01E03.asd.dsa.dsa-AJKL[rarbg/Sample/'
         

@@ -1,7 +1,6 @@
-from memover import file_handler, logger
+from memover import file_handler, media_file_extractor
 
 __subtitle_types = ('.srt', '.smi', '.ssa', '.ass', '.vtt')
-__media_file_min_file_size = 50
 __subtitle_language_annotations = {'eng': '.en'}
 
 
@@ -17,7 +16,7 @@ def rename_and_move(source_directory):
 
 def __subtitle_should_be_moved(subtitle_path):
     biggest_file = file_handler.get_biggest_file(file_handler.get_parent(subtitle_path))
-    if biggest_file.size < __media_file_min_file_size:
+    if not media_file_extractor.is_media_file(biggest_file.path):
         return True
 
     # check if subtitle file name includes any of supported language annotations
@@ -35,7 +34,7 @@ def __subtitle_should_be_moved(subtitle_path):
 
 def __move_subtitle(subtitle_path, source_directory):
     for biggest_file in file_handler.get_biggest_files(file_handler.get_parent(subtitle_path), source_directory):
-        if biggest_file.size > __media_file_min_file_size:
+        if media_file_extractor.is_media_file(biggest_file.path):
 
             index = __number_of_subtitles_in_directory(
                 file_handler.get_parent(biggest_file.path),

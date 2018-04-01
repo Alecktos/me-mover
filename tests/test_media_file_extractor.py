@@ -1,9 +1,10 @@
 import unittest
+from tests.utils import file_mover_tester
 
 from memover.media_file_extractor import get_type, Type, WrongMediaTypeException, EpisodeFile
 
 
-class MediaFileExtractorTest(unittest.TestCase):
+class MediaFileExtractorTest(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     __TV_SHOWS_PATHS = [
         'testar/test/Another.Another.S02E03.720p.SOMETHING.SOMETHING-SOMETHING.mp4',
@@ -16,12 +17,23 @@ class MediaFileExtractorTest(unittest.TestCase):
         'testar/test/Greater.Great.Greatest.2009.StenRay.123p.DTS.2224-AAA.mkv'
     ]
 
+    def setUp(self):
+        self._create_test_dirs()
+        for path in self.__TV_SHOWS_PATHS:
+            self._createSourceFile(path)
+
+        for path in self.__MOVIE_PATHS:
+            self._createSourceFile(path)
+
+    def tearDown(self):
+        self._delete_test_dirs()
+
     def test_type(self):
-        self.assertEqual(Type.TV_SHOW, get_type(self.__TV_SHOWS_PATHS[0]))
+        self.assertEqual(Type.TV_SHOW, get_type(self._SOURCE_DIRECTORY + self.__TV_SHOWS_PATHS[0]))
 
-        self.assertEqual(Type.MOVIE, get_type(self.__MOVIE_PATHS[0]))
+        self.assertEqual(Type.MOVIE, get_type(self._SOURCE_DIRECTORY + self.__MOVIE_PATHS[0]))
 
-        self.assertEqual(Type.TV_SHOW, get_type(self.__TV_SHOWS_PATHS[1]))
+        self.assertEqual(Type.TV_SHOW, get_type(self._SOURCE_DIRECTORY + self.__TV_SHOWS_PATHS[1]))
 
     def test_extract_episode(self):
         media_file_extractor = EpisodeFile(self.__TV_SHOWS_PATHS[0])

@@ -25,9 +25,9 @@ class MediaFileExtractorTest(unittest.TestCase, file_mover_tester.FileMoverTeste
 
         subtitles_file = [
             'a_movie_with_subs/Another.Another.S02E03.bigfile.en.smi',
-            'a_movie_with_subs/Another.Another.S02E03.bigfile.en2.ssa',
-            'a_movie_with_subs/Another.Another.S02E03.bigfile.en3.ass',
-            'a_movie_with_subs/Another.Another.S02E03.bigfile.en4.vtt',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.en2.ass',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.en3.vtt',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.en4.ssa',
             'a_movie_with_subs/Another.Another.S02E03.bigfile.en5.srt',
             'a_movie_with_subs/Another.Another.S02E03.bigfile.en6.srt',
         ]

@@ -172,12 +172,11 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
         self._assert_file_moved(folder_path, self._SHOW_DESTINATION_DIRECTORY + '/My Stuff Us On/Season 10/my.stuff.us.on.1009.fktv-uuu[axel].mkv')
 
     def test_moving_episode_in_season_dir(self):
-        folder_path = 'Kan Inte/season 3/'
+        folder_path = 'Kan Inte/Season 3/'
         file_name = 'Kan Inte S03E02 Apptest'
         source_path = self._createSourceFile(folder_path + file_name)
         mover.move_media_by_path(self._SOURCE_DIRECTORY + 'Kan Inte', self._SHOW_DESTINATION_DIRECTORY, self._MOVIE_DESTINATION_DIRECTORY)
         self._assert_file_moved(source_path, self._SHOW_DESTINATION_DIRECTORY + '/' + folder_path + file_name)
-
 
     def test_moving_multiple_episodes_with_subtitles_and_instruction_file(self):
         self._createSourceFile('Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV/Kalla Rander, Valla Calla S01E01 (Generationen X) HDTV.srt')
@@ -231,4 +230,92 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
             'show-destination/Kalla Rander, Valla Calla/Instructions.txt'
         )
 
+    def test_moving_show_different_naming_scheme(self):
+        episodes = (
+            'Last Last - 1x01 - [123].mkv',
+            'Last Last - 1x02 - [123].mkv',
+            'Last Last - 1x03 - [123].mkv',
+            'Last Last - 1x04 - [123].mkv',
+            'Last Last - 1x05 - [123].mkv',
+            'Last Last - 1x06 - [123].mkv',
+            'Last Last - 1x07 - [123].mkv',
+            'Last Last - 1x08 - [123].mkv',
+            'Last Last - 1x09 - [123].mkv',
+            'Last Last - 1x09 - [123].mkv',
+            'Last Last - 1x10 - [123].mkv',
+            'Last Last - 1x11 - [123].mkv',
+            'Last Last - 1x12 - [123].mkv',
+            'Last Last - 1x13 - [123].mkv',
+            'Last Last - 1x14 - [123].mkv',
+            'Last Last - 1x15 - [123].mkv',
+            'Last Last - 1x16 - [123].mkv',
+            'Last Last - 1x17 - [123].mkv',
+            'Last Last - 1x18 - [123].mkv',
+            'Last Last - 1x19 - [123].mkv',
+            'Last Last - 1x20 - [123].mkv',
+            'Last Last - 1x21 - [123].mkv',
+            'Last Last - 1x22 - [123].mkv',
+            'Last Last - 1x23 - [123].mkv',
+            'Last Last - 1x24 - [123].mkv',
+            'Last Last - 1x25 - [123].mkv',
+            'Last Last - 1x26 - [123].mkv'
+        )
+        show_name = 'Last Last/'
 
+        self.__validate_season_1_moved(episodes, show_name)
+
+    def test_moving_one_season_only_show(self):
+        episodes = (
+            '[SyS] Wall Hunger 01 (AA 1920x1080 s125 FLAC) [].mkv',
+            '[SyS] Wall Hunger 02 (AA 1920x1080 s125 FLAC) [].mkv',
+            '[SyS] Wall Hunger 03 (AA 1920x1080 s125 FLAC) [].mkv',
+            '[SyS] Wall Hunger 04 (AA 1920x1080 s125 FLAC) [].mkv',
+            '[SyS] Wall Hunger 05 (AA 1920x1080 s125 FLAC) [].mkv',
+            '[SyS] Wall Hunger 06 (AA 1920x1080 s125 FLAC) [].mkv',
+            '[SyS] Wall Hunger 07 (AA 1920x1080 s125 FLAC) [].mkv',
+            '[SyS] Wall Hunger 08 (AA 1920x1080 s125 FLAC) [].mkv',
+            '[SyS] Wall Hunger 09 (AA 1920x1080 s125 FLAC) [].mkv',
+            '[SyS] Wall Hunger 10 (AA 1920x1080 s125 FLAC) [].mkv',
+            '[SyS] Wall Hunger 11 (AA 1920x1080 s125 FLAC) [].mkv',
+            '[SyS] Wall Hunger 12 (AA 1920x1080 s125 FLAC) [].mkv',
+            '[SyS] Wall Hunger 13 (AA 1920x1080 s125 FLAC) [].mkv'
+        )
+
+        show_name = '[SyS] Wall Hunger/'
+
+        self.__validate_season_1_moved(episodes, show_name)
+
+        episodes = (
+            '[ABA]_and_and_axa_-_01_-_Ijfdsklalllk_[720p]_[ghjk].mkv',
+            '[ABA]_and_and_axa_-_02_-_Ijfdsklalllk_[720p]_[ghjk].mkv',
+            '[ABA]_and_and_axa_-_03_-_Ijfdsklalllk_[720p]_[ghjk].mkv',
+            '[ABA]_and_and_axa_-_04_-_Ijfdsklalllk_[720p]_[ghjk].mkv',
+            '[ABA]_and_and_axa_-_05_-_IjfdsklalllkGirlfriend_[720p]_[ghjk].mkv',
+            '[ABA]_and_and_axa_-_06_-_Ijfdsklalllk_[720p]_[ghjk].mkv',
+            '[ABA]_and_and_axa_-_07_-_Ijfdsklalllk_[720p]_[ghjk].mkv',
+            '[ABA]_and_and_axa_-_08_-_Ijfdsklalllk_[720p]_[ghjk].mkv',
+            '[ABA]_and_and_axa_-_09_-_Ijfdsklalllk_[720p]_[ghjk].mkv',
+            '[ABA]_and_and_axa_-_10_-_The_Shosasa_[720p]_[ghjk].mkv',
+            '[ABA]_and_and_axa_-_11_-_The_Ad_Battle_Contin_[720p]_[ghjk].mkv',
+            '[ABA]_and_and_axa_-_12_-_Ijfdsklalllk_[720p]_[ghjk].mkv'
+        )
+
+        show_name = '[ABA]_and_and_axa_-/'  # for now show name will be stripped just before episode
+
+        self.__validate_season_1_moved(episodes, show_name)
+
+    def __validate_season_1_moved(self, episodes, show_name):
+
+        for episode in episodes:
+            file_path = show_name + episode
+            self._createSourceFile(file_path)
+            self._set_size_in_mb(file_path, 50)
+
+        mover.move_media_by_path(
+            self._SOURCE_DIRECTORY + show_name,
+            self._SHOW_DESTINATION_DIRECTORY,
+            self._MOVIE_DESTINATION_DIRECTORY
+        )
+
+        for episode in episodes:
+            self._assert_file_moved(show_name + episode, self._SHOW_DESTINATION_DIRECTORY + show_name + 'Season 1/' + episode)
