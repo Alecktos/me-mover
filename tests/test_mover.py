@@ -227,7 +227,7 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         self._assert_file_moved(
             'Kalla Rander, Valla Calla S01 (Generationen X) HDTV 720p/Instructions.txt',
-            'show-destination/Kalla Rander, Valla Calla/Instructions.txt'
+            'show-destination/Kalla Rander, Valla Calla/Season 1/Instructions.txt'
         )
 
     def test_moving_show_different_naming_scheme(self):
@@ -321,6 +321,12 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
         )
 
         self.__validate_season_1_moved(episodes, show_name)
+
+    def test_moving_with_only_season(self):
+        episode = 'Lisa.Mirrander.S02.Special.Rocked.Summer.1080p.WEB-Org.AA02.1.LKIO.mkv'
+        self._createSourceFile(episode)
+        mover.move_media_by_path(self._SOURCE_DIRECTORY + episode, self._SHOW_DESTINATION_DIRECTORY, self._MOVIE_DESTINATION_DIRECTORY)
+        self._assert_file_moved(episode, self._SHOW_DESTINATION_DIRECTORY + 'Lisa Mirrander/Season 2/' + episode)
 
     def __validate_season_1_moved(self, episodes, show_name):
 

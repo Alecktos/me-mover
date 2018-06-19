@@ -93,7 +93,7 @@ def __match_episode(path):
     :return: extracted episode data (season, episode, show name)
     """
     file_basename = file_handler.get_last_path_part(path)
-    reg_tv = re.compile('(.+?)[ .][Ss](\d\d?)[Ee](\d\d?).*?(?:[ .](\d{3}\d?p)|\Z)?')
+    reg_tv = re.compile('(.+?)[. ][Ss](\d\d?)[ .Ee]((\d\d?)?).*')
     match = reg_tv.match(file_basename)
 
     if match is None:
@@ -127,7 +127,7 @@ class EpisodeFile:
         if reg_tv_result is not None:
             show_name = reg_tv_result.group(1)
             season = reg_tv_result.group(2)
-            episode = reg_tv_result.group(3)
+            episode = reg_tv_result.group(4)
         else:
             # fallback on just getting the episode number and assuming it's first season
             local_file = file_handler.get_last_path_part(file_path)
@@ -168,6 +168,10 @@ class EpisodeFile:
         return int(self.__match['season'])
 
     def get_episode_number(self):
+        """
+            use with care. All episodes doe not have episode number
+            :return: the episode number or None
+        """
         return self.__match['episode']
 
     def episode_is_marked_proper(self):
