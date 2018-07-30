@@ -10,7 +10,10 @@ def move(root_destination, path):
 
     for file_path in file_handler.get_files(path):
         try:
-            current_show_destination_path = __move_file_to_show_destination(root_destination, EpisodeFile(file_path))
+            current_show_destination_path = __move_file_to_show_destination(
+                root_destination,
+                EpisodeFile(file_path)
+            )
 
             # move all failed files to root of  show path
             for failed_moved_file_path in failed_moved_files:

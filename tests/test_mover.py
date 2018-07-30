@@ -328,6 +328,21 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
         mover.move_media_by_path(self._SOURCE_DIRECTORY + episode, self._SHOW_DESTINATION_DIRECTORY, self._MOVIE_DESTINATION_DIRECTORY)
         self._assert_file_moved(episode, self._SHOW_DESTINATION_DIRECTORY + 'Lisa Mirrander/Season 2/' + episode)
 
+    def test_moving_with_episode_in_file_name(self):
+        show_name = 'Al Ber II aew Color/'
+
+        episodes = (
+            'Episode 01 - fhdsjk.avi',
+            'Episode 02 - The Ale djs.avi',
+            'Episode 03 - Alw at as.avi',
+            'Episode 04 - hdsk fjdsl dss.avi',
+            'Episode 05 - Areda Aa Kanske.avi',
+            'Episode 06 - The Felaktig ocd Nord More.avi',
+            'Episode 07 - Stong the Ring.avi'
+        )
+
+        self.__validate_season_1_moved(episodes, show_name)
+
     def __validate_season_1_moved(self, episodes, show_name):
 
         for episode in episodes:

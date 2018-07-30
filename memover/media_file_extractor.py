@@ -63,7 +63,8 @@ def _get_show_name(file_path):
     local_path = file_handler.get_last_path_part(file_path)
     show_name = re.search(r'.*(?=(\s|_)\d+(\s|_))', local_path)
     if show_name:
-        return show_name.group(0)
+        if show_name.group(0).lower() != 'episode':
+            return show_name.group(0)
     parent_path = file_handler.get_parent(file_path)  # fall back on parent hoping it contains show name
     return file_handler.get_last_path_part(parent_path)
 
