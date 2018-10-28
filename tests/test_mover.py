@@ -343,6 +343,32 @@ class MoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         self.__validate_season_1_moved(episodes, show_name)
 
+    def test_moving_episode_short(self):
+        show_name = "Storage Found (1080p A789 10bit dksala)/"
+
+        meta_root_files = (
+            'fjdksl a-Alkh AJKL Alkerra JKl Alle akl dajs.website'
+            'Ander kl Oker.txt',
+            'Jk jk hjkl AHV (jkl Ahtt).txt',
+        )
+
+        for file in meta_root_files:
+            self._createSourceFile(show_name + file)
+
+        episodes = (
+            'Storage Found E02 Ahe jdksle osaf fjdskljkl (1080p A789 10bit dksala).mkv',
+            'Storage Found E06 Ass Frdsaosdsaty (1080p A789 10bit dksala).mkv',
+            'Storage Found E04 Codsambat Jdasacak (1080p A789 10bit dksala).mkv',
+            'Storage Found E07 Bodsambda idsan thdsae Gadasrdsadddden (1080p A789 10bit dksala).mkv',
+            'Storage Found E01 Gdsadsae dame (1080p A789 10bit dksala).mkv',
+            'Storage Found E05 A dsasaaaa Cat (1080p A789 10bit dksala).mkv',
+            'Storage Found E03 Sounding (1080p A789 10bit dksala).mkv'
+        )
+        self.__validate_season_1_moved(episodes, show_name)
+
+        for file in meta_root_files:
+            self._assert_file_moved(show_name + file, self._SHOW_DESTINATION_DIRECTORY + show_name + file)
+
     def __validate_season_1_moved(self, episodes, show_name):
 
         for episode in episodes:

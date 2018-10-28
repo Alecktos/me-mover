@@ -53,9 +53,7 @@ def __contains_episode_number(file_path):
 
 
 def _get_episode_number_matches(file_path):
-    matches = re.findall(r'((?<=(\s|_))\d+(?=(\s|_)))', file_path)
-    if len(matches) is 0:
-        matches = re.findall(r'(\d+(?=(\s|_)))', file_path)
+    matches = re.findall(r'((?<=(\s|_|E|/))\d+(?=(\s|_)))', file_path)
     return matches
 
 
@@ -131,8 +129,7 @@ class EpisodeFile:
             episode = reg_tv_result.group(4)
         else:
             # fallback on just getting the episode number and assuming it's first season
-            local_file = file_handler.get_last_path_part(file_path)
-            matches = _get_episode_number_matches(local_file)
+            matches = _get_episode_number_matches(file_path)
             show_name = _get_show_name(file_path)
 
             if len(matches) is 0 or not show_name:
