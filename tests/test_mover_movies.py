@@ -62,3 +62,40 @@ class TestMoverMovies(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         file_destination_path = self._MOVIE_DESTINATION_DIRECTORY + '/201 Coolings 200.DADRAP.NVesub/201 Coolings 200.DADRAP.NVesub.mp4'
         self._assert_file_moved(file_2_path, file_destination_path)
+
+    def test_moving_movie_with_extra_dir(self):
+        movie_dir = 'Movie.The.Movie.1234'
+        file_handler.create_dir(self._SOURCE_DIRECTORY + movie_dir)
+
+        movie_file = movie_dir + '/Movie.The.Movie.1234.mkv'
+        file_handler.create_file(self._SOURCE_DIRECTORY + movie_file)
+
+        extras_dir = movie_dir + '/Extras'
+        file_handler.create_dir(self._SOURCE_DIRECTORY + extras_dir)
+
+        extras_file1 = extras_dir + '/Movie.The.Movie.1234.Theatrical.Trailer.mkv'
+        file_handler.create_file(self._SOURCE_DIRECTORY + extras_file1)
+
+        extras_file2 = extras_dir + '/Movie.3.Theatrical.Trailer.mkv'
+        file_handler.create_file(self._SOURCE_DIRECTORY + extras_file2)
+
+        extras_soundtrack_dir = extras_dir + '/Soundtrack Live'
+        file_handler.create_dir(self._SOURCE_DIRECTORY + extras_soundtrack_dir)
+
+        extras_soundtrack_file1 = extras_soundtrack_dir + '/Making.the.Soundtrack.mkv'
+        file_handler.create_file(self._SOURCE_DIRECTORY + extras_soundtrack_file1)
+
+        extras_soundtrack_file2 = extras_soundtrack_dir + '/original.song.mkv'
+        file_handler.create_file(self._SOURCE_DIRECTORY + extras_soundtrack_file2)
+
+        mover.move_media_by_path(
+            self._SOURCE_DIRECTORY + movie_dir,
+            self._SHOW_DESTINATION_DIRECTORY,
+            self._MOVIE_DESTINATION_DIRECTORY
+        )
+
+        self._assert_file_moved(movie_file, self._MOVIE_DESTINATION_DIRECTORY + movie_file)
+        self._assert_file_moved(extras_file1, self._MOVIE_DESTINATION_DIRECTORY + extras_file1)
+        self._assert_file_moved(extras_file2, self._MOVIE_DESTINATION_DIRECTORY + extras_file2)
+        self._assert_file_moved(extras_soundtrack_file1, self._MOVIE_DESTINATION_DIRECTORY + extras_soundtrack_file1)
+        self._assert_file_moved(extras_soundtrack_file2, self._MOVIE_DESTINATION_DIRECTORY + extras_soundtrack_file2)
