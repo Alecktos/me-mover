@@ -2,7 +2,7 @@ import unittest
 from memover import file_handler, file_matcher
 
 
-class FileMatcherTest(unittest.TestCase):
+class TestFileMatcher(unittest.TestCase):
 
     __SOURCE_DIRECTORY_PATH = 'testfolder'
 

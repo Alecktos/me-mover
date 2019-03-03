@@ -4,7 +4,7 @@ from tests.utils import file_mover_tester
 from memover import file_handler
 
 
-class AppTest(unittest.TestCase, file_mover_tester.FileMoverTester):
+class TestApp(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     __TV_SHOW_FILE_NAME_1 = 'Con.with.fire.Fire.S02E10.720p.SOMETHING.something-SOMETHING.mkv'
     __TV_SHOW_FILE_NAME_2 = 'kolla.S04E15.asswe.xTTT-RR[abf].mkv'

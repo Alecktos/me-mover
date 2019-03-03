@@ -4,7 +4,7 @@ from tests.utils import file_mover_tester
 from memover.media_file_extractor import get_type, Type, WrongMediaTypeException, EpisodeFile
 
 
-class MediaFileExtractorTest(unittest.TestCase, file_mover_tester.FileMoverTester):
+class TestMediaFileExtractor(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     __TV_SHOWS_PATHS = [
         'testar/test/Another.Another.S02E03.720p.SOMETHING.SOMETHING-SOMETHING.mp4',

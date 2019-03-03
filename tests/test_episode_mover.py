@@ -1,10 +1,9 @@
 import unittest
 from tests.utils import file_mover_tester
 from memover import file_handler, episode_mover
-from memover.media_file_extractor import EpisodeFile
 
 
-class FileMoverTest(unittest.TestCase, file_mover_tester.FileMoverTester):
+class TestEpisodeMover(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     def setUp(self):
         self._create_test_dirs()
