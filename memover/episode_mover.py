@@ -17,7 +17,7 @@ def move(root_destination, path):
 
             # move all failed files to root of  show path
             for failed_moved_file_path in failed_moved_files:
-                file_handler.move_file(
+                file_handler.move(
                     failed_moved_file_path,
                     current_show_destination_path + file_handler.get_last_path_part(failed_moved_file_path))
                 failed_moved_files = []
@@ -38,7 +38,7 @@ def __move_file_to_show_destination(root_destination, episode_file):
     else:
         __create_season_folder(root_destination, show_name_dir_name, season_number)
 
-    file_handler.move_file(episode_file.get_file_path(), season_path + '/' + episode_file.get_file_name())
+    file_handler.move(episode_file.get_file_path(), season_path + '/' + episode_file.get_file_name())
     logger.log(episode_file.get_file_name() + ' moved to ' + season_path)
     return root_destination + '/' + show_name_dir_name + '/'
 

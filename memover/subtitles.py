@@ -75,7 +75,7 @@ def __rename_file(subtitle_source_path, media_file_path_without_extension, index
         'eng') + index_name + subtitle_type
 
     # assuming all subs are english for now
-    file_handler.move_file(
+    file_handler.move(
         subtitle_source_path,
         destination_path
     )
