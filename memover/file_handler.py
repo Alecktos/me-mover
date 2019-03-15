@@ -20,7 +20,7 @@ def directory_exist(directory_path):
     return os.path.isdir(directory_path)
 
 
-def move_file(source, destination):
+def move(source, destination):
     shutil.move(source, destination)
 
 

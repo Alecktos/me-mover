@@ -1,27 +1,42 @@
 import file_handler
-from media_file_extractor import MovieFile
 
 
-def move(movie_destination_path, path):
-    for file_path in file_handler.get_files(path):
-        __move_file(movie_destination_path, MovieFile(file_path), path)
+def move(movie_root_path, path):
+    if file_handler.path_is_directory(path):
+        movie_dir = movie_root_path + file_handler.get_last_path_part(path)
+        file_handler.create_dir(movie_dir)
+
+        __move_dir(path, movie_dir)
+    else:
+        movie_dir = movie_root_path + '/' + file_handler.get_last_name_from_path(path)
+        file_handler.create_dir(movie_dir)
+
+        __move_file(
+            path,
+            movie_dir + '/' + file_handler.get_last_path_part(path)
+        )
 
 
-def __move_file(movie_destination_path, movie_file, source_root_path):
-    if not file_handler.directory_exist(movie_destination_path):
-        raise NoMovieDestinationDir('Folder does not exist: ' + movie_destination_path)
+def __move_dir(root_source_path, root_destination_path):
+    if file_handler.directory_is_empty(root_source_path):
+        return
 
-    destination_dir = movie_destination_path + '/' + movie_file.get_movie_name(source_root_path) + '/'
+    for relative_source_path in file_handler.get_directory_content(root_source_path):
+        source_path = root_source_path + '/' + relative_source_path
+        destination_path = root_destination_path + '/' + relative_source_path
+        if file_handler.path_is_directory(source_path):
+            file_handler.create_dir(destination_path)
+            __move_dir(source_path, destination_path)
+        else:
+            __move_file(
+                source_path,
+                destination_path
+            )
 
-    if not file_handler.directory_exist(destination_dir):
-        file_handler.create_dir(destination_dir)
 
-    destination_path = destination_dir + movie_file.get_file_name()
-    file_handler.move_file(
-        movie_file.get_file_path(), destination_path
+def __move_file(source_path, destination_path):
+    file_handler.move(
+        source_path,
+        destination_path
     )
 
-
-class NoMovieDestinationDir(Exception):
-    def __init__(self, message):
-        super(NoMovieDestinationDir, self).__init__(message)

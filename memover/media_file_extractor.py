@@ -102,20 +102,6 @@ def __match_episode(path):
     return match
 
 
-class MovieFile:
-    def __init__(self, file_path):
-        self.__file_path = file_path
-
-    def get_file_path(self):
-        return self.__file_path
-
-    def get_file_name(self):
-        return file_handler.get_last_path_part(self.__file_path)
-
-    def get_movie_name(self, source_root_path):
-        return file_handler.get_last_name_from_path(source_root_path)
-
-
 class EpisodeFile:
 
     def __init__(self, file_path):
