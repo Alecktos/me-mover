@@ -3,7 +3,7 @@ from tests.utils import file_mover_tester
 from memover import file_handler, mover
 
 
-class TestMover(unittest.TestCase, file_mover_tester.FileMoverTester):
+class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     def setUp(self):
         self._create_test_dirs()
