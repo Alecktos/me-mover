@@ -99,6 +99,11 @@ def get_file_type(path):
 
 
 def get_last_path_part(path):
+    if not path:
+        return path
+
+    if path[-1] == '/':
+        path = path[:-1]
     return os.path.basename(path)
 
 

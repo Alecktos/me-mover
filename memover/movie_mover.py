@@ -2,17 +2,15 @@ import file_handler
 
 
 def move(movie_root_path, path):
-    if file_handler.path_is_directory(path):
-        if movie_root_path[:-1] == '/':
-            movie_root_path = movie_root_path[-1:]
+    if movie_root_path[-1] != '/':
+        movie_root_path += '/'
 
+    if file_handler.path_is_directory(path):
         movie_dir = movie_root_path + file_handler.get_last_path_part(path)
         file_handler.create_dir(movie_dir)
 
         __move_dir(path, movie_dir)
     else:
-        if movie_root_path[:-1] != '/':
-            movie_root_path += '/'
 
         movie_dir = movie_root_path + file_handler.get_last_name_from_path(path)
         file_handler.create_dir(movie_dir)
