@@ -210,7 +210,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
         )
         show_name = 'Last Last/'
 
-        self.__validate_season_1_moved(episodes, show_name)
+        self.__move_and_validate_episodes(episodes, show_name)
 
     def test_moving_one_season_only_show(self):
         episodes = (
@@ -231,7 +231,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         show_name = '[SyS] Wall Hunger/'
 
-        self.__validate_season_1_moved(episodes, show_name)
+        self.__move_and_validate_episodes(episodes, show_name)
 
         episodes = (
             '[ABA]_and_and_axa_-_01_-_Ijfdsklalllk_[720p]_[ghjk].mkv',
@@ -250,7 +250,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         show_name = '[ABA]_and_and_axa_-/'  # for now show name will be stripped just before episode
 
-        self.__validate_season_1_moved(episodes, show_name)
+        self.__move_and_validate_episodes(episodes, show_name)
 
     def test_moving_one_season_different_naming_schemes(self):
         show_name = 'Kande inte [Flera-Audio]/'
@@ -268,7 +268,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             '10 - djksalo-jjj.mkv'
         )
 
-        self.__validate_season_1_moved(episodes, show_name)
+        self.__move_and_validate_episodes(episodes, show_name)
 
     def test_moving_with_only_season(self):
         episode = 'Lisa.Mirrander.S02.Special.Rocked.Summer.1080p.WEB-Org.AA02.1.LKIO.mkv'
@@ -289,7 +289,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             'Episode 07 - Stong the Ring.avi'
         )
 
-        self.__validate_season_1_moved(episodes, show_name)
+        self.__move_and_validate_episodes(episodes, show_name)
 
     def test_moving_episode_short(self):
         show_name = "Storage Found (1080p A789 10bit dksala)/"
@@ -312,13 +312,56 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             'Storage Found E05 A dsasaaaa Cat (1080p A789 10bit dksala).mkv',
             'Storage Found E03 Sounding (1080p A789 10bit dksala).mkv'
         )
-        self.__validate_season_1_moved(episodes, show_name)
+        self.__move_and_validate_episodes(episodes, show_name)
 
         for file in meta_root_files:
             self._assert_file_moved(show_name + file, self._SHOW_DESTINATION_DIRECTORY + show_name + file)
 
-    def __validate_season_1_moved(self, episodes, show_name):
+    def test_same_show_name_on_each_file(self):
+        show_name = 'kung fo season 1 (1080p bd 123)/'
+        dir_path = self._SHOW_DESTINATION_DIRECTORY + '/Kung Fo/Season 1'
 
+        file_name_1 = 'Kung fo S01E01 Completely Strange (1080p) (C).mkv'
+        file_name_2 = '(C) for Audio Commentary.txt'
+        file_name_3 = 'Kung fo S01E02 Somewhat Stranger (1080p) (C).mkv'
+
+        file_handler.create_dir(dir_path)
+
+        self._createSourceFile(show_name + '/' + file_name_1)
+        self._createSourceFile(show_name + '/' + file_name_2)
+        self._createSourceFile(show_name + '/' + file_name_3)
+
+        mover.move_media_by_path(
+            self._SOURCE_DIRECTORY + '/' + show_name,
+            self._SHOW_DESTINATION_DIRECTORY,
+            self._MOVIE_DESTINATION_DIRECTORY
+        )
+
+        self.__validate_episodes_season_1([file_name_1, file_name_2, file_name_3], show_name)
+        # failing because it creates two show names
+
+    def test_screens_images_moved_correctly(self):
+        show_name = 'What Happens in the Sun/'
+        source_show_dir = self._SOURCE_DIRECTORY + '/What Happens in the Sun S01E01 1080p WEB H264'
+
+        file_handler.create_dir(source_show_dir)
+        file_handler.create_file(source_show_dir + '/what.happens.in.the.sun.s01e01.1080p.web.h264.mkv')
+
+        file_handler.create_dir(source_show_dir + '/Screens')
+        file_handler.create_file(source_show_dir + '/Screens/screen0001.jpg')
+
+        mover.move_media_by_path(
+            source_show_dir,
+            self._SHOW_DESTINATION_DIRECTORY,
+            self._MOVIE_DESTINATION_DIRECTORY
+        )
+
+        self.__validate_episodes_season_1([
+            'what.happens.in.the.sun.s01e01.1080p.web.h264.mkv',
+            'screen0001.jpg'
+        ], show_name)
+
+    def __move_and_validate_episodes(self, episodes, show_name):
         for episode in episodes:
             file_path = show_name + episode
             self._createSourceFile(file_path)
@@ -329,6 +372,8 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             self._SHOW_DESTINATION_DIRECTORY,
             self._MOVIE_DESTINATION_DIRECTORY
         )
+        self.__validate_episodes_season_1(episodes, show_name)
 
+    def __validate_episodes_season_1(self, episodes, show_name):
         for episode in episodes:
             self._assert_file_moved(show_name + episode, self._SHOW_DESTINATION_DIRECTORY + show_name + 'Season 1/' + episode)
