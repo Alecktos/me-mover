@@ -31,7 +31,7 @@ def __move_file_to_show_destination(root_destination, episode_file):
     if not show_name_dir_name:
         show_name_dir_name = __create_show_dir(root_destination, media_file_extractor.get_tv_show_name(episode_file.get_file_path()))
 
-    season_number = str(episode_file.get_season_number())
+    season_number = str(media_file_extractor.get_season_number(episode_file.get_file_path()))
     season_path = root_destination + '/' + show_name_dir_name + '/Season ' + season_number
     if file_handler.directory_exist(season_path):
         __remove_old_if_new_is_proper(episode_file, season_path)
