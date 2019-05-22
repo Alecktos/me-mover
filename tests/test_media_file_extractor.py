@@ -43,8 +43,8 @@ class TestMediaFileExtractor(unittest.TestCase, file_mover_tester.FileMoverTeste
         media_file_extractor = EpisodeFile(self.__TV_SHOWS_PATHS[1])
         self.assertEqual('01', media_file_extractor.get_episode_number())
 
-        # self.assertRaises(Exception, MyClass, foo)
-        self.assertRaises(WrongMediaTypeException, EpisodeFile, self.__MOVIE_PATHS[0])
+        episode = EpisodeFile(self.__MOVIE_PATHS[0])
+        self.assertRaises(WrongMediaTypeException, episode.get_season)
 
     def test_extract_season(self):
         media_file_extractor = EpisodeFile(self.__TV_SHOWS_PATHS[0])
