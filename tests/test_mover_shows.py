@@ -318,27 +318,28 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             self._assert_file_moved(show_name + file, self._SHOW_DESTINATION_DIRECTORY + show_name + file)
 
     def test_same_show_name_on_each_file(self):
-        show_name = 'kung fo season 1 (1080p bd 123)/'
-        dir_path = self._SHOW_DESTINATION_DIRECTORY + '/Kung Fo/Season 1'
+        show_source_dir = 'kung fo season 1 (1080p bd 123)/'
+        destination_show_path = self._SHOW_DESTINATION_DIRECTORY + '/Kung Fo/Season 1/'
 
         file_name_1 = 'Kung fo S01E01 Completely Strange (1080p) (C).mkv'
         file_name_2 = '(C) for Audio Commentary.txt'
         file_name_3 = 'Kung fo S01E02 Somewhat Stranger (1080p) (C).mkv'
 
-        file_handler.create_dir(dir_path)
+        file_handler.create_dir(destination_show_path)
 
-        self._createSourceFile(show_name + '/' + file_name_1)
-        self._createSourceFile(show_name + '/' + file_name_2)
-        self._createSourceFile(show_name + '/' + file_name_3)
+        self._createSourceFile(show_source_dir + file_name_1)
+        self._createSourceFile(show_source_dir + file_name_2)
+        self._createSourceFile(show_source_dir + file_name_3)
 
         mover.move_media_by_path(
-            self._SOURCE_DIRECTORY + '/' + show_name,
+            self._SOURCE_DIRECTORY + show_source_dir,
             self._SHOW_DESTINATION_DIRECTORY,
             self._MOVIE_DESTINATION_DIRECTORY
         )
 
-        self.__validate_episodes_season_1([file_name_1, file_name_2, file_name_3], show_name)
-        # failing because it creates two show names
+        self._assert_file_moved(show_source_dir + file_name_1, destination_show_path + file_name_1)
+        self._assert_file_moved(show_source_dir + file_name_2, destination_show_path + file_name_2)
+        self._assert_file_moved(show_source_dir + file_name_3, destination_show_path + file_name_3)
 
     def test_screens_images_moved_correctly(self):
         show_name = 'What Happens in the Sun/'
