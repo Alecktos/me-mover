@@ -78,7 +78,7 @@ def __path_contains_at_least_one_episode(path):
 def _get_episode_info(path):
     match = __match_episode(path)
 
-    # check if parent folder gives a episode match when a fallback to movie has been made
+    # check if parent folder gives a episode match
     if match is None:
         parent_path = path.split('/')[-2]
         match = __match_episode(parent_path)
