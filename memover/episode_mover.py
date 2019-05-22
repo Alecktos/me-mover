@@ -2,7 +2,7 @@ import re
 import logger
 import file_handler
 import file_matcher
-from media_file_extractor import EpisodeFile, WrongMediaTypeException
+import media_file_extractor
 
 
 def move(root_destination, path):
@@ -12,7 +12,7 @@ def move(root_destination, path):
         try:
             current_show_destination_path = __move_file_to_show_destination(
                 root_destination,
-                EpisodeFile(file_path)
+                media_file_extractor.EpisodeFile(file_path)
             )
 
             # move all failed files to root of  show path
@@ -22,14 +22,14 @@ def move(root_destination, path):
                     current_show_destination_path + file_handler.get_last_path_part(failed_moved_file_path))
                 failed_moved_files = []
 
-        except WrongMediaTypeException:
+        except media_file_extractor.WrongMediaTypeException:
             failed_moved_files.append(file_path)
 
 
 def __move_file_to_show_destination(root_destination, episode_file):
-    show_name_dir_name = __find_show_name_dir(root_destination, episode_file.get_tv_show_name())
+    show_name_dir_name = __find_show_name_dir(root_destination, media_file_extractor.get_tv_show_name(episode_file.get_file_path()))
     if not show_name_dir_name:
-        show_name_dir_name = __create_show_dir(root_destination, episode_file.get_tv_show_name())
+        show_name_dir_name = __create_show_dir(root_destination, media_file_extractor.get_tv_show_name(episode_file.get_file_path()))
 
     season_number = str(episode_file.get_season_number())
     season_path = root_destination + '/' + show_name_dir_name + '/Season ' + season_number
@@ -43,12 +43,12 @@ def __move_file_to_show_destination(root_destination, episode_file):
     return root_destination + '/' + show_name_dir_name + '/'
 
 
-def __remove_old_if_new_is_proper(media_file_extractor, season_dir_path):
-    if not media_file_extractor.episode_is_marked_proper():
+def __remove_old_if_new_is_proper(episodeFile, season_dir_path):
+    if not episodeFile.episode_is_marked_proper():
         return
 
-    search_query = media_file_extractor.get_tv_show_name() + ' S' + media_file_extractor.get_season() + ' E' + media_file_extractor.get_episode_number()
-    files = file_matcher.search_files_with_file_type(search_query, season_dir_path, media_file_extractor.get_file_type())
+    search_query = media_file_extractor.get_tv_show_name(episodeFile.get_file_path()) + ' S' + episodeFile.get_season() + ' E' + episodeFile.get_episode_number()
+    files = file_matcher.search_files_with_file_type(search_query, season_dir_path, episodeFile.get_file_type())
     if len(files) is 0:
         return
 
