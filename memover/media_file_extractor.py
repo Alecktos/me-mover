@@ -127,6 +127,36 @@ def _get_episode_match(file_path):
     }
 
 
+def _get_season(file_path):
+    """
+    :return: the original season number from file name
+    """
+    match = _get_episode_match(file_path)
+    return match['season']
+
+
+def _get_season_number(file_path):
+    """
+    :return: the season number in form of an integer value
+    """
+    match = _get_episode_match(file_path)
+    return int(match['season'])
+
+
+def _get_episode_number(file_path):
+    """
+        use with care. All episodes doe not have episode number
+        :return: the episode number or None
+    """
+    match = _get_episode_match(file_path)
+    return match['episode']
+
+
+def _get_tv_show_name(file_path):
+    match = _get_episode_match(file_path)
+    return show_name_extractor.extract_delete_test_dirs_show_name(match['show_name'])
+
+
 class EpisodeFile:
 
     def __init__(self, file_path):
@@ -140,30 +170,16 @@ class EpisodeFile:
         return self.__file_name
 
     def get_tv_show_name(self):
-        match = _get_episode_match(self.__file_path)
-        return show_name_extractor.extract_delete_test_dirs_show_name(match['show_name'])
+        return _get_tv_show_name(self.__file_path)
 
     def get_season(self):
-        """
-        :return: the original season number from file name
-        """
-        match = _get_episode_match(self.__file_path)
-        return match['season']
+        return _get_season(self.__file_path)
 
     def get_season_number(self):
-        """
-        :return: the season number in form of an integer value
-        """
-        match = _get_episode_match(self.__file_path)
-        return int(match['season'])
+        return _get_season_number(self.__file_path)
 
     def get_episode_number(self):
-        """
-            use with care. All episodes doe not have episode number
-            :return: the episode number or None
-        """
-        match = _get_episode_match(self.__file_path)
-        return match['episode']
+        return _get_episode_number(self.__file_path)
 
     def episode_is_marked_proper(self):
         return '.proper.' in self.__file_name.lower()
