@@ -55,9 +55,9 @@ class TestMediaFileExtractor(unittest.TestCase, file_mover_tester.FileMoverTeste
 
     def test_extract_season(self):
         episodeFile = media_file_extractor.EpisodeFile(self.__TV_SHOWS_PATHS[0])
-        season_number = episodeFile.get_season()
+        season_number = media_file_extractor.get_season(episodeFile.get_file_path())
         self.assertEqual('02', season_number)
 
         episodeFile = media_file_extractor.EpisodeFile(self.__TV_SHOWS_PATHS[1])
-        season_number = episodeFile.get_season()
+        season_number = media_file_extractor.get_season(episodeFile.get_file_path())
         self.assertEqual('09', season_number)

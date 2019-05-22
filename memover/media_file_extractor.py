@@ -169,9 +169,6 @@ class EpisodeFile:
     def get_file_name(self):
         return self.__file_name
 
-    def get_season(self):
-        return get_season(self.__file_path)
-
     def get_season_number(self):
         return get_season_number(self.__file_path)
 
