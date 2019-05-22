@@ -47,7 +47,7 @@ def __remove_old_if_new_is_proper(episodeFile, season_dir_path):
     if not episodeFile.episode_is_marked_proper():
         return
 
-    search_query = media_file_extractor.get_tv_show_name(episodeFile.get_file_path()) + ' S' + media_file_extractor.get_season(episodeFile.get_file_path()) + ' E' + episodeFile.get_episode_number()
+    search_query = media_file_extractor.get_tv_show_name(episodeFile.get_file_path()) + ' S' + media_file_extractor.get_season(episodeFile.get_file_path()) + ' E' + media_file_extractor.get_episode_number(episodeFile.get_file_path())
     files = file_matcher.search_files_with_file_type(search_query, season_dir_path, episodeFile.get_file_type())
     if len(files) is 0:
         return

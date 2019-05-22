@@ -169,9 +169,6 @@ class EpisodeFile:
     def get_file_name(self):
         return self.__file_name
 
-    def get_episode_number(self):
-        return get_episode_number(self.__file_path)
-
     def episode_is_marked_proper(self):
         return '.proper.' in self.__file_name.lower()
 
