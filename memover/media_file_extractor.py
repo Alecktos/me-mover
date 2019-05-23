@@ -27,6 +27,45 @@ def get_type(path):
     return Type.MOVIE
 
 
+def get_season(file_path):
+    """
+    :return: the original season number from file name
+    """
+    match = _get_episode_match(file_path)
+    return match['season']
+
+
+def get_season_number(file_path):
+    """
+    :return: the season number in form of an integer value
+    """
+    match = _get_episode_match(file_path)
+    return int(match['season'])
+
+
+def get_episode_number(file_path):
+    """
+        use with care. All episodes doe not have episode number
+        :return: the episode number or None
+    """
+    match = _get_episode_match(file_path)
+    return match['episode']
+
+
+def get_tv_show_name(file_path):
+    match = _get_episode_match(file_path)
+    return show_name_extractor.extract_delete_test_dirs_show_name(match['show_name'])
+
+
+def get_file_type(file_path):
+    return file_handler.get_file_type(file_path)
+
+
+def episode_is_marked_proper(file_path):
+    file_name = file_handler.get_last_path_part(file_path)
+    return '.proper.' in file_name.lower()
+
+
 def __path_contains_multiple_tv_episodes(path):
     episode_numbers = sorted(list(iterate_episodes_numbers(path)))
 
@@ -125,45 +164,6 @@ def _get_episode_match(file_path):
         'season': season,
         'episode': episode
     }
-
-
-def get_season(file_path):
-    """
-    :return: the original season number from file name
-    """
-    match = _get_episode_match(file_path)
-    return match['season']
-
-
-def get_season_number(file_path):
-    """
-    :return: the season number in form of an integer value
-    """
-    match = _get_episode_match(file_path)
-    return int(match['season'])
-
-
-def get_episode_number(file_path):
-    """
-        use with care. All episodes doe not have episode number
-        :return: the episode number or None
-    """
-    match = _get_episode_match(file_path)
-    return match['episode']
-
-
-def get_tv_show_name(file_path):
-    match = _get_episode_match(file_path)
-    return show_name_extractor.extract_delete_test_dirs_show_name(match['show_name'])
-
-
-def get_file_type(file_path):
-    return file_handler.get_file_type(file_path)
-
-
-def episode_is_marked_proper(file_path):
-    file_name = file_handler.get_last_path_part(file_path)
-    return '.proper.' in file_name.lower()
 
 
 class WrongMediaTypeException(Exception):
