@@ -342,14 +342,18 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
         self._assert_file_moved(show_source_dir + file_name_3, destination_show_path + file_name_3)
 
     def test_screens_images_moved_correctly(self):
-        show_name = 'What Happens in the Sun/'
-        source_show_dir = self._SOURCE_DIRECTORY + '/What Happens in the Sun S01E01 1080p WEB H264'
+        show_name = 'what happens in the sun/'
+        show_source_dir = '/What Happens in the Sun S01E01 1080p WEB H264'
+        source_show_dir = self._SOURCE_DIRECTORY + show_source_dir
 
         file_handler.create_dir(source_show_dir)
-        file_handler.create_file(source_show_dir + '/what.happens.in.the.sun.s01e01.1080p.web.h264.mkv')
+        episode = '/what.happens.in.the.sun.s01e01.1080p.web.h264.mkv'
+        file_handler.create_file(source_show_dir + episode)
 
-        file_handler.create_dir(source_show_dir + '/Screens')
-        file_handler.create_file(source_show_dir + '/Screens/screen0001.jpg')
+        screen_dir = '/Screens'
+        file_handler.create_dir(source_show_dir + screen_dir)
+        screen_file = '/screen0001.jpg'
+        file_handler.create_file(source_show_dir + screen_dir + screen_file)
 
         mover.move_media_by_path(
             source_show_dir,
@@ -357,10 +361,10 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             self._MOVIE_DESTINATION_DIRECTORY
         )
 
-        self.__validate_episodes_season_1([
-            'what.happens.in.the.sun.s01e01.1080p.web.h264.mkv',
-            'screen0001.jpg'
-        ], show_name)
+        self._assert_file_moved(source_show_dir + screen_dir + screen_file, self._SHOW_DESTINATION_DIRECTORY + show_name + screen_file )
+
+        self.__validate_episodes_season_1([episode], show_name)
+
 
     def __move_and_validate_episodes(self, episodes, show_name):
         for episode in episodes:
