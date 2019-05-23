@@ -2,53 +2,54 @@ import re
 import logger
 import file_handler
 import file_matcher
-from media_file_extractor import EpisodeFile, WrongMediaTypeException
+import media_file_extractor
 
 
 def move(root_destination, path):
     failed_moved_files = []
+    current_show_destination_path = None
 
     for file_path in file_handler.get_files(path):
         try:
             current_show_destination_path = __move_file_to_show_destination(
                 root_destination,
-                EpisodeFile(file_path)
+                file_path
             )
 
-            # move all failed files to root of  show path
-            for failed_moved_file_path in failed_moved_files:
-                file_handler.move(
-                    failed_moved_file_path,
-                    current_show_destination_path + file_handler.get_last_path_part(failed_moved_file_path))
-                failed_moved_files = []
-
-        except WrongMediaTypeException:
+        except media_file_extractor.WrongMediaTypeException:
             failed_moved_files.append(file_path)
 
+    # move all failed files to root of show path
+    if current_show_destination_path:
+        for failed_moved_file_path in failed_moved_files:
+            file_handler.move(
+                failed_moved_file_path,
+                current_show_destination_path + file_handler.get_last_path_part(failed_moved_file_path))
 
-def __move_file_to_show_destination(root_destination, episode_file):
-    show_name_dir_name = __find_show_name_dir(root_destination, episode_file.get_tv_show_name())
+
+def __move_file_to_show_destination(root_destination, file_path):
+    show_name_dir_name = __find_show_name_dir(root_destination, media_file_extractor.get_tv_show_name(file_path))
     if not show_name_dir_name:
-        show_name_dir_name = __create_show_dir(root_destination, episode_file.get_tv_show_name())
+        show_name_dir_name = __create_show_dir(root_destination, media_file_extractor.get_tv_show_name(file_path))
 
-    season_number = str(episode_file.get_season_number())
+    season_number = str(media_file_extractor.get_season_number(file_path))
     season_path = root_destination + '/' + show_name_dir_name + '/Season ' + season_number
     if file_handler.directory_exist(season_path):
-        __remove_old_if_new_is_proper(episode_file, season_path)
+        __remove_old_if_new_is_proper(file_path, season_path)
     else:
         __create_season_folder(root_destination, show_name_dir_name, season_number)
 
-    file_handler.move(episode_file.get_file_path(), season_path + '/' + episode_file.get_file_name())
-    logger.log(episode_file.get_file_name() + ' moved to ' + season_path)
+    file_handler.move(file_path, season_path + '/' + file_handler.get_last_path_part(file_path))
+    logger.log(file_path + ' moved to ' + season_path)
     return root_destination + '/' + show_name_dir_name + '/'
 
 
-def __remove_old_if_new_is_proper(media_file_extractor, season_dir_path):
-    if not media_file_extractor.episode_is_marked_proper():
+def __remove_old_if_new_is_proper(file_path, season_dir_path):
+    if not media_file_extractor.episode_is_marked_proper(file_path):
         return
 
-    search_query = media_file_extractor.get_tv_show_name() + ' S' + media_file_extractor.get_season() + ' E' + media_file_extractor.get_episode_number()
-    files = file_matcher.search_files_with_file_type(search_query, season_dir_path, media_file_extractor.get_file_type())
+    search_query = media_file_extractor.get_tv_show_name(file_path) + ' S' + media_file_extractor.get_season(file_path) + ' E' + media_file_extractor.get_episode_number(file_path)
+    files = file_matcher.search_files_with_file_type(search_query, season_dir_path, media_file_extractor.get_file_type(file_path))
     if len(files) is 0:
         return
 
@@ -74,7 +75,7 @@ def __create_season_folder(root_destination, show_name, season_number):
 def __find_show_name_dir(root_directory, searching_show_name):
     search_query = searching_show_name
 
-    # remove words with one or two letters int the beginning of the name if number of characters are bigger then five
+    # remove words with one or two letters in the beginning of the name if number of characters are bigger then five
     if len(search_query) > 5 and len(search_query.split()) >= 2:
         shortword_regex = re.compile(r'^\w{1,2}\b|\b\w{1,2}$')
         search_query = shortword_regex.sub('', search_query)

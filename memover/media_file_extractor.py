@@ -27,6 +27,45 @@ def get_type(path):
     return Type.MOVIE
 
 
+def get_season(file_path):
+    """
+    :return: the original season number from file name
+    """
+    match = _get_episode_match(file_path)
+    return match['season']
+
+
+def get_season_number(file_path):
+    """
+    :return: the season number in form of an integer value
+    """
+    match = _get_episode_match(file_path)
+    return int(match['season'])
+
+
+def get_episode_number(file_path):
+    """
+        use with care. All episodes doe not have episode number
+        :return: the episode number or None
+    """
+    match = _get_episode_match(file_path)
+    return match['episode']
+
+
+def get_tv_show_name(file_path):
+    match = _get_episode_match(file_path)
+    return show_name_extractor.extract_delete_test_dirs_show_name(match['show_name'])
+
+
+def get_file_type(file_path):
+    return file_handler.get_file_type(file_path)
+
+
+def episode_is_marked_proper(file_path):
+    file_name = file_handler.get_last_path_part(file_path)
+    return '.proper.' in file_name.lower()
+
+
 def __path_contains_multiple_tv_episodes(path):
     episode_numbers = sorted(list(iterate_episodes_numbers(path)))
 
@@ -53,7 +92,8 @@ def __contains_episode_number(file_path):
 
 
 def _get_episode_number_matches(file_path):
-    matches = re.findall(r'((?<=(\s|_|E|/))\d+(?=(\s|_)))', file_path)
+    file = '/' + file_handler.get_last_path_part(file_path) # Add slash for regex compability
+    matches = re.findall(r'((?<=(\s|_|E|/))\d+(?=(\s|_)))', file)
     return matches
 
 
@@ -78,7 +118,7 @@ def __path_contains_at_least_one_episode(path):
 def _get_episode_info(path):
     match = __match_episode(path)
 
-    # check if parent folder gives a episode match when a fallback to movie has been made
+    # check if parent folder gives a episode match
     if match is None:
         parent_path = path.split('/')[-2]
         match = __match_episode(parent_path)
@@ -102,67 +142,29 @@ def __match_episode(path):
     return match
 
 
-class EpisodeFile:
+def _get_episode_match(file_path):
+    reg_tv_result = _get_episode_info(file_path)
 
-    def __init__(self, file_path):
-        self.__file_path = file_path
-        self.__file_name = os.path.basename(file_path)
-        reg_tv_result = _get_episode_info(self.__file_path)
+    if reg_tv_result is not None:
+        show_name = reg_tv_result.group(1)
+        season = reg_tv_result.group(2)
+        episode = reg_tv_result.group(4)
+    else:
+        # fallback on just getting the episode number and assuming it's first season
+        matches = _get_episode_number_matches(file_path)
+        show_name = _get_show_name(file_path)
 
-        if reg_tv_result is not None:
-            show_name = reg_tv_result.group(1)
-            season = reg_tv_result.group(2)
-            episode = reg_tv_result.group(4)
-        else:
-            # fallback on just getting the episode number and assuming it's first season
-            matches = _get_episode_number_matches(file_path)
-            show_name = _get_show_name(file_path)
+        if len(matches) is 0 or not show_name:
+            raise WrongMediaTypeException('Can not parse episode')
 
-            if len(matches) is 0 or not show_name:
-                raise WrongMediaTypeException('Can not parse episode')
+        episode = matches[0]
+        season = '01'
 
-            episode = matches[0]
-            season = '01'
-
-        self.__match = {
-            'show_name': show_name,
-            'season': season,
-            'episode': episode
-        }
-
-    def get_file_path(self):
-        return self.__file_path
-
-    def get_file_name(self):
-        return self.__file_name
-
-    def get_tv_show_name(self):
-        return show_name_extractor.extract_delete_test_dirs_show_name(self.__match['show_name'])
-
-    def get_season(self):
-        """
-        :return: the original season number from file name
-        """
-        return self.__match['season']
-
-    def get_season_number(self):
-        """
-        :return: the season number in form of an integer value
-        """
-        return int(self.__match['season'])
-
-    def get_episode_number(self):
-        """
-            use with care. All episodes doe not have episode number
-            :return: the episode number or None
-        """
-        return self.__match['episode']
-
-    def episode_is_marked_proper(self):
-        return '.proper.' in self.__file_name.lower()
-
-    def get_file_type(self):
-        return file_handler.get_file_type(self.get_file_path())
+    return {
+        'show_name': show_name,
+        'season': season,
+        'episode': episode
+    }
 
 
 class WrongMediaTypeException(Exception):
