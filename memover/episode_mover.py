@@ -12,7 +12,7 @@ def move(root_destination, path):
         try:
             current_show_destination_path = __move_file_to_show_destination(
                 root_destination,
-                media_file_extractor.EpisodeFile(file_path)
+                file_path
             )
 
             # move all failed files to root of  show path
@@ -26,29 +26,29 @@ def move(root_destination, path):
             failed_moved_files.append(file_path)
 
 
-def __move_file_to_show_destination(root_destination, episode_file):
-    show_name_dir_name = __find_show_name_dir(root_destination, media_file_extractor.get_tv_show_name(episode_file.get_file_path()))
+def __move_file_to_show_destination(root_destination, file_path):
+    show_name_dir_name = __find_show_name_dir(root_destination, media_file_extractor.get_tv_show_name(file_path))
     if not show_name_dir_name:
-        show_name_dir_name = __create_show_dir(root_destination, media_file_extractor.get_tv_show_name(episode_file.get_file_path()))
+        show_name_dir_name = __create_show_dir(root_destination, media_file_extractor.get_tv_show_name(file_path))
 
-    season_number = str(media_file_extractor.get_season_number(episode_file.get_file_path()))
+    season_number = str(media_file_extractor.get_season_number(file_path))
     season_path = root_destination + '/' + show_name_dir_name + '/Season ' + season_number
     if file_handler.directory_exist(season_path):
-        __remove_old_if_new_is_proper(episode_file, season_path)
+        __remove_old_if_new_is_proper(file_path, season_path)
     else:
         __create_season_folder(root_destination, show_name_dir_name, season_number)
 
-    file_handler.move(episode_file.get_file_path(), season_path + '/' + file_handler.get_last_path_part(episode_file.get_file_path()))
-    logger.log(episode_file.get_file_path() + ' moved to ' + season_path)
+    file_handler.move(file_path, season_path + '/' + file_handler.get_last_path_part(file_path))
+    logger.log(file_path + ' moved to ' + season_path)
     return root_destination + '/' + show_name_dir_name + '/'
 
 
-def __remove_old_if_new_is_proper(episodeFile, season_dir_path):
-    if not media_file_extractor.episode_is_marked_proper(episodeFile.get_file_path()):
+def __remove_old_if_new_is_proper(file_path, season_dir_path):
+    if not media_file_extractor.episode_is_marked_proper(file_path):
         return
 
-    search_query = media_file_extractor.get_tv_show_name(episodeFile.get_file_path()) + ' S' + media_file_extractor.get_season(episodeFile.get_file_path()) + ' E' + media_file_extractor.get_episode_number(episodeFile.get_file_path())
-    files = file_matcher.search_files_with_file_type(search_query, season_dir_path, media_file_extractor.get_file_type(episodeFile.get_file_path()))
+    search_query = media_file_extractor.get_tv_show_name(file_path) + ' S' + media_file_extractor.get_season(file_path) + ' E' + media_file_extractor.get_episode_number(file_path)
+    files = file_matcher.search_files_with_file_type(search_query, season_dir_path, media_file_extractor.get_file_type(file_path))
     if len(files) is 0:
         return
 

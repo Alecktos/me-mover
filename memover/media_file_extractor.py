@@ -156,20 +156,15 @@ def get_tv_show_name(file_path):
     match = _get_episode_match(file_path)
     return show_name_extractor.extract_delete_test_dirs_show_name(match['show_name'])
 
+
 def get_file_type(file_path):
     return file_handler.get_file_type(file_path)
+
 
 def episode_is_marked_proper(file_path):
     file_name = file_handler.get_last_path_part(file_path)
     return '.proper.' in file_name.lower()
 
-class EpisodeFile:
-
-    def __init__(self, file_path):
-        self.__file_path = file_path
-
-    def get_file_path(self):
-        return self.__file_path
 
 class WrongMediaTypeException(Exception):
     def __init__(self, message):

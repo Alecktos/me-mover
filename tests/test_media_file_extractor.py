@@ -49,15 +49,12 @@ class TestMediaFileExtractor(unittest.TestCase, file_mover_tester.FileMoverTeste
         self.assertEqual('Longer', show_name)
 
     def test_extract_urls(self):
-        episodeFile = media_file_extractor.EpisodeFile(self.__TV_SHOWS_PATHS[3])
-        show_name = media_file_extractor.get_tv_show_name(episodeFile.get_file_path())
+        show_name = media_file_extractor.get_tv_show_name(self.__TV_SHOWS_PATHS[3])
         self.assertEqual('Long', show_name)
 
     def test_extract_season(self):
-        episodeFile = media_file_extractor.EpisodeFile(self.__TV_SHOWS_PATHS[0])
-        season_number = media_file_extractor.get_season(episodeFile.get_file_path())
+        season_number = media_file_extractor.get_season(self.__TV_SHOWS_PATHS[0])
         self.assertEqual('02', season_number)
 
-        episodeFile = media_file_extractor.EpisodeFile(self.__TV_SHOWS_PATHS[1])
-        season_number = media_file_extractor.get_season(episodeFile.get_file_path())
+        season_number = media_file_extractor.get_season(self.__TV_SHOWS_PATHS[1])
         self.assertEqual('09', season_number)
