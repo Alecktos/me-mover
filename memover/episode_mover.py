@@ -38,13 +38,13 @@ def __move_file_to_show_destination(root_destination, episode_file):
     else:
         __create_season_folder(root_destination, show_name_dir_name, season_number)
 
-    file_handler.move(episode_file.get_file_path(), season_path + '/' + episode_file.get_file_name())
-    logger.log(episode_file.get_file_name() + ' moved to ' + season_path)
+    file_handler.move(episode_file.get_file_path(), season_path + '/' + file_handler.get_last_path_part(episode_file.get_file_path()))
+    logger.log(episode_file.get_file_path() + ' moved to ' + season_path)
     return root_destination + '/' + show_name_dir_name + '/'
 
 
 def __remove_old_if_new_is_proper(episodeFile, season_dir_path):
-    if not media_file_extractor.episode_is_marked_proper(episodeFile.get_file_name()):
+    if not media_file_extractor.episode_is_marked_proper(episodeFile.get_file_path()):
         return
 
     search_query = media_file_extractor.get_tv_show_name(episodeFile.get_file_path()) + ' S' + media_file_extractor.get_season(episodeFile.get_file_path()) + ' E' + media_file_extractor.get_episode_number(episodeFile.get_file_path())

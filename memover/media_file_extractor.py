@@ -159,20 +159,17 @@ def get_tv_show_name(file_path):
 def get_file_type(file_path):
     return file_handler.get_file_type(file_path)
 
-def episode_is_marked_proper(file_name):
+def episode_is_marked_proper(file_path):
+    file_name = file_handler.get_last_path_part(file_path)
     return '.proper.' in file_name.lower()
 
 class EpisodeFile:
 
     def __init__(self, file_path):
         self.__file_path = file_path
-        self.__file_name = file_handler.get_last_path_part(self.__file_path)
 
     def get_file_path(self):
         return self.__file_path
-
-    def get_file_name(self):
-        return self.__file_name
 
 class WrongMediaTypeException(Exception):
     def __init__(self, message):
