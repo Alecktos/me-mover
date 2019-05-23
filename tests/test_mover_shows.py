@@ -338,7 +338,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
         )
 
         self._assert_file_moved(show_source_dir + file_name_1, destination_show_path + file_name_1)
-        self._assert_file_moved(show_source_dir + file_name_2, destination_show_path + file_name_2)
+        self._assert_file_moved(show_source_dir + file_name_2, self._SHOW_DESTINATION_DIRECTORY + '/Kung Fo/' + file_name_2)
         self._assert_file_moved(show_source_dir + file_name_3, destination_show_path + file_name_3)
 
     def test_screens_images_moved_correctly(self):

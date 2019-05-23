@@ -7,6 +7,7 @@ import media_file_extractor
 
 def move(root_destination, path):
     failed_moved_files = []
+    current_show_destination_path = None
 
     for file_path in file_handler.get_files(path):
         try:
@@ -15,15 +16,15 @@ def move(root_destination, path):
                 file_path
             )
 
-            # move all failed files to root of  show path
-            for failed_moved_file_path in failed_moved_files:
-                file_handler.move(
-                    failed_moved_file_path,
-                    current_show_destination_path + file_handler.get_last_path_part(failed_moved_file_path))
-                failed_moved_files = []
-
         except media_file_extractor.WrongMediaTypeException:
             failed_moved_files.append(file_path)
+
+    # move all failed files to root of show path
+    if current_show_destination_path:
+        for failed_moved_file_path in failed_moved_files:
+            file_handler.move(
+                failed_moved_file_path,
+                current_show_destination_path + file_handler.get_last_path_part(failed_moved_file_path))
 
 
 def __move_file_to_show_destination(root_destination, file_path):
