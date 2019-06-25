@@ -270,6 +270,24 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         self.__move_and_validate_episodes(episodes, show_name)
 
+        episodes = (
+            '[ATBC] Jkl Jkl Jkl Jkl Has - 01[1233].mkv',
+            '[ATBC] Jkl Jkl Jkl Jkl Has - 02[1233].mkv',
+            '[ATBC] Jkl Jkl Jkl Jkl Has - 03[1233].mkv',
+            '[ATBC] Jkl Jkl Jkl Jkl Has - 04[1233].mkv',
+            '[ATBC] Jkl Jkl Jkl Jkl Has - 05[1233].mkv',
+            '[ATBC] Jkl Jkl Jkl Jkl Has - 06[1233].mkv',
+            '[ATBC] Jkl Jkl Jkl Jkl Has - 07v2[1233].mkv',
+            '[ATBC] Jkl Jkl Jkl Jkl Has - 08[1233].mkv',
+            '[ATBC] Jkl Jkl Jkl Jkl Has - 09[1233].mkv',
+            '[ATBC] Jkl Jkl Jkl Jkl Has - 10v2[1233].mkv',
+            '[ATBC] Jkl Jkl Jkl Jkl Has - 11v2[1233].mkv',
+            '[ATBC] Jkl Jkl Jkl Jkl Has - 12[1233].mkv',
+            '[ATBC] Jkl Jkl Jkl Jkl Has - 13[1233].mkv'
+        )
+
+        self.__move_and_validate_episodes(episodes, show_name)
+
     def test_moving_with_only_season(self):
         episode = 'Lisa.Mirrander.S02.Special.Rocked.Summer.1080p.WEB-Org.AA02.1.LKIO.mkv'
         self._createSourceFile(episode)
@@ -364,7 +382,6 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
         self._assert_file_moved(source_show_dir + screen_dir + screen_file, self._SHOW_DESTINATION_DIRECTORY + show_name + screen_file )
 
         self.__validate_episodes_season_1([episode], show_name)
-
 
     def __move_and_validate_episodes(self, episodes, show_name):
         for episode in episodes:
