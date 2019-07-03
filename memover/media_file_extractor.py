@@ -67,7 +67,7 @@ def episode_is_marked_proper(file_path):
 
 
 def __path_contains_multiple_tv_episodes(path):
-    episode_numbers = sorted(list(iterate_episodes_numbers(path)))
+    episode_numbers = sorted(list(_iterate_episodes_numbers(path)))
 
     min_number_of_episodes = 5
     if len(episode_numbers) < min_number_of_episodes:
@@ -80,15 +80,15 @@ def __path_contains_multiple_tv_episodes(path):
     return True
 
 
-def iterate_episodes_numbers(path):
+def _iterate_episodes_numbers(path):
     for file_path in file_handler.get_files(path):
         if is_media_file(file_path) and __contains_episode_number(file_path):
-            yield int(_get_episode_number_matches(file_path)[0][0])
+            yield int(_get_episode_number_matches(file_path)[0])
 
 
 def __contains_episode_number(file_path):
     matches = _get_episode_number_matches(file_path)
-    return len(matches) is 1
+    return len(matches) > 0
 
 
 def _get_episode_number_matches(file_path):
