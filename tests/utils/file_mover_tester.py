@@ -25,7 +25,7 @@ class FileMoverTester:
     def _assert_file_moved(self, source_path, destination_path):
         file_is_in_new_path = file_handler.file_exist(destination_path)
         if not file_is_in_new_path:
-            raise AssertionError('file does not exist in new path')
+            raise AssertionError('file does not exist in new path: ' + source_path)
 
         file_is_in_old_path = file_handler.file_exist(self._SOURCE_DIRECTORY + source_path)
         if file_is_in_old_path:
