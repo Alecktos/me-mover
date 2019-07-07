@@ -125,7 +125,6 @@ __codes = [
     ('uzb' 'uz', 'Uzbek'),
     ('ven' 've', 'Venda'),
     ('vie' 'vi', 'Vietnamese'),
-    ('vol' 'vo', 'Volapük'),
     ('wln' 'wa', 'Walloon'),
     ('wol' 'wo', 'Wolof'),
     ('xho' 'xh', 'Xhosa'),
