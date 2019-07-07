@@ -19,64 +19,69 @@ def rename_and_move(source_directory):
 
     files.sort(sort_by_file_name)
 
+    index = 0  # TODO Need to be recalculated from already moved subs of correct format
     for file_path in files:
-        if file_path.endswith(__subtitle_types) and __subtitle_should_be_moved(file_path):
-            __move_subtitle(file_path, source_directory)
+        if __should_be_moved(file_path):
+            file_path = __move_subtitle(file_path, source_directory)
+        if __should_be_renamed(file_path):
+            __rename(file_path, index)
+            index += 1
 
 
-def __subtitle_should_be_moved(subtitle_path):
-    biggest_file = file_handler.get_biggest_file(file_handler.get_parent(subtitle_path))
+def __should_be_moved(subtitle_path):
+    if not subtitle_path.endswith(__subtitle_types):
+        return False
+
+    subtitle_dir = file_handler.get_parent(subtitle_path)
+    biggest_file = file_handler.get_biggest_file(subtitle_dir)
+    if media_file_extractor.is_media_file(biggest_file.path):
+        return False
+
+    return True
+
+
+def __should_be_renamed(subtitle_path):
+    if not subtitle_path.endswith(__subtitle_types):
+        return False
+
+    subtitle_dir = file_handler.get_parent(subtitle_path)
+    biggest_file = file_handler.get_biggest_file(subtitle_dir)
     if not media_file_extractor.is_media_file(biggest_file.path):
-        return True
-
-    # check if subtitle file name includes any of supported language annotations
-    if not any(substring in subtitle_path for substring in __subtitle_language_annotations.itervalues()):
-        return True
+        return False # No media file. Nothing to rename to
 
     biggest_file_name = file_handler.get_last_path_part(biggest_file.path)
-    biggest_file_without_extension = file_handler.get_path_without_extension(biggest_file_name)
-
     subtitle_file_name = file_handler.get_last_path_part(subtitle_path)
 
     # should be moved if subtitle is not already named after media file in directory
-    return subtitle_file_name.find(biggest_file_without_extension) is -1
+    return subtitle_file_name.find(biggest_file_name) is -1
 
 
 def __move_subtitle(subtitle_path, source_directory):
     for biggest_file in file_handler.get_biggest_files(file_handler.get_parent(subtitle_path), source_directory):
         if media_file_extractor.is_media_file(biggest_file.path):
-            index = __number_of_subtitles_in_directory(
-                file_handler.get_parent(biggest_file.path),
-                subtitle_path
-            )
+            destination_path = file_handler.get_parent(biggest_file.path) + '/' + file_handler.get_last_path_part(subtitle_path)
 
-            __rename_file(
+            file_handler.move(
                 subtitle_path,
-                file_handler.get_path_without_extension(biggest_file.path),
-                index
+                destination_path
             )
             __delete_empty_parents(subtitle_path, source_directory)
-            break
+            return destination_path
 
 
-def __number_of_subtitles_in_directory(dir_path, source_subtitle_path):
-    subtitles = filter(
-        lambda path: path.endswith(__subtitle_types) and file_handler.get_last_path_part(source_subtitle_path) != path and any(ending in path for ending in __subtitle_language_annotations.itervalues()),  # not __subtitle_language_annotations['eng'] in source_subtitle_path,
-        file_handler.get_directory_content(dir_path)
-    )
-    return len(subtitles)
-
-
-def __rename_file(subtitle_source_path, media_file_path_without_extension, index):
-    subtitle_type = file_handler.get_file_type(subtitle_source_path)
+def __rename(file_path, index):
+    subtitle_type = file_handler.get_file_type(file_path)
     index_name = '' if index == 0 else str(index + 1)
 
-    destination_path = media_file_path_without_extension + __subtitle_language_annotations.get(
+    biggest_file = file_handler.get_biggest_file(file_handler.get_parent(file_path))
+    if not media_file_extractor.is_media_file(biggest_file.path):
+        return
+
+    destination_path = file_handler.get_path_without_extension(biggest_file.path) + __subtitle_language_annotations.get(
         'eng') + index_name + subtitle_type
 
-    # assuming all subs are english for now
     file_handler.move(
-        subtitle_source_path,
+        file_path,
         destination_path
     )
 
