@@ -1,3 +1,5 @@
+import re
+
 from memover import file_handler, media_file_extractor, language_codes
 
 __subtitle_types = ('.srt', '.smi', '.ssa', '.ass', '.vtt')
@@ -18,13 +20,11 @@ def rename_and_move(source_directory):
 
     files.sort(sort_by_file_name)
 
-    index = 0  # TODO Need to be recalculated from already moved subs of correct format
     for file_path in files:
         if __should_be_moved(file_path):
             file_path = __move_subtitle(file_path, source_directory)
         if __should_be_renamed(file_path):
-            __rename(file_path, index)
-            index += 1
+            __rename(file_path)
 
 
 def __should_be_moved(subtitle_path):
@@ -68,22 +68,30 @@ def __move_subtitle(subtitle_path, source_directory):
             return destination_path
 
 
-def __rename(file_path, index):
+def __rename(file_path):
     subtitle_type = file_handler.get_file_type(file_path)
-    index_name = '' if index == 0 else '.' + str(index + 1)
 
     biggest_file = file_handler.get_biggest_file(file_handler.get_parent(file_path))
     if not media_file_extractor.is_media_file(biggest_file.path):
         return
 
     language_code = __identify_language(file_path)
+    index = __calculate_index(language_code, file_path)
 
-    destination_path = file_handler.get_path_without_extension(biggest_file.path) + '.' + language_code + index_name + subtitle_type
+    destination_path = file_handler.get_path_without_extension(biggest_file.path) + '.' + language_code + index + subtitle_type
 
     file_handler.move(
         file_path,
         destination_path
     )
+
+
+def __calculate_index(language_code, file_path):
+    dir = file_handler.get_parent(file_path)
+    files_in_dir = file_handler.get_directory_content(dir)
+    files = [file for file in files_in_dir if re.search(language_code + '\d*\.', file) is not None]
+    index = len(files)
+    return '' if index == 0 else str(index + 1)
 
 
 def __identify_language(file_path):
