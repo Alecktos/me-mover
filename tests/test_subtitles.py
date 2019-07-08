@@ -26,10 +26,10 @@ class TestSubtitles(unittest.TestCase, file_mover_tester.FileMoverTester):
         subtitles_file = [
             'a_movie_with_subs/Another.Another.S02E03.bigfile.en3.smi',
             'a_movie_with_subs/Another.Another.S02E03.bigfile.en.ass',
-            'a_movie_with_subs/Another.Another.S02E03.bigfile.en6.vtt',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.en5.vtt',
             'a_movie_with_subs/Another.Another.S02E03.bigfile.en4.ssa',
             'a_movie_with_subs/Another.Another.S02E03.bigfile.en2.srt',
-            'a_movie_with_subs/Another.Another.S02E03.bigfile.en5.srt',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.sv.srt',
         ]
 
         # Create source files
