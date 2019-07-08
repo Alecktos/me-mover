@@ -1,7 +1,6 @@
-from memover import file_handler, media_file_extractor
+from memover import file_handler, media_file_extractor, language_codes
 
 __subtitle_types = ('.srt', '.smi', '.ssa', '.ass', '.vtt')
-__subtitle_language_annotations = {'eng': '.en'}
 
 
 def rename_and_move(source_directory):
@@ -71,19 +70,29 @@ def __move_subtitle(subtitle_path, source_directory):
 
 def __rename(file_path, index):
     subtitle_type = file_handler.get_file_type(file_path)
-    index_name = '' if index == 0 else str(index + 1)
+    index_name = '' if index == 0 else '.' + str(index + 1)
 
     biggest_file = file_handler.get_biggest_file(file_handler.get_parent(file_path))
     if not media_file_extractor.is_media_file(biggest_file.path):
         return
 
-    destination_path = file_handler.get_path_without_extension(biggest_file.path) + __subtitle_language_annotations.get(
-        'eng') + index_name + subtitle_type
+    language_code = __identify_language(file_path)
+
+    destination_path = file_handler.get_path_without_extension(biggest_file.path) + '.' + language_code + index_name + subtitle_type
 
     file_handler.move(
         file_path,
         destination_path
     )
+
+
+def __identify_language(file_path):
+    file = file_handler.get_last_path_part(file_path)
+    by_code = next((language for language in language_codes.CODES if str('.' + language[0] + '.') in file), None)
+    if by_code:
+        return by_code[1]
+
+    return 'en'  # Default to english if cant find a language in file name
 
 
 def __delete_empty_parents(path, source_directory):
