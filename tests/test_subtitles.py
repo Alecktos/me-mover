@@ -78,6 +78,7 @@ class TestSubtitles(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         movie_path = 'Castles.at.Sky.ghj'
 
+        # TODO implement support for these
         paths = [
             Destinations(movie_path + '/Castles.at.Sky.ghj.mp4'),
             Destinations(movie_path + '/Castles.at.Sky.ghj.nfo'),
