@@ -252,7 +252,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         self.__move_and_validate_episodes(episodes, show_name)
 
-    def test_moving_one_season_different_episodes_naming_schemes(self):
+    def test_moving_one_season_different_episodes_naming_schemes_1(self):
         show_name = 'First Test [ONE_SEASON_DIFFERENT_NAMING_SCHEMES]/'
 
         episodes = (
@@ -270,6 +270,8 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         self.__move_and_validate_episodes(episodes, show_name)
 
+    def test_moving_one_season_different_episodes_naming_schemes_2(self):
+
         show_name = 'Second Test [ONE_SEASON_DIFFERENT_NAMING_SCHEMES]/'
 
         episodes = (
@@ -286,6 +288,27 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             '[ATBC] Jkl Jkl Jkl Jkl Has - 11v2[1233].mkv',
             '[ATBC] Jkl Jkl Jkl Jkl Has - 12[1233].mkv',
             '[ATBC] Jkl Jkl Jkl Jkl Has - 13[1233].mkv'
+        )
+
+        self.__move_and_validate_episodes(episodes, show_name)
+
+    def test_moving_one_season_different_episodes_naming_schemes_3(self):
+
+        show_name = 'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES/'
+
+        episodes = (
+            'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES - 01 (1920x1080 HEVC2 EAC3).mks',
+            'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES - 01 (1920x1080 HEVC2 EAC3).mkv',
+            'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES - 02 (1920x1080 HEVC2 EAC3).mks',
+            'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES - 02 (1920x1080 HEVC2 EAC3).mkv',
+            'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES - 03 (1920x1080 HEVC2 EAC3).mks',
+            'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES - 03 (1920x1080 HEVC2 EAC3).mkv',
+            'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES - 04 (1920x1080 HEVC2 EAC3).mks',
+            'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES - 04 (1920x1080 HEVC2 EAC3).mkv',
+            'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES - 05 (1920x1080 HEVC2 EAC3).mks',
+            'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES - 05 (1920x1080 HEVC2 EAC3).mkv',
+            'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES - 06 (1920x1080 HEVC2 EAC3).mks',
+            'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES - 06 (1920x1080 HEVC2 EAC3).mkv'
         )
 
         self.__move_and_validate_episodes(episodes, show_name)

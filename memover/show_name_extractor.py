@@ -66,7 +66,7 @@ def __trim_garbage_chars(show_name_words):
 
 
 def __strip_from_season(show_name_words):
-    lower_cases =  map(str.lower, show_name_words)
+    lower_cases = map(str.lower, show_name_words)
     if 'season' in lower_cases:
         strip_from = lower_cases.index('season')
         del show_name_words[strip_from:]

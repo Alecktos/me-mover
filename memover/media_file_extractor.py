@@ -74,7 +74,8 @@ def __path_contains_multiple_tv_episodes(path):
         return False
 
     for index, element in enumerate(episode_numbers[1:], start=1):
-        if element is not episode_numbers[index-1] + 1:
+        # Allow same or one less
+        if element is not episode_numbers[index-1] + 1 and element is not episode_numbers[index-1]:
             return False
 
     return True
