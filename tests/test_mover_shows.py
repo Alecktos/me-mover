@@ -252,8 +252,8 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         self.__move_and_validate_episodes(episodes, show_name)
 
-    def test_moving_one_season_different_naming_schemes(self):
-        show_name = 'Kande inte [Flera-Audio]/'
+    def test_moving_one_season_different_episodes_naming_schemes(self):
+        show_name = 'First Test [ONE_SEASON_DIFFERENT_NAMING_SCHEMES]/'
 
         episodes = (
             '01 - djksalo-jjjSub].mkv',
@@ -269,6 +269,8 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
         )
 
         self.__move_and_validate_episodes(episodes, show_name)
+
+        show_name = 'Second Test [ONE_SEASON_DIFFERENT_NAMING_SCHEMES]/'
 
         episodes = (
             '[ATBC] Jkl Jkl Jkl Jkl Has - 01[1233].mkv',
