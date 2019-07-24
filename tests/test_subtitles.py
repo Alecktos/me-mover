@@ -26,10 +26,10 @@ class TestSubtitles(unittest.TestCase, file_mover_tester.FileMoverTester):
         subtitles_file = [
             'a_movie_with_subs/Another.Another.S02E03.bigfile.en3.smi',
             'a_movie_with_subs/Another.Another.S02E03.bigfile.en.ass',
-            'a_movie_with_subs/Another.Another.S02E03.bigfile.en6.vtt',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.en5.vtt',
             'a_movie_with_subs/Another.Another.S02E03.bigfile.en4.ssa',
             'a_movie_with_subs/Another.Another.S02E03.bigfile.en2.srt',
-            'a_movie_with_subs/Another.Another.S02E03.bigfile.en5.srt',
+            'a_movie_with_subs/Another.Another.S02E03.bigfile.sv.srt',
         ]
 
         # Create source files
@@ -82,6 +82,14 @@ class TestSubtitles(unittest.TestCase, file_mover_tester.FileMoverTester):
             Destinations(movie_path + '/Castles.at.Sky.ghj.mp4'),
             Destinations(movie_path + '/Castles.at.Sky.ghj.nfo'),
             Destinations(movie_path + '/subs/English.srt', movie_path + '/Castles.at.Sky.ghj.en.srt'),
+            Destinations(movie_path + '/subs/Spanish.srt', movie_path + '/Castles.at.Sky.ghj.es.srt'),
+            Destinations(movie_path + '/subs/Portuguese.srt', movie_path + '/Castles.at.Sky.ghj.pt.srt'),
+            Destinations(movie_path + '/subs/Swedish.srt', movie_path + '/Castles.at.Sky.ghj.sv.srt'),
+            Destinations(movie_path + '/subs/Norwegian.srt', movie_path + '/Castles.at.Sky.ghj.no.srt'),
+            Destinations(movie_path + '/subs/Danish.srt', movie_path + '/Castles.at.Sky.ghj.da.srt'),
+            Destinations(movie_path + '/subs/Finnish.srt', movie_path + '/Castles.at.Sky.ghj.fi.srt'),
+            Destinations(movie_path + '/subs/Indonesian.srt', movie_path + '/Castles.at.Sky.ghj.id.srt'),
+            Destinations(movie_path + '/subs/Spanish.srt', movie_path + '/Castles.at.Sky.ghj.id.srt'),
             Destinations(movie_path + '/something_else.paa')
         ]
 

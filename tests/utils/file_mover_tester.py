@@ -8,14 +8,18 @@ class FileMoverTester:
     _MOVIE_DESTINATION_DIRECTORY = 'movie-destination/'
 
     def _create_test_dirs(self):
+        self._delete_test_dirs()
         file_handler.create_dir(self._SOURCE_DIRECTORY)
         file_handler.create_dir(self._SHOW_DESTINATION_DIRECTORY)
         file_handler.create_dir(self._MOVIE_DESTINATION_DIRECTORY)
 
     def _delete_test_dirs(self):
-        file_handler.delete_directory(self._SOURCE_DIRECTORY)
-        file_handler.delete_directory(self._SHOW_DESTINATION_DIRECTORY)
-        file_handler.delete_directory(self._MOVIE_DESTINATION_DIRECTORY)
+        if file_handler.path_is_directory(self._SOURCE_DIRECTORY):
+            file_handler.delete_directory(self._SOURCE_DIRECTORY)
+        if file_handler.path_is_directory(self._SHOW_DESTINATION_DIRECTORY):
+            file_handler.delete_directory(self._SHOW_DESTINATION_DIRECTORY)
+        if file_handler.path_is_directory(self._MOVIE_DESTINATION_DIRECTORY):
+            file_handler.delete_directory(self._MOVIE_DESTINATION_DIRECTORY)
 
     def _createSourceFile(self, relative_path):
         file_path = self._SOURCE_DIRECTORY + relative_path
