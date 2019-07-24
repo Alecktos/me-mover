@@ -89,16 +89,20 @@ def __rename(file_path):
 def __calculate_index(language_code, file_path):
     dir = file_handler.get_parent(file_path)
     files_in_dir = file_handler.get_directory_content(dir)
-    files = [file for file in files_in_dir if re.search(language_code + '\d*\.', file) is not None]
+    files = [file for file in files_in_dir if re.search(r'\.' + language_code + r'\d*\.', file) is not None]
     index = len(files)
     return '' if index == 0 else str(index + 1)
 
 
 def __identify_language(file_path):
     file = file_handler.get_last_path_part(file_path)
-    by_code = next((language for language in language_codes.CODES if str('.' + language[0] + '.') in file), None)
+    by_code = language_codes.find_by_three_letter_code(file)
     if by_code:
         return by_code[1]
+
+    by_language = language_codes.find_by_language(file)
+    if by_language:
+        return by_language[1]
 
     return 'en'  # Default to english if cant find a language in file name
 

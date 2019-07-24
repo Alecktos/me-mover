@@ -1,4 +1,6 @@
-CODES = (
+import re
+
+__CODES = (
     ('aar', 'aa', 'Afar'),
     ('abk', 'ab', 'Abkhazian'),
     ('afr', 'af', 'Afrikaans'),
@@ -101,6 +103,7 @@ CODES = (
     ('snd', 'sd', 'Sindhi'),
     ('som', 'so', 'Somali'),
     ('sot', 'st', 'Sotho, Southern'),
+    ('spa', 'es', 'Spanish'),
     ('srd', 'sc', 'Sardinian'),
     ('srp', 'sr', 'Serbian'),
     ('ssw', 'ss', 'Swati'),
@@ -132,3 +135,20 @@ CODES = (
     ('yor', 'yo', 'Yoruba'),
     ('zul', 'zu', 'Zulu')
 )
+
+
+def __find_by(file, element_position):
+    def match_language(language):
+        regex = r'(^|\.)' + language[element_position] + r'\.'
+        matches = re.findall(regex, file)
+        return len(matches) > 0
+
+    return next((language for language in __CODES if match_language(language)), None)
+
+
+def find_by_three_letter_code(file):
+    return __find_by(file, 0)
+
+
+def find_by_language(file):
+    return __find_by(file, 2)

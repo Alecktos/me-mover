@@ -78,7 +78,6 @@ class TestSubtitles(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         movie_path = 'Castles.at.Sky.ghj'
 
-        # TODO implement support for these
         paths = [
             Destinations(movie_path + '/Castles.at.Sky.ghj.mp4'),
             Destinations(movie_path + '/Castles.at.Sky.ghj.nfo'),
@@ -86,7 +85,7 @@ class TestSubtitles(unittest.TestCase, file_mover_tester.FileMoverTester):
             Destinations(movie_path + '/subs/Spanish.srt', movie_path + '/Castles.at.Sky.ghj.es.srt'),
             Destinations(movie_path + '/subs/Portuguese.srt', movie_path + '/Castles.at.Sky.ghj.pt.srt'),
             Destinations(movie_path + '/subs/Swedish.srt', movie_path + '/Castles.at.Sky.ghj.sv.srt'),
-            Destinations(movie_path + '/subs/Norwegian.srt', movie_path + '/Castles.at.Sky.ghj.nb.srt'),
+            Destinations(movie_path + '/subs/Norwegian.srt', movie_path + '/Castles.at.Sky.ghj.no.srt'),
             Destinations(movie_path + '/subs/Danish.srt', movie_path + '/Castles.at.Sky.ghj.da.srt'),
             Destinations(movie_path + '/subs/Finnish.srt', movie_path + '/Castles.at.Sky.ghj.fi.srt'),
             Destinations(movie_path + '/subs/Indonesian.srt', movie_path + '/Castles.at.Sky.ghj.id.srt'),
