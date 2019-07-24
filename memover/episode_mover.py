@@ -40,7 +40,7 @@ def __move_file_to_show_destination(root_destination, file_path):
         __create_season_folder(root_destination, show_name_dir_name, season_number)
 
     file_handler.move(file_path, season_path + '/' + file_handler.get_last_path_part(file_path))
-    logger.log(file_path + ' moved to ' + season_path)
+    logger.log('"' + file_path + '" moved to "' + season_path + '"')
     return root_destination + '/' + show_name_dir_name + '/'
 
 
