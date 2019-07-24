@@ -290,6 +290,62 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         self.__move_and_validate_episodes(episodes, show_name)
 
+        show_name = 'Third Test [ONE_SEASON_DIFFERENT_NAMING_SCHEMES]/'
+
+        # TODO use the magic of unix to sort this list
+        episodes = (
+        'Third Test - 13 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 24 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 21 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 06 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 18 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 15 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 07 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 05 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 10 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 13 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 19 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 20 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 01 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 11 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 23 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 16 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 02 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 22 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 17 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 06 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 16 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 10 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 09 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 14 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 09 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 02 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 15 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 18 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 23 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 14 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 04 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 12 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 17 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 08 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 19 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 07 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 04 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 11 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 20 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 24 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 12 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 22 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 08 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 21 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 03 (1920x1080 HEVC2 EAC3).mks',
+        'Third Test - 03 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 01 (1920x1080 HEVC2 EAC3).mkv',
+        'Third Test - 05 (1920x1080 HEVC2 EAC3).mkv',
+        )
+
+        self.__move_and_validate_episodes(episodes, show_name)
+
     def test_moving_with_only_season(self):
         episode = 'Lisa.Mirrander.S02.Special.Rocked.Summer.1080p.WEB-Org.AA02.1.LKIO.mkv'
         self._createSourceFile(episode)
