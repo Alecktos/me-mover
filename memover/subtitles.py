@@ -11,14 +11,7 @@ def rename_and_move(source_directory):
 
     files = list(file_handler.get_files(source_directory))
 
-    def sort_by_file_name(file1, file2):
-        path1 = file_handler.get_last_path_part(file1)
-        path2 = file_handler.get_last_path_part(file2)
-        if path1 > path2:
-            return 1
-        return -1
-
-    files.sort(sort_by_file_name)
+    files.sort(key=lambda f: file_handler.get_last_path_part(f))
 
     for file_path in files:
         if __should_be_moved(file_path):
