@@ -1,10 +1,10 @@
-import file_handler
-import logger
+from . import file_handler
+from . import logger
 
 
 def search_files_with_file_type(search, path, file_type):
     files = search_files(search, path)
-    return filter(lambda found_file: file_handler.get_file_type(found_file) == file_type, files)
+    return [found_file for found_file in files if file_handler.get_file_type(found_file) == file_type]
 
 
 def search_files(search, path):

@@ -1,8 +1,8 @@
 # coding=utf-8
 import os
 import re
-import file_handler
-import show_name_extractor
+from . import file_handler
+from . import show_name_extractor
 
 
 __MEDIA_FILE_MIN_FILE_SIZE_MB = 50

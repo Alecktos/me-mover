@@ -8,6 +8,6 @@ stdenv.mkDerivation rec {
   '';
 
   buildInputs = [
-    python27
+    python37
   ];
 }

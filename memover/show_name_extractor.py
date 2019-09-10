@@ -38,7 +38,7 @@ def __extract_release_date(show_name_words):
 
 
 def __extract_sample_word(show_name_words):
-    return map(lambda word: re.sub('\W*sample\W*', '', word, 0, re.IGNORECASE), show_name_words)
+    return [re.sub('\W*sample\W*', '', word, 0, re.IGNORECASE) for word in show_name_words]
 
 
 def __extract_meta_info(show_name_words):
@@ -66,7 +66,7 @@ def __trim_garbage_chars(show_name_words):
 
 
 def __strip_from_season(show_name_words):
-    lower_cases = map(str.lower, show_name_words)
+    lower_cases = list(map(str.lower, show_name_words))
     if 'season' in lower_cases:
         strip_from = lower_cases.index('season')
         del show_name_words[strip_from:]

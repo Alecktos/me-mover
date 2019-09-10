@@ -1,6 +1,6 @@
-import arguments_parser
-import logger
-import mover
+from . import arguments_parser
+from . import logger
+from . import mover
 
 
 def main():
