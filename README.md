@@ -48,4 +48,4 @@ A parent directory will be created for each moved movie.
     python -m unittest discover tests
 
 ## Requirements
-Python 2.7
+Python 3.7
