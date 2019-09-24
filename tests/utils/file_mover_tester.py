@@ -38,4 +38,4 @@ class FileMoverTester:
     def _set_size_in_mb(self, file_path, size_in_mb):
         with open(self._SOURCE_DIRECTORY + file_path, 'wb') as bigfile:
             bigfile.seek(1048575 * size_in_mb)
-            bigfile.write('0')
+            bigfile.write(b"\0")

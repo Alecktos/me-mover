@@ -112,5 +112,5 @@ class TestApp(unittest.TestCase, file_mover_tester.FileMoverTester):
     def __run_app(args):
         p = subprocess.Popen('python -m memover ' + args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         for line in p.stdout.readlines():
-            print line
+            print(line)
 

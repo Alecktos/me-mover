@@ -1,4 +1,4 @@
-import file_handler
+from . import file_handler
 
 
 def move(movie_root_path, path):
@@ -43,6 +43,6 @@ def __move_file(source_path, destination_path):
         source_path,
         destination_path
     )
-    print('Movie destination: ' + destination_path)
+    print(('Movie destination: ' + destination_path))
 
 

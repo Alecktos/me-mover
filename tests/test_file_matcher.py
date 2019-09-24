@@ -23,7 +23,7 @@ class TestFileMatcher(unittest.TestCase):
 
         search_for = 'An Other Show Info'
         file_paths = file_matcher.search_files(search_for, self.__SOURCE_DIRECTORY_PATH)
-        self.assertEquals(1, len(file_paths))
+        self.assertEqual(1, len(file_paths))
         self.assertEqual(file_path, file_paths[0])
 
     def __test_matching_file_in_folder(self):
@@ -32,5 +32,5 @@ class TestFileMatcher(unittest.TestCase):
         search_for = 'hey arnold'
 
         file_paths = file_matcher.search_files(search_for, self.__SOURCE_DIRECTORY_PATH)
-        self.assertEquals(1, len(file_paths))
+        self.assertEqual(1, len(file_paths))
         self.assertEqual(folder_path, file_paths[0])

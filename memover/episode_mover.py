@@ -1,8 +1,8 @@
 import re
-import logger
-import file_handler
-import file_matcher
-import media_file_extractor
+from . import logger
+from . import file_handler
+from . import file_matcher
+from . import media_file_extractor
 
 
 def move(root_destination, path):
@@ -84,10 +84,7 @@ def __find_show_name_dir(root_directory, searching_show_name):
 
     logger.log('searching for matching folders in ' + root_directory + ' for query "' + search_query + '". Searching show name: "' + searching_show_name + '"')
 
-    found_directories = filter(
-        lambda dir_name: search_query in dir_name.lower().strip(),
-        file_handler.get_directory_content(root_directory)
-    )
+    found_directories = [dir_name for dir_name in file_handler.get_directory_content(root_directory) if search_query in dir_name.lower().strip()]
 
     if len(found_directories) > 1:
         raise MultipleDirectoryMatchesException(searching_show_name, root_directory)
@@ -106,7 +103,7 @@ def __find_show_name_dir(root_directory, searching_show_name):
 
 def __is_right_season_directory(path, season_number):
     season_name = 'Season ' + str(season_number)
-    print path
+    print(path)
     if season_name in path:
         return True
     return False

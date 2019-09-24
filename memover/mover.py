@@ -1,10 +1,10 @@
-import episode_mover
-import logger
-import file_matcher
-from media_file_extractor import get_type, Type
-import file_handler
-import movie_mover
-import subtitles
+from . import episode_mover
+from . import logger
+from . import file_matcher
+from .media_file_extractor import get_type, Type
+from . import file_handler
+from . import movie_mover
+from . import subtitles
 
 
 def move_media_by_name(name, source_path, show_destination_path, movie_destination_path):
