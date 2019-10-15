@@ -73,21 +73,25 @@ def __create_season_folder(root_destination, show_name, season_number):
 
 
 def __find_show_name_dir(root_directory, searching_show_name):
-    search_query = searching_show_name
+    search_query = searching_show_name.lower().strip()
+
+    logger.log(
+        'searching for matching folders in ' + root_directory + ' for query "' + search_query + '". Searching show name: "' + searching_show_name + '"'
+    )
+
+    found_directories = __find_matching_directories(root_directory, search_query)
+    if len(found_directories) is 1:
+        return found_directories[0]
 
     # remove words with one or two letters in the beginning of the name if number of characters are bigger then five
     if len(search_query) > 5 and len(search_query.split()) >= 2:
         shortword_regex = re.compile(r'^\w{1,2}\b|\b\w{1,2}$')
         search_query = shortword_regex.sub('', search_query)
 
-    search_query = search_query.lower().strip()
-
-    logger.log('searching for matching folders in ' + root_directory + ' for query "' + search_query + '". Searching show name: "' + searching_show_name + '"')
-
-    found_directories = [dir_name for dir_name in file_handler.get_directory_content(root_directory) if search_query in dir_name.lower().strip()]
+    found_directories = __find_matching_directories(root_directory, search_query)
 
     if len(found_directories) > 1:
-        raise MultipleDirectoryMatchesException(searching_show_name, root_directory)
+        raise MultipleDirectoryMatchesException(searching_show_name, root_directory, found_directories)
 
     if len(found_directories) is 0 and 'proper' in search_query:
         return __find_show_name_dir(
@@ -109,9 +113,15 @@ def __is_right_season_directory(path, season_number):
     return False
 
 
+def __find_matching_directories(root_directory, search_query):
+    return [dir_name for dir_name in file_handler.get_directory_content(root_directory) if
+                         search_query in dir_name.lower().strip()]
+
+
 class MultipleDirectoryMatchesException(Exception):
 
-    def __init__(self, show_name, destination_folder):
+    def __init__(self, show_name, destination_folder, matching_dirs):
+        matches = ', '.join(matching_dirs)
         super(MultipleDirectoryMatchesException, self).__init__(
-            show_name + ' matches multiple directories in ' + destination_folder
+            f'{show_name} matches multiple directories when moved {destination_folder}. Matches: {matches}'
         )

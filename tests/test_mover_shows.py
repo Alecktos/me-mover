@@ -41,8 +41,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
         self._assert_file_moved(source_file_path, destination_path)
 
     def test_move_shows_into_existing_season_directory(self):
-        # Test with two letter word in the end of file name that should be stripped
-        file_handler.create_dir(self._SHOW_DESTINATION_DIRECTORY + '/Kontroll/Season 7/')
+        file_handler.create_dir(self._SHOW_DESTINATION_DIRECTORY + '/Kontroll US/Season 7/')
         tv_show_file_name = 'kontroll.US.S07E02.720p.AM.SOMETING-OTHER-DEMINSION[aaa]'
         file_source_path = self._SOURCE_DIRECTORY + '/' + tv_show_file_name
         file_handler.create_file(file_source_path)
@@ -55,7 +54,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             self._MOVIE_DESTINATION_DIRECTORY
         )
 
-        file_destination_path = self._SHOW_DESTINATION_DIRECTORY + '/Kontroll/Season 7/' + tv_show_file_name
+        file_destination_path = self._SHOW_DESTINATION_DIRECTORY + '/Kontroll US/Season 7/' + tv_show_file_name
         self._assert_file_moved(file_source_path, file_destination_path)
 
         # move by file
@@ -407,6 +406,26 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
         self._assert_file_moved(source_show_dir + screen_dir + screen_file, self._SHOW_DESTINATION_DIRECTORY + show_name + screen_file )
 
         self.__validate_episodes_season_1([episode], show_name)
+
+    def test_multiple_matches(self):
+        file_handler.create_dir(f'{self._SHOW_DESTINATION_DIRECTORY}mr test')
+        file_handler.create_dir(f'{self._SHOW_DESTINATION_DIRECTORY}Test Test and Test')
+
+        episode_name = 'Mr.Test.S07E01.REPACK.a111-AAA[a]'
+        file_handler.create_dir(f'{self._SOURCE_DIRECTORY}{episode_name}')
+        file_path = f'{self._SOURCE_DIRECTORY}{episode_name}/{episode_name}.mp4'
+        file_handler.create_file(file_path)
+
+        mover.move_media_by_path(
+            self._SOURCE_DIRECTORY + episode_name,
+            self._SHOW_DESTINATION_DIRECTORY,
+            self._MOVIE_DESTINATION_DIRECTORY
+        )
+
+        self._assert_file_moved(
+            file_path,
+            f'{self._SHOW_DESTINATION_DIRECTORY}mr test/Season 7/{episode_name}.mp4'
+        )
 
     def __move_and_validate_episodes(self, episodes, show_name):
         for episode in episodes:
