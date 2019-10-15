@@ -1,4 +1,5 @@
 import subprocess
+import sys
 import unittest
 from tests.utils import file_mover_tester
 from memover import file_handler
@@ -110,7 +111,7 @@ class TestApp(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     @staticmethod
     def __run_app(args):
-        p = subprocess.Popen('python -m memover ' + args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        p = subprocess.Popen(f'{sys.executable} -m memover {args}', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         for line in p.stdout.readlines():
             print(line)
 
