@@ -46,8 +46,13 @@ class MeMoverArgsCreator:
         print(self.current_args)
         # print("you screamed "+' '.join(args.words))
 
-    def count(self, args):
-        print("you counted to {0}".format(args.count))
+    def path(self, args):
+        self.current_args = MeMoverArgs(Commands.BY_PATH, args.source, args.show_destination, args.movie_destination)
+        print(self.current_args)
+
+    def watch(self, args):
+        self.current_args = MeMoverArgs(Commands.WATCH, args.source, args.show_destination, args.movie_destination)
+        print(self.current_args)
 
     def add_common_arguments(self, parser):
         parser.add_argument(
@@ -81,13 +86,13 @@ class MeMoverArgsCreator:
         parser_path = subparsers.add_parser('by-path')
         self.add_common_arguments(parser_path)
 
-        parser_path.set_defaults(func=self.count)
+        parser_path.set_defaults(func=self.path)
 
     def createWatch(self, subparsers):
         parser_watch = subparsers.add_parser('watch')
         self.add_common_arguments(parser_watch)
-        # custom
         parser_watch.add_argument('--quit', '-q', type=int, required=False, dest='quit', help='Number of seconds until exit')
+        parser_watch.set_defaults(func=self.watch)
 
 
 def init():
@@ -95,21 +100,14 @@ def init():
 
     parser = argparse.ArgumentParser()
 
-    #tell the parser that there will be subparsers
     subparsers = parser.add_subparsers(help="commands")
-
-    # todo: testa så alla kommandon fungerar.
 
     me_mover_args_creator.createName(subparsers)
     me_mover_args_creator.createPath(subparsers)
     me_mover_args_creator.createWatch(subparsers)
 
-    #parse the args
     args = parser.parse_args()
-    args.func(args)  #args.func is the function that was set for the particular subparser
-
-    # should print with all configurations
-    print(str(me_mover_args_creator.current_args))
+    args.func(args)
 
 
 init()
