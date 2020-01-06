@@ -1,16 +1,4 @@
 import argparse
-import os
-
-
-class readable_dir(argparse.Action):
-    def __call__(self, parser, namespace, values, option_string=None):
-        prospective_dir=values
-        if not os.path.isdir(prospective_dir):
-            raise argparse.ArgumentTypeError("readable_dir:{0} is not a valid path".format(prospective_dir))
-        if os.access(prospective_dir, os.R_OK):
-            setattr(namespace,self.dest,prospective_dir)
-        else:
-            raise argparse.ArgumentTypeError("readable_dir:{0} is not a readable dir".format(prospective_dir))
 
 
 class Commands:
@@ -59,18 +47,15 @@ class MeMoverArgsCreator:
         parser.add_argument(
             'source',
             metavar='source',
-            # action=readable_dir,
             help='source directory to look for media in'
         )
         parser.add_argument(
             'show_destination',
-            # action=readable_dir,
             metavar='shows-destination',
             help='root show destination directory'
         )
         parser.add_argument(
             'movie_destination',
-            # action=readable_dir,
             metavar='movies-destination',
             help='root movie destination directory'
         )
