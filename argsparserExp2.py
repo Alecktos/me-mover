@@ -26,11 +26,12 @@ class MeMoverArgs:
     movie_destination = None
     quit = None
 
-    def __init__(self, type, source, show_destination, movie_destination):
+    def __init__(self, type, source, show_destination, movie_destination, auto_quit=None):
         self.type = type
         self.source = source
         self.show_destination = show_destination
         self.movie_destination = movie_destination
+        self.quit = auto_quit
         super().__init__()
 
     def __str__(self) -> str:
@@ -51,7 +52,7 @@ class MeMoverArgsCreator:
         print(self.current_args)
 
     def watch(self, args):
-        self.current_args = MeMoverArgs(Commands.WATCH, args.source, args.show_destination, args.movie_destination)
+        self.current_args = MeMoverArgs(Commands.WATCH, args.source, args.show_destination, args.movie_destination, args.quit)
         print(self.current_args)
 
     def add_common_arguments(self, parser):
