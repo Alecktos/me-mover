@@ -1,11 +1,11 @@
-__author__ = 'alexander.persson'
+__author__ = 'alexander.berlind'
 
 from setuptools import setup
 
 setup(name='me-mover',
       version='0.2dev',
       packages=['memover'],
-      author='Alexander Persson',
+      author='Alexander Berlind',
       url='https://github.com/Alecktos/me-mover.git',
       license='MIT',
       entry_points={
