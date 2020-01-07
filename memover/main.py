@@ -1,28 +1,25 @@
-from . import arguments_parser
+from . import arguments_parser_2
 from . import logger
 from . import mover
 
 
 def main():
-    command = arguments_parser.get_command()
-    if command is None:
-        logger.log('No Command')
-        return
+    args = arguments_parser_2.get_args()
 
-    if command == arguments_parser.Commands.NAME:
+    if args.type == arguments_parser_2.Commands.BY_NAME:
         mover.move_media_by_name(
-            arguments_parser.get_show_name(),
-            arguments_parser.get_source_path(),
-            arguments_parser.get_shows_destination_path(),
-            arguments_parser.get_movies_destination_path()
+            args.media_name,
+            args.source,
+            args.show_destination,
+            args.movie_destination
         )
         return
 
-    if command == arguments_parser.Commands.FILE:
+    if args.type == arguments_parser_2.Commands.BY_PATH:
         mover.move_media_by_path(
-            arguments_parser.get_file_path(),
-            arguments_parser.get_shows_destination_path(),
-            arguments_parser.get_movies_destination_path()
+            args.source,
+            args.show_destination,
+            args.movie_destination
         )
         return
 

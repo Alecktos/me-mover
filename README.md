@@ -26,24 +26,25 @@ Will move Vikings season 4 episode 15 of to media/sorted-tv-shows/Vikings/Season
 
 ### Commands:
     by-name                Moves all found episodes of specified tv-show. If matching movie all movies matching that name will be moved
-       positional arguments:
-         source              source directory to look for media in
-         shows-destination   root show destination directory
-         movies-destination  root movie destination directory
+      positional arguments:
+        name                name of show or movie to move
+        source              source directory to look for media in
+        shows-destination   show destination directory
+        movies-destination  movie destination directory
 
     by-path                Moves a movie or tv-show episode.
       positional arguments:
-        source              source directory to look for media in
-        shows-destination   root show destination directory
-        movies-destination  root movie destination directory
+        source              source path of movie or tv-show to moveia in
+        shows-destination   show destination directory
+        movies-destination  movie destination directory
 
     watch                  Monitors changes in a specific directory.
       positional arguments:
-        source                source directory to look for media in
-        shows-destination     root show destination directory
-        movies-destination    root movie destination directory
+        source                source directory to to watch for incoming tv-shows or movies
+        shows-destination     show destination directory
+        movies-destination    movie destination directory
       optional arguments:
-        -h, --help            show this help message and exit
+        --quit QUIT, -q QUIT  Number of seconds until exit
 
 ### Subtitles
 Subtitles of types .srt, .smi, .ssa, .ass, .vtt will be renamed to the name of the video being moved.
