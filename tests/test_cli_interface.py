@@ -4,7 +4,7 @@ import subprocess
 import unittest
 import sys
 
-from memover import argument_parser_2
+from memover import arguments_parser_2
 from tests.utils import file_mover_tester
 
 
@@ -45,5 +45,5 @@ class TestSubtitles(unittest.TestCase, file_mover_tester.FileMoverTester):
 
 
 if __name__ == '__main__':
-    current_args = argument_parser_2.get_current_args()
+    current_args = arguments_parser_2.get_current_args()
     print(current_args)

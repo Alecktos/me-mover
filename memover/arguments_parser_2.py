@@ -6,24 +6,21 @@ class Commands:
     BY_PATH = 'by-path'
     WATCH = 'watch'
 
-
 class MeMoverArgs:
-    type = None
-    source = None
-    show_destination = None
-    movie_destination = None
-    quit = None
-
-    def __init__(self, type, source, show_destination, movie_destination, auto_quit=None):
-        self.type = type
-        self.source = source
-        self.show_destination = show_destination
-        self.movie_destination = movie_destination
-        self.quit = auto_quit
+    def __init__(self, type: Commands, source: str, show_destination: str, movie_destination: str, auto_quit: int = None):
+        self.__type = type
+        self.__source = source
+        self.__show_destination = show_destination
+        self.__movie_destination = movie_destination
+        self.__quit = auto_quit
         super().__init__()
 
+    @property
+    def type(self) -> Commands:
+        return self.__type
+
     def __str__(self) -> str:
-        return f'type: {self.type}, source: {self.source}, show_destination: {self.show_destination}, movie_destination: {self.movie_destination}, quit {self.quit}'
+        return f'type: {self.__type}, source: {self.__source}, show_destination: {self.__show_destination}, movie_destination: {self.__movie_destination}, quit {self.__quit}'
 
 
 class MeMoverArgsCreator:
@@ -77,7 +74,7 @@ class MeMoverArgsCreator:
         parser_watch.set_defaults(func=self.watch)
 
 
-def get_current_args():
+def get_args():
     me_mover_args_creator = MeMoverArgsCreator()
 
     parser = argparse.ArgumentParser()
