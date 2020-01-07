@@ -56,30 +56,32 @@ class MeMoverArgs:
 
 class MeMoverArgsCreator:
 
-    current_args = None
+    def __init__(self):
+        self.__args = None
+        parser = argparse.ArgumentParser()
+        subparsers = parser.add_subparsers(help="commands")
 
-    def name(self, args):
-        self.current_args = MeMoverArgs(Commands.BY_NAME, args.source, args.show_destination, args.movie_destination, None, args.media_name)
+        self.__create_name(subparsers)
+        self.__create_path(subparsers)
+        self.__create_watch(subparsers)
 
-    def path(self, args):
-        self.current_args = MeMoverArgs(Commands.BY_PATH, args.source, args.show_destination, args.movie_destination)
+        args = parser.parse_args()
+        args.func(args)
 
-    def watch(self, args):
-        self.current_args = MeMoverArgs(Commands.WATCH, args.source, args.show_destination, args.movie_destination, args.quit)
+    @property
+    def args(self):
+        return self.__args
 
-    def add_common_arguments(self, parser):
-        parser.add_argument(
-            'show_destination',
-            metavar='shows-destination',
-            help='show destination directory'
-        )
-        parser.add_argument(
-            'movie_destination',
-            metavar='movies-destination',
-            help='movie destination directory'
-        )
+    def __set_to_name(self, args):
+        self.__args = MeMoverArgs(Commands.BY_NAME, args.source, args.show_destination, args.movie_destination, None, args.media_name)
 
-    def create_name(self, subparsers):
+    def __set_to_path(self, args):
+        self.__args = MeMoverArgs(Commands.BY_PATH, args.source, args.show_destination, args.movie_destination)
+
+    def __set_to_watch(self, args):
+        self.__args = MeMoverArgs(Commands.WATCH, args.source, args.show_destination, args.movie_destination, args.quit)
+
+    def __create_name(self, subparsers):
         parser_name = subparsers.add_parser('by-name')
         parser_name.add_argument(
             'media_name',
@@ -91,44 +93,44 @@ class MeMoverArgsCreator:
             metavar='source',
             help='source directory to look for media in'
         )
-        self.add_common_arguments(parser_name)
-        parser_name.set_defaults(func=self.name)
+        self.__add_common_arguments(parser_name)
+        parser_name.set_defaults(func=self.__set_to_name)
 
-    def create_path(self, subparsers):
+    def __create_path(self, subparsers):
         parser_path = subparsers.add_parser('by-path')
         parser_path.add_argument(
             'source',
             metavar='source',
             help='source path of movie or tv-show to move'
         )
-        self.add_common_arguments(parser_path)
+        self.__add_common_arguments(parser_path)
 
-        parser_path.set_defaults(func=self.path)
+        parser_path.set_defaults(func=self.__set_to_path)
 
-    def create_watch(self, subparsers):
+    def __create_watch(self, subparsers):
         parser_watch = subparsers.add_parser('watch')
         parser_watch.add_argument(
             'source',
             metavar='source',
             help='source directory to to watch for incoming tv-shows or movies'
         )
-        self.add_common_arguments(parser_watch)
+        self.__add_common_arguments(parser_watch)
         parser_watch.add_argument('--quit', '-q', type=int, required=False, dest='quit', help='Number of seconds until exit')
-        parser_watch.set_defaults(func=self.watch)
+        parser_watch.set_defaults(func=self.__set_to_watch)
 
+    @staticmethod
+    def __add_common_arguments(parser):
+        parser.add_argument(
+            'show_destination',
+            metavar='shows-destination',
+            help='show destination directory'
+        )
+        parser.add_argument(
+            'movie_destination',
+            metavar='movies-destination',
+            help='movie destination directory'
+        )
 
 def get_args():
     me_mover_args_creator = MeMoverArgsCreator()
-
-    parser = argparse.ArgumentParser()
-
-    subparsers = parser.add_subparsers(help="commands")
-
-    me_mover_args_creator.create_name(subparsers)
-    me_mover_args_creator.create_path(subparsers)
-    me_mover_args_creator.create_watch(subparsers)
-
-    args = parser.parse_args()
-    args.func(args)
-
-    return me_mover_args_creator.current_args
+    return me_mover_args_creator.args
