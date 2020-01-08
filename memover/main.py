@@ -1,3 +1,6 @@
+import asyncio
+
+from memover import watcher
 from . import arguments_parser_2
 from . import logger
 from . import mover
@@ -21,6 +24,10 @@ def main():
             args.show_destination,
             args.movie_destination
         )
+        return
+
+    if args.type == arguments_parser_2.Commands.WATCH:
+        asyncio.run(watcher.main())
         return
 
     logger.log('No action was made')

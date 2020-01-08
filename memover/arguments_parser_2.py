@@ -58,6 +58,8 @@ class MeMoverArgsCreator:
 
     def __init__(self):
         self.__args = None
+
+    def generate_args(self):
         parser = argparse.ArgumentParser()
         subparsers = parser.add_subparsers(help="commands")
 
@@ -131,6 +133,11 @@ class MeMoverArgsCreator:
             help='movie destination directory'
         )
 
-def get_args():
-    me_mover_args_creator = MeMoverArgsCreator()
+
+me_mover_args_creator = MeMoverArgsCreator()
+
+
+def get_args() -> MeMoverArgs:
+    if not me_mover_args_creator.args:
+        me_mover_args_creator.generate_args()
     return me_mover_args_creator.args
