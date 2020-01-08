@@ -154,11 +154,7 @@ async def auto_turn_off_handler():
         return
 
     while True:
-        print('auto turnoff: ' + str(auto_turn_off()))
         if time.time() > start_time + float(auto_turn_off()):
-            print('a: ' + str(start_time + float(auto_turn_off())))
-            print('b: ' + str(time.time()))
-            print("Exiting because of auto stop")
             sys.exit()
         await asyncio.sleep(1)
 
