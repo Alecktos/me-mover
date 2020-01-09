@@ -10,5 +10,8 @@ setup(name='me-mover',
       license='MIT',
       entry_points={
             'console_scripts': ['me-mover = memover.main:main']
-      }
+      },
+      install_requires=[
+            'watchdog'
+      ]
 )
