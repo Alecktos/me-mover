@@ -9,7 +9,7 @@ from tests.utils import file_mover_tester
 
 class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
 
-    auto_turn_off = 3  # Turn off after 10 seconds
+    auto_turn_off = 3  # in seconds
     file_name = 'kolla.S04E15.asswe.xTTT-RR[abf].mkv'
 
     def setUp(self):
