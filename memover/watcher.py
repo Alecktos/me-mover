@@ -6,7 +6,7 @@ import time
 from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
 
-from memover import arguments_parser_2, mover
+from memover import arguments_parser, mover
 
 modified_files_dir_queue = []
 top_level_created_files_dir_queue = []
@@ -14,12 +14,12 @@ start_time = time.time()
 
 
 def get_monitor_dir_path():
-    args = arguments_parser_2.get_args()
+    args = arguments_parser.get_args()
     return args.source
 
 
 def auto_turn_off():
-    args = arguments_parser_2.get_args()
+    args = arguments_parser.get_args()
     return args.quit
 
 
@@ -51,7 +51,7 @@ async def move_created_when_ready(path):
 
 
 def move_file(path):
-    args = arguments_parser_2.get_args()
+    args = arguments_parser.get_args()
 
     mover.move_media_by_path(
         path,

@@ -1,15 +1,15 @@
 import asyncio
 
 from memover import watcher
-from . import arguments_parser_2
+from . import arguments_parser
 from . import logger
 from . import mover
 
 
 def main():
-    args = arguments_parser_2.get_args()
+    args = arguments_parser.get_args()
 
-    if args.type == arguments_parser_2.Commands.BY_NAME:
+    if args.type == arguments_parser.Commands.BY_NAME:
         mover.move_media_by_name(
             args.media_name,
             args.source,
@@ -18,7 +18,7 @@ def main():
         )
         return
 
-    if args.type == arguments_parser_2.Commands.BY_PATH:
+    if args.type == arguments_parser.Commands.BY_PATH:
         mover.move_media_by_path(
             args.source,
             args.show_destination,
@@ -26,7 +26,7 @@ def main():
         )
         return
 
-    if args.type == arguments_parser_2.Commands.WATCH:
+    if args.type == arguments_parser.Commands.WATCH:
         asyncio.run(watcher.main())
         return
 
