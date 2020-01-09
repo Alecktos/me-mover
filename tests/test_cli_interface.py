@@ -36,7 +36,7 @@ class TestCliInterface(unittest.TestCase, file_mover_tester.FileMoverTester):
 
 
 def execute(args):
-    p = subprocess.Popen(f'{sys.executable} {os.path.dirname(os.path.realpath(__file__))}/../memover/arguments_parser_2.py {args}', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    p = subprocess.Popen(f'{sys.executable} {os.path.dirname(os.path.realpath(__file__))}/../memover/arguments_parser.py {args}', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     output = p.communicate()
     result = output[0]
     print(result)
