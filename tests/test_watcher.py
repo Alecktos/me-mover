@@ -9,7 +9,8 @@ from tests.utils import file_mover_tester
 
 class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
 
-    auto_turn_off = 10  # Turn off after 10 seconds
+    auto_turn_off = 3  # Turn off after 10 seconds
+    file_name = 'kolla.S04E15.asswe.xTTT-RR[abf].mkv'
 
     def setUp(self):
         self._create_test_dirs()
@@ -18,17 +19,13 @@ class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         self._delete_test_dirs()
 
     def __get_destination_path_file_1(self):
-        return f'{self._SHOW_DESTINATION_DIRECTORY}/kolla/Season 4/kolla.S04E15.asswe.xTTT-RR[abf].mkv'
-
-    def create_file(self, path):
-        os.open(path, os.O_CREAT)
+        return f'{self._SHOW_DESTINATION_DIRECTORY}/kolla/Season 4/{self.file_name}'
 
     def test_moving_application(self):
         process = self.__run_app()
-        time.sleep(5)
+        time.sleep(1)
 
-        file_name = 'kolla.S04E15.asswe.xTTT-RR[abf].mkv'
-        self.create_file(f'{self._SOURCE_DIRECTORY}/{file_name}')
+        self._createSourceFile(self.file_name)
 
         for line in process.stdout.readlines():
             print(line)
