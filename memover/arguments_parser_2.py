@@ -141,3 +141,8 @@ def get_args() -> MeMoverArgs:
     if not me_mover_args_creator.args:
         me_mover_args_creator.generate_args()
     return me_mover_args_creator.args
+
+
+if __name__ == '__main__':
+    current_args = get_args()
+    print(current_args)
