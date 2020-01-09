@@ -98,7 +98,7 @@ def on_deleted(event):
 
 def on_modified(event):
     # print(f"os stat: {repr(os.stat(event.src_path))}")
-    print(f"{event.src_path} has been modified")
+    # print(f"{event.src_path} has been modified")
     if event.src_path == get_monitor_dir_path():
         return
 
