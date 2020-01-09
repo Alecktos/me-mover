@@ -6,22 +6,23 @@ import time
 from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
 
-from memover import arguments_parser, mover
+from memover import mover
+from memover.arguments_parser import MeMoverArgs
 
 
 class __Watcher:
 
-    modified_files_dir_queue = []
-    top_level_created_files_dir_queue = []
-    start_time = time.time()
+    def __init__(self, args: MeMoverArgs) -> None:
+        self.modified_files_dir_queue = []
+        self.top_level_created_files_dir_queue = []
+        self.start_time = time.time()
+        self.args = args
 
     def get_monitor_dir_path(self):
-        args = arguments_parser.get_args()
-        return args.source
+        return self.args.source
 
     def auto_turn_off(self):
-        args = arguments_parser.get_args()
-        return args.quit
+        return self.args.quit
 
     async def print_queues_content(self):
         while True:
@@ -48,12 +49,11 @@ class __Watcher:
         del self.top_level_created_files_dir_queue[0]
 
     def move_file(self, path):
-        args = arguments_parser.get_args()
 
         mover.move_media_by_path(
             path,
-            args.show_destination,
-            args.movie_destination
+            self.args.show_destination,
+            self.args.movie_destination
         )
 
     def queuepath_from_path(self, target_list, path):
@@ -148,8 +148,8 @@ class __Watcher:
             await asyncio.sleep(1)
 
 
-async def run():
-    my_watcher = __Watcher()
+async def run(args: MeMoverArgs):
+    my_watcher = __Watcher(args)
     await asyncio.gather(
         my_watcher.observe(),
         my_watcher.move_created_files(),
