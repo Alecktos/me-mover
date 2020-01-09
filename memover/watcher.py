@@ -13,47 +13,47 @@ from memover.arguments_parser import MeMoverArgs
 class __Watcher:
 
     def __init__(self, args: MeMoverArgs) -> None:
-        self.modified_files_dir_queue = []
-        self.top_level_created_files_dir_queue = []
-        self.start_time = time.time()
-        self.args = args
+        self.__modified_files_dir_queue = []
+        self.__top_level_created_files_dir_queue = []
+        self.__start_time = time.time()
+        self.__args = args
 
     def get_monitor_dir_path(self):
-        return self.args.source
+        return self.__args.source
 
     def auto_turn_off(self):
-        return self.args.quit
+        return self.__args.quit
 
     async def print_queues_content(self):
         while True:
-            print(f'modified_files_dir_queue: {self.modified_files_dir_queue}')
-            print(f'top_level_created_files_dir_queue: {self.top_level_created_files_dir_queue}')
+            print(f'modified_files_dir_queue: {self.__modified_files_dir_queue}')
+            print(f'top_level_created_files_dir_queue: {self.__top_level_created_files_dir_queue}')
             await asyncio.sleep(3600)  # once an hour
 
     async def move_created_files(self):
         while True:
-            if not self.top_level_created_files_dir_queue:
+            if not self.__top_level_created_files_dir_queue:
                 await asyncio.sleep(1)
                 continue
-            dir_or_file = self.top_level_created_files_dir_queue[0]
+            dir_or_file = self.__top_level_created_files_dir_queue[0]
             await self.move_created_when_ready(dir_or_file)
 
     async def move_created_when_ready(self, path):
         await asyncio.sleep(1)  # 1 second
-        if path in self.modified_files_dir_queue:
-            self.modified_files_dir_queue.remove(path)
+        if path in self.__modified_files_dir_queue:
+            self.__modified_files_dir_queue.remove(path)
             return await self.move_created_when_ready(path)
 
         print(f"Moving path {path}")
         self.move_file(path)
-        del self.top_level_created_files_dir_queue[0]
+        del self.__top_level_created_files_dir_queue[0]
 
     def move_file(self, path):
 
         mover.move_media_by_path(
             path,
-            self.args.show_destination,
-            self.args.movie_destination
+            self.__args.show_destination,
+            self.__args.movie_destination
         )
 
     def queuepath_from_path(self, target_list, path):
@@ -79,10 +79,10 @@ class __Watcher:
         # print(f"event_type {event.event_type}")
         # print(f"os stat: {os.stat(event.src_path)}")
         print(f"{event.src_path} has been created")
-        if self.path_in_queue(self.top_level_created_files_dir_queue, event.src_path):
+        if self.path_in_queue(self.__top_level_created_files_dir_queue, event.src_path):
             return
 
-        self.top_level_created_files_dir_queue.append(event.src_path)
+        self.__top_level_created_files_dir_queue.append(event.src_path)
 
     def on_deleted(self, event):
         pass
@@ -98,15 +98,15 @@ class __Watcher:
             return
 
         # File is not in created files/dir queue
-        if not self.path_in_queue(self.top_level_created_files_dir_queue, event.src_path):
+        if not self.path_in_queue(self.__top_level_created_files_dir_queue, event.src_path):
             return
 
         # File is already in modified files/dir queue
-        if self.path_in_queue(self.modified_files_dir_queue, event.src_path):
+        if self.path_in_queue(self.__modified_files_dir_queue, event.src_path):
             return
 
-        modified_path = self.queuepath_from_path(self.top_level_created_files_dir_queue, event.src_path)
-        self.modified_files_dir_queue.append(modified_path)
+        modified_path = self.queuepath_from_path(self.__top_level_created_files_dir_queue, event.src_path)
+        self.__modified_files_dir_queue.append(modified_path)
 
     def on_moved(event):
         # print(f"{event.src_path} has been moved!")
@@ -143,7 +143,7 @@ class __Watcher:
             return
 
         while True:
-            if time.time() > self.start_time + float(self.auto_turn_off()):
+            if time.time() > self.__start_time + float(self.auto_turn_off()):
                 sys.exit()
             await asyncio.sleep(1)
 
