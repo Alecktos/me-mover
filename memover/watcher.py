@@ -148,7 +148,7 @@ class __Watcher:
             await asyncio.sleep(1)
 
 
-async def main():
+async def run():
     my_watcher = __Watcher()
     await asyncio.gather(
         my_watcher.observe(),

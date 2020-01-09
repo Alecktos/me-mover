@@ -27,7 +27,7 @@ def main():
         return
 
     if args.type == arguments_parser.Commands.WATCH:
-        asyncio.run(watcher.main())
+        asyncio.run(watcher.run())
         return
 
     logger.log('No action was made')
