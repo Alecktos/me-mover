@@ -30,6 +30,8 @@ class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         for line in process.stdout.readlines():
             print(line)
 
+        process.wait()
+
         file_is_in_new_path = os.path.isfile(self.__get_destination_path_file_1())
 
         self.assertTrue(file_is_in_new_path)
