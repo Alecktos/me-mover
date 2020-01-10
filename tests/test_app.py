@@ -114,4 +114,5 @@ class TestApp(unittest.TestCase, file_mover_tester.FileMoverTester):
         p = subprocess.Popen(f'{sys.executable} -m memover {args}', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         for line in p.stdout.readlines():
             print(line)
+        p.wait()
 
