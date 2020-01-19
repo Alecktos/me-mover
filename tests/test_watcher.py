@@ -4,13 +4,15 @@ import unittest
 import subprocess
 import sys
 
+from memover import file_handler
 from tests.utils import file_mover_tester
 
 
 class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
 
-    auto_turn_off = 3  # in seconds
-    file_name = 'kolla.S04E15.asswe.xTTT-RR[abf].mkv'
+    auto_turn_off = 4  # in seconds
+    test_file_1 = 'kolla.S04E15.asswe.xTTT-RR[abf].mkv'
+    test_file_2 = 'kolla.S05E16.asswe.xTTT-RR[abf].mkv'
 
     def setUp(self):
         self._create_test_dirs()
@@ -19,21 +21,28 @@ class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         self._delete_test_dirs()
 
     def __get_destination_path_file_1(self):
-        return f'{self._SHOW_DESTINATION_DIRECTORY}/kolla/Season 4/{self.file_name}'
+        return f'{self._SHOW_DESTINATION_DIRECTORY}/kolla/Season 4/{self.test_file_1}'
+
+    def __get_destination_path_file_2(self):
+        return f'{self._SHOW_DESTINATION_DIRECTORY}/kolla/Season 5/{self.test_file_2}'
 
     def test_moving_application(self):
         process = self.__run_app()
         time.sleep(1)
 
-        self._createSourceFile(self.file_name)
+        self._createSourceFile(self.test_file_1)
+
+        self._createSourceFile(self.test_file_2)
 
         for line in process.stdout.readlines():
             print(line)
 
         process.wait()
 
-        file_is_in_new_path = os.path.isfile(self.__get_destination_path_file_1())
+        file_is_in_new_path = file_handler.file_exist(self.__get_destination_path_file_1())
+        self.assertTrue(file_is_in_new_path)
 
+        file_is_in_new_path = file_handler.file_exist(self.__get_destination_path_file_2())
         self.assertTrue(file_is_in_new_path)
 
     def __run_app(self):
