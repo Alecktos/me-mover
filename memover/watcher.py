@@ -34,7 +34,7 @@ class SyncedWatcher:
         return self.__created_paths_to_move.append(path)
 
     def path_in_paths_to_move(self, path, monitor_path):
-        return self.path_in_queue(self.__created_paths_to_move, path, monitor_path)
+        return self.__path_in_queue(self.__created_paths_to_move, path, monitor_path)
 
     # Modified_paths
 
@@ -46,14 +46,14 @@ class SyncedWatcher:
         self.__modified_files_dir_queue.remove(path)
 
     def path_in_modified_files(self, path, monitor_path):
-        return self.path_in_queue(self.__modified_files_dir_queue, path, monitor_path)
+        return self.__path_in_queue(self.__modified_files_dir_queue, path, monitor_path)
 
     def path_exists_in_modified_files(self, path):
         return path in self.__modified_files_dir_queue
 
     # Utils
 
-    def path_in_queue(self, target_list, path, monitor_path):
+    def __path_in_queue(self, target_list, path, monitor_path):
         for target_list_path in target_list:
             if os.path.isdir(target_list_path):
                 if target_list_path.replace(monitor_path, '') in path.replace(monitor_path, ''):  # inbox path is not valid
