@@ -25,11 +25,10 @@ class SyncedWatcher:
     def no_created_files_to_move(self):
         return not self.__created_paths_to_move
 
-    def get_path_to_move(self):
-        return self.__created_paths_to_move[0]
-
-    def remove_path_to_move(self):
+    def pop_path_to_move(self):
+        first_path_to_move = self.__created_paths_to_move[0]
         del self.__created_paths_to_move[0]
+        return first_path_to_move
 
     def add_path_to_move(self, path):
         return self.__created_paths_to_move.append(path)
@@ -97,7 +96,7 @@ class __Watcher:
             if self.__synced_watcher.no_created_files_to_move():
                 await asyncio.sleep(1)
                 continue
-            dir_or_file = self.__synced_watcher.get_path_to_move()
+            dir_or_file = self.__synced_watcher.pop_path_to_move()
             await self.move_created_when_ready(dir_or_file)
 
     async def move_created_when_ready(self, path):
@@ -108,7 +107,6 @@ class __Watcher:
 
         print(f"Moving path {path}")
         self.move_file(path)
-        self.__synced_watcher.remove_path_to_move()
 
     def move_file(self, path):
         mover.move_media_by_path(
