@@ -121,7 +121,7 @@ class __Watcher:
         # print(f"event_type {event.event_type}")
         # print(f"os stat: {os.stat(event.src_path)}")
         print(f"{event.src_path} has been created")
-        if self.__synced_watcher.path_in_paths_to_move(event.src_path, self.get_monitor_dir_path()):  # self.__synced_watcher.path_in_queue(self.__top_level_created_files_dir_queue, event.src_path, self.get_monitor_dir_path()):
+        if self.__synced_watcher.path_in_paths_to_move(event.src_path, self.get_monitor_dir_path()):
             return
 
         self.__synced_watcher.add_path_to_move(event.src_path)
