@@ -10,13 +10,76 @@ from memover import mover
 from memover.arguments_parser import MeMoverArgs
 
 
+class SyncedWatcher:
+
+    def __init__(self):
+        self.__modified_files_dir_queue = []
+        self.__created_paths_to_move = []
+
+    def print_state(self):
+        print(f'modified_files_dir_queue: {self.__modified_files_dir_queue}')
+        print(f'top_level_created_files_dir_queue: {self.__created_paths_to_move}')
+
+    # Created_paths_to_move
+
+    def no_created_files_to_move(self):
+        return not self.__created_paths_to_move
+
+    def get_path_to_move(self):
+        return self.__created_paths_to_move[0]
+
+    def remove_path_to_move(self):
+        del self.__created_paths_to_move[0]
+
+    def add_path_to_move(self, path):
+        return self.__created_paths_to_move.append(path)
+
+    def path_in_paths_to_move(self, path, monitor_path):
+        return self.path_in_queue(self.__created_paths_to_move, path, monitor_path)
+
+    # Modified_paths
+
+    def add_to_modified_paths(self, path, monitor_path):
+        modified_path = self.queuepath_from_path(self.__created_paths_to_move, path, monitor_path)
+        self.__modified_files_dir_queue.append(modified_path)
+
+    def remove_path_from_modified_paths(self, path):
+        self.__modified_files_dir_queue.remove(path)
+
+    def path_in_modified_files(self, path, monitor_path):
+        return self.path_in_queue(self.__modified_files_dir_queue, path, monitor_path)
+
+    def path_exists_in_modified_files(self, path):
+        return path in self.__modified_files_dir_queue
+
+    # Utils
+
+    def path_in_queue(self, target_list, path, monitor_path):
+        for target_list_path in target_list:
+            if os.path.isdir(target_list_path):
+                if target_list_path.replace(monitor_path, '') in path.replace(monitor_path, ''):  # inbox path is not valid
+                    return True
+            else: # If file
+                if target_list_path == path:
+                    return True
+
+        return False
+
+    def queuepath_from_path(self, target_list, path, monitor_path):
+        for target_list_path in target_list:
+            if os.path.isdir(target_list_path):
+                if target_list_path.replace(monitor_path, '') in path.replace(monitor_path, ''):  # inbox path is not valid
+                    return target_list_path
+
+        return path
+
+
 class __Watcher:
 
     def __init__(self, args: MeMoverArgs) -> None:
-        self.__modified_files_dir_queue = []
-        self.__top_level_created_files_dir_queue = []
         self.__start_time = time.time()
         self.__args = args
+        self.__synced_watcher = SyncedWatcher()
 
     def get_monitor_dir_path(self):
         return self.__args.source
@@ -26,63 +89,42 @@ class __Watcher:
 
     async def print_queues_content(self):
         while True:
-            print(f'modified_files_dir_queue: {self.__modified_files_dir_queue}')
-            print(f'top_level_created_files_dir_queue: {self.__top_level_created_files_dir_queue}')
+            self.__synced_watcher.print_state()
             await asyncio.sleep(3600)  # once an hour
 
     async def move_created_files(self):
         while True:
-            if not self.__top_level_created_files_dir_queue:
+            if self.__synced_watcher.no_created_files_to_move():
                 await asyncio.sleep(1)
                 continue
-            dir_or_file = self.__top_level_created_files_dir_queue[0]
+            dir_or_file = self.__synced_watcher.get_path_to_move()
             await self.move_created_when_ready(dir_or_file)
 
     async def move_created_when_ready(self, path):
         await asyncio.sleep(1)  # 1 second
-        if path in self.__modified_files_dir_queue:
-            self.__modified_files_dir_queue.remove(path)
+        if self.__synced_watcher.path_exists_in_modified_files(path):
+            self.__synced_watcher.remove_path_from_modified_paths(path)
             return await self.move_created_when_ready(path)
 
         print(f"Moving path {path}")
         self.move_file(path)
-        del self.__top_level_created_files_dir_queue[0]
+        self.__synced_watcher.remove_path_to_move()
 
     def move_file(self, path):
-
         mover.move_media_by_path(
             path,
             self.__args.show_destination,
             self.__args.movie_destination
         )
 
-    def queuepath_from_path(self, target_list, path):
-        for target_list_path in target_list:
-            if os.path.isdir(target_list_path):
-                if target_list_path.replace(self.get_monitor_dir_path(), '') in path.replace(self.get_monitor_dir_path(), ''):  # inbox path is not valid
-                    return target_list_path
-
-        return path
-
-    def path_in_queue(self, target_list, path):
-        for target_list_path in target_list:
-            if os.path.isdir(target_list_path):
-                if target_list_path.replace(self.get_monitor_dir_path(), '') in path.replace(self.get_monitor_dir_path(), ''):  # inbox path is not valid
-                    return True
-            else: # If file
-                if target_list_path == path:
-                    return True
-
-        return False
-
     def on_created(self, event):
         # print(f"event_type {event.event_type}")
         # print(f"os stat: {os.stat(event.src_path)}")
         print(f"{event.src_path} has been created")
-        if self.path_in_queue(self.__top_level_created_files_dir_queue, event.src_path):
+        if self.__synced_watcher.path_in_paths_to_move(event.src_path, self.get_monitor_dir_path()):  # self.__synced_watcher.path_in_queue(self.__top_level_created_files_dir_queue, event.src_path, self.get_monitor_dir_path()):
             return
 
-        self.__top_level_created_files_dir_queue.append(event.src_path)
+        self.__synced_watcher.add_path_to_move(event.src_path)
 
     def on_deleted(self, event):
         pass
@@ -98,15 +140,14 @@ class __Watcher:
             return
 
         # File is not in created files/dir queue
-        if not self.path_in_queue(self.__top_level_created_files_dir_queue, event.src_path):
+        if not self.__synced_watcher.path_in_paths_to_move(event.src_path, self.get_monitor_dir_path()):
             return
 
         # File is already in modified files/dir queue
-        if self.path_in_queue(self.__modified_files_dir_queue, event.src_path):
+        if self.__synced_watcher.path_in_modified_files(event.src_path, self.get_monitor_dir_path()):
             return
 
-        modified_path = self.queuepath_from_path(self.__top_level_created_files_dir_queue, event.src_path)
-        self.__modified_files_dir_queue.append(modified_path)
+        self.__synced_watcher.add_to_modified_paths(event.src_path, self.get_monitor_dir_path())
 
     def on_moved(event):
         # print(f"{event.src_path} has been moved!")
