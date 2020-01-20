@@ -33,7 +33,7 @@ class SyncedWatcher:
     def add_path_to_move(self, path):
         return self.__created_paths_to_move.append(path)
 
-    def path_in_paths_to_move(self, path, monitor_path):
+    def in_paths_to_move(self, path, monitor_path):
         return self.__path_in_queue(self.__created_paths_to_move, path, monitor_path)
 
     # Modified_paths
@@ -119,7 +119,7 @@ class __Watcher:
         # print(f"event_type {event.event_type}")
         # print(f"os stat: {os.stat(event.src_path)}")
         print(f"{event.src_path} has been created")
-        if self.__synced_watcher.path_in_paths_to_move(event.src_path, self.get_monitor_dir_path()):
+        if self.__synced_watcher.in_paths_to_move(event.src_path, self.get_monitor_dir_path()):
             return
 
         self.__synced_watcher.add_path_to_move(event.src_path)
@@ -138,7 +138,7 @@ class __Watcher:
             return
 
         # File is not in created files/dir queue
-        if not self.__synced_watcher.path_in_paths_to_move(event.src_path, self.get_monitor_dir_path()):
+        if not self.__synced_watcher.in_paths_to_move(event.src_path, self.get_monitor_dir_path()):
             return
 
         # File is already in modified files/dir queue
