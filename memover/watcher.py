@@ -48,9 +48,6 @@ class SyncedWatcher:
     def path_in_modified_files(self, path, monitor_path):
         return self.__path_in_queue(self.__modified_files_dir_queue, path, monitor_path)
 
-    def path_exists_in_modified_files(self, path):
-        return path in self.__modified_files_dir_queue
-
     # Utils
 
     def __path_in_queue(self, target_list, path, monitor_path):
@@ -101,7 +98,7 @@ class __Watcher:
 
     async def move_created_when_ready(self, path):
         await asyncio.sleep(1)  # 1 second
-        if self.__synced_watcher.path_exists_in_modified_files(path):
+        if self.__synced_watcher.path_in_modified_files(path, self.get_monitor_dir_path()):
             self.__synced_watcher.remove_path_from_modified_paths(path)
             return await self.move_created_when_ready(path)
 
