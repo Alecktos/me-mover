@@ -45,7 +45,7 @@ class SyncedWatcher:
     def remove_path_from_modified_paths(self, path):
         self.__modified_files_dir_queue.remove(path)
 
-    def path_in_modified_files(self, path, monitor_path):
+    def in_modified_files(self, path, monitor_path):
         return self.__path_in_queue(self.__modified_files_dir_queue, path, monitor_path)
 
     # Utils
@@ -98,7 +98,7 @@ class __Watcher:
 
     async def move_created_when_ready(self, path):
         await asyncio.sleep(1)  # 1 second
-        if self.__synced_watcher.path_in_modified_files(path, self.get_monitor_dir_path()):
+        if self.__synced_watcher.in_modified_files(path, self.get_monitor_dir_path()):
             self.__synced_watcher.remove_path_from_modified_paths(path)
             return await self.move_created_when_ready(path)
 
@@ -139,7 +139,7 @@ class __Watcher:
             return
 
         # File is already in modified files/dir queue
-        if self.__synced_watcher.path_in_modified_files(event.src_path, self.get_monitor_dir_path()):
+        if self.__synced_watcher.in_modified_files(event.src_path, self.get_monitor_dir_path()):
             return
 
         self.__synced_watcher.add_to_modified_paths(event.src_path, self.get_monitor_dir_path())
