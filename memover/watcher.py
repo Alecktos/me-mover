@@ -134,10 +134,6 @@ class __Watcher:
         if not os.path.exists(event.src_path):
             return
 
-        # File is not in created files/dir queue
-        if not self.__synced_watcher.in_paths_to_move(event.src_path, self.get_monitor_dir_path()):
-            return
-
         # File is already in modified files/dir queue
         if self.__synced_watcher.in_modified_files(event.src_path, self.get_monitor_dir_path()):
             return
