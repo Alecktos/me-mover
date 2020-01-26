@@ -22,6 +22,14 @@ class SyncedWatcher:
 
     # Created_paths_to_move
 
+    @property
+    def modified_files_dir_queue(self):
+        return self.__modified_files_dir_queue
+
+    @property
+    def created_paths_to_move(self):
+        return self.__created_paths_to_move
+
     def no_created_files_to_move(self):
         return not self.__created_paths_to_move
 
@@ -51,12 +59,14 @@ class SyncedWatcher:
     # Utils
 
     def __path_in_queue(self, target_list, path, monitor_path):
+        normalized_path = path.strip('/')
         for target_list_path in target_list:
+            normalized_target_list_path = target_list_path.strip('/')
             if os.path.isdir(target_list_path):
                 if target_list_path.replace(monitor_path, '') in path.replace(monitor_path, ''):  # inbox path is not valid
                     return True
             else: # If file
-                if target_list_path == path:
+                if normalized_target_list_path == normalized_path:
                     return True
 
         return False
@@ -70,12 +80,20 @@ class SyncedWatcher:
         return path
 
 
-class __Watcher:
+class Watcher:
 
     def __init__(self, args: MeMoverArgs) -> None:
         self.__start_time = time.time()
         self.__args = args
         self.__synced_watcher = SyncedWatcher()
+
+    @property
+    def modified_files_dir_queue(self):
+        return self.__synced_watcher.modified_files_dir_queue
+
+    @property
+    def created_paths_to_move(self):
+        return self.__synced_watcher.created_paths_to_move
 
     def get_monitor_dir_path(self):
         return self.__args.source
@@ -84,12 +102,13 @@ class __Watcher:
         return self.__args.quit
 
     async def print_queues_content(self):
-        while True:
-            self.__synced_watcher.print_state()
-            await asyncio.sleep(3600)  # once an hour
+        if not self.should_quit():   # Dont run when auto quit is on
+            return
+        self.__synced_watcher.print_state()
+        await asyncio.sleep(3600)  # once an hour
 
     async def move_created_files(self):
-        while True:
+        while not self.should_quit():
             if self.__synced_watcher.no_created_files_to_move():
                 await asyncio.sleep(1)
                 continue
@@ -128,7 +147,8 @@ class __Watcher:
     def on_modified(self, event):
         # print(f"os stat: {repr(os.stat(event.src_path))}")
         # print(f"{event.src_path} has been modified")
-        if event.src_path == self.get_monitor_dir_path():
+
+        if event.src_path.strip('/') == self.get_monitor_dir_path().strip('/'):
             return
 
         if not os.path.exists(event.src_path):
@@ -164,27 +184,20 @@ class __Watcher:
         my_observer.start()
 
         try:
-            while True:
+            while not self.should_quit():
                 await asyncio.sleep(1)
-        except KeyboardInterrupt:
+        finally:
             my_observer.stop()
             my_observer.join()
 
-    async def auto_turn_off_handler(self):
-        if not self.auto_turn_off():
-            return
-
-        while True:
-            if time.time() > self.__start_time + float(self.auto_turn_off()):
-                sys.exit()
-            await asyncio.sleep(1)
+    def should_quit(self):
+        return self.auto_turn_off() and (time.time() > self.__start_time + float(self.auto_turn_off()))
 
 
 async def run(args: MeMoverArgs):
-    my_watcher = __Watcher(args)
+    my_watcher = Watcher(args)
     await asyncio.gather(
         my_watcher.observe(),
         my_watcher.move_created_files(),
-        my_watcher.print_queues_content(),
-        my_watcher.auto_turn_off_handler()
+        my_watcher.print_queues_content()
     )
