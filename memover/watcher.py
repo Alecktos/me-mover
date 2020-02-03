@@ -145,8 +145,8 @@ class Watcher:
         # print(f"{event.src_path} has been deleted!")
 
     def on_modified(self, event):
-        # print(f"os stat: {repr(os.stat(event.src_path))}")
-        # print(f"{event.src_path} has been modified")
+        print(f"os stat: {repr(os.stat(event.src_path))}")
+        print(f"{event.src_path} has been modified")
 
         if event.src_path.strip('/') == self.get_monitor_dir_path().strip('/'):
             return
