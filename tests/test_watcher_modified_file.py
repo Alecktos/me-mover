@@ -22,14 +22,22 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
         await asyncio.sleep(1)
 
         self._createSourceFile(test_file_1)
-        self._set_size_in_mb(test_file_1, 1)
+        self._set_size_in_mb(test_file_1, 2)
 
         await asyncio.sleep(1)
 
         self.assertTrue(self.__test_file_1_path in self.my_watcher.modified_files_dir_queue)
         self.assertTrue(self.__test_file_1_path in self.my_watcher.created_paths_to_move)
 
-        await asyncio.sleep(2)
+        await asyncio.sleep(1)
+
+        self._set_size_in_mb(test_file_1, 2)
+
+        await asyncio.sleep(1)
+
+        self._set_size_in_mb(test_file_1, 2)
+
+        await asyncio.sleep(1)
 
         self.assertFalse(self.__test_file_1_path in self.my_watcher.modified_files_dir_queue)
         self.assertFalse(self.__test_file_1_path in self.my_watcher.created_paths_to_move)
