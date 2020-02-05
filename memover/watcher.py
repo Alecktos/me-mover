@@ -116,7 +116,7 @@ class Watcher:
             await self.move_created_when_ready(dir_or_file)
 
     async def move_created_when_ready(self, path):
-        await asyncio.sleep(1)  # 1 second
+        await asyncio.sleep(2)  # 1 second
         if self.__synced_watcher.in_modified_files(path, self.get_monitor_dir_path()):
             self.__synced_watcher.remove_path_from_modified_paths(path)
             return await self.move_created_when_ready(path)
