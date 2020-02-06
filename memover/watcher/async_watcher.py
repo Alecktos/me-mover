@@ -45,13 +45,13 @@ class AsyncWatcher:
             await self.move_created_when_ready(dir_or_file)
 
     async def move_created_when_ready(self, path):
-        await asyncio.sleep(2)  # 1 second
-        if self.__synced_watcher.in_modified_files(path, self.get_monitor_dir_path()):
-            self.__synced_watcher.remove_path_from_modified_paths(path)
-            return await self.move_created_when_ready(path)
-
-        print(f"Moving path {path}")
-        self.__synced_watcher.move_file(path, self.__args.show_destination, self.__args.movie_destination)
+        while self.__synced_watcher.move_file(
+                path,
+                self.__args.show_destination,
+                self.__args.movie_destination,
+                self.get_monitor_dir_path()
+        ) is False:
+            await asyncio.sleep(2)  # 1 second
 
     def on_created(self, event):
         # print(f"event_type {event.event_type}")

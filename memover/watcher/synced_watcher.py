@@ -13,12 +13,18 @@ class SyncedWatcher:
         print(f'modified_files_dir_queue: {self.__modified_files_dir_queue}')
         print(f'top_level_created_files_dir_queue: {self.__created_paths_to_move}')
 
-    def move_file(self, path, show_destination, movie_destination):
+    def move_file(self, path, show_destination, movie_destination, monitor_path):
+        if self.in_modified_files(path, monitor_path):
+            self.remove_path_from_modified_paths(path)
+            return False
+
+        print(f"Moving path {path}")
         mover.move_media_by_path(
             path,
             show_destination,
             movie_destination
         )
+        return True
 
     # Created_paths_to_move
 
