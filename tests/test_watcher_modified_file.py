@@ -2,7 +2,7 @@ import asyncio
 import unittest
 
 from memover.arguments_parser import MeMoverArgs, Commands
-from memover.watcher import Watcher
+from memover.watcher.async_watcher import AsyncWatcher
 from tests.utils import file_mover_tester
 
 auto_turn_off = 4  # in seconds
@@ -56,7 +56,7 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
 
         loop = asyncio.get_event_loop()
 
-        self.my_watcher = Watcher(args)
+        self.my_watcher = AsyncWatcher(args)
 
         all_groups = asyncio.gather(
             self.make_file_bigger(),
@@ -65,4 +65,4 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
         )
 
         results = loop.run_until_complete(all_groups)
-        loop.close() # It's possible that'm using thwe old asyncio API here.
+        loop.close()  # It's possible that'm using thwe old asyncio API here.

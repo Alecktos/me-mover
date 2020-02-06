@@ -1,13 +1,10 @@
-import asyncio
-import os
 import time
 import unittest
 import subprocess
 import sys
 
-from memover import file_handler, watcher
-from memover.arguments_parser import MeMoverArgs, Commands
-from memover.watcher import SyncedWatcher, Watcher
+from memover import file_handler
+from memover.watcher.async_watcher import SyncedWatcher
 from tests.utils import file_mover_tester
 
 class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
