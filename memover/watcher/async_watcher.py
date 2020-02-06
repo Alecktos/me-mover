@@ -51,14 +51,7 @@ class AsyncWatcher:
             return await self.move_created_when_ready(path)
 
         print(f"Moving path {path}")
-        self.move_file(path)
-
-    def move_file(self, path):
-        mover.move_media_by_path(
-            path,
-            self.__args.show_destination,
-            self.__args.movie_destination
-        )
+        self.__synced_watcher.move_file(path, self.__args.show_destination, self.__args.movie_destination)
 
     def on_created(self, event):
         # print(f"event_type {event.event_type}")

@@ -1,5 +1,7 @@
 import os
 
+from memover import mover
+
 
 class SyncedWatcher:
 
@@ -10,6 +12,13 @@ class SyncedWatcher:
     def print_state(self):
         print(f'modified_files_dir_queue: {self.__modified_files_dir_queue}')
         print(f'top_level_created_files_dir_queue: {self.__created_paths_to_move}')
+
+    def move_file(self, path, show_destination, movie_destination):
+        mover.move_media_by_path(
+            path,
+            show_destination,
+            movie_destination
+        )
 
     # Created_paths_to_move
 
