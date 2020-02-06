@@ -14,10 +14,6 @@ class SyncedWatcher:
     # Created_paths_to_move
 
     @property
-    def modified_files_dir_queue(self):
-        return self.__modified_files_dir_queue
-
-    @property
     def created_paths_to_move(self):
         return self.__created_paths_to_move
 
@@ -39,6 +35,10 @@ class SyncedWatcher:
         return self.__path_in_queue(self.__created_paths_to_move, path, monitor_path)
 
     # Modified_paths
+
+    @property
+    def modified_files_dir_queue(self):
+        return self.__modified_files_dir_queue
 
     def add_to_modified_paths(self, path, monitor_path):
         if path.strip('/') == monitor_path.strip('/'):
