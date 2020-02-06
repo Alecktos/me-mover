@@ -47,6 +47,18 @@ class SyncedWatcher:
     # Modified_paths
 
     def add_to_modified_paths(self, path, monitor_path):
+        if path.strip('/') == monitor_path.strip('/'):
+            return
+
+        if not os.path.exists(path):
+            print(f"modified file path does not exist anymore: {path}")
+            return
+
+        # File is already in modified files/dir queue
+        if self.in_modified_files(path, monitor_path):
+            print(f'file is already in modified file queue {path}')
+            return
+
         modified_path = self.queuepath_from_path(self.__created_paths_to_move, path, monitor_path)
         self.__modified_files_dir_queue.append(modified_path)
 
@@ -146,20 +158,6 @@ class Watcher:
         # print(f"{event.src_path} has been deleted!")
 
     def on_modified(self, event):
-        if event.src_path.strip('/') == self.get_monitor_dir_path().strip('/'):
-            return
-
-        if not os.path.exists(event.src_path):
-            print(f"modified file path does not exist anymore: {event.src_path}")
-            return
-
-        # File is already in modified files/dir queue
-        if self.__synced_watcher.in_modified_files(event.src_path, self.get_monitor_dir_path()):
-            print(f'file is already in modified file queue {event.src_path}')
-            return
-
-        # print that it's added to path'
-        print(f'added to modified path {event.src_path}')
         self.__synced_watcher.add_to_modified_paths(event.src_path, self.get_monitor_dir_path())
 
     def on_moved(event):
