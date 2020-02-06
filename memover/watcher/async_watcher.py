@@ -31,15 +31,8 @@ class AsyncWatcher:
 
     async def move_created_files(self):
         while not self.should_quit():
-            if self.__synced_watcher.no_created_files_to_move():
-                await asyncio.sleep(1)
-                continue
-            dir_or_file = self.__synced_watcher.pop_path_to_move()
-            await self.move_created_when_ready(dir_or_file)
-
-    async def move_created_when_ready(self, path):
-        while self.__synced_watcher.move_file(path) is False:
-            await asyncio.sleep(2)  # 1 second
+            self.__synced_watcher.move_next_path()
+            await asyncio.sleep(1)  # 1 second
 
     def on_created(self, event):
         # print(f"event_type {event.event_type}")
