@@ -52,7 +52,7 @@ class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         synced_watcher = SyncedWatcher()
         file_path = self._createSourceFile(self.__test_file_1)
 
-        synced_watcher.add_path_to_move(file_path)
+        synced_watcher.add_path_to_move(file_path, self._SOURCE_DIRECTORY)
         result = synced_watcher.in_paths_to_move(file_path, self._SOURCE_DIRECTORY)
         self.assertTrue(result)
 
@@ -63,7 +63,7 @@ class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         file_handler.create_file(file_path)
         synced_watcher = SyncedWatcher()
 
-        synced_watcher.add_path_to_move(dir_path)
+        synced_watcher.add_path_to_move(dir_path, self._SOURCE_DIRECTORY)
         result = synced_watcher.in_paths_to_move(file_path, self._SOURCE_DIRECTORY)
         self.assertTrue(result)
 

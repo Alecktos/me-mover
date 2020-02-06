@@ -38,7 +38,10 @@ class SyncedWatcher:
         del self.__created_paths_to_move[0]
         return first_path_to_move
 
-    def add_path_to_move(self, path):
+    def add_path_to_move(self, path, monitor_path):
+        print(f"{path} has been created")
+        if self.in_paths_to_move(path, monitor_path):
+            return
         return self.__created_paths_to_move.append(path)
 
     def in_paths_to_move(self, path, monitor_path):
@@ -147,11 +150,7 @@ class Watcher:
     def on_created(self, event):
         # print(f"event_type {event.event_type}")
         # print(f"os stat: {os.stat(event.src_path)}")
-        print(f"{event.src_path} has been created")
-        if self.__synced_watcher.in_paths_to_move(event.src_path, self.get_monitor_dir_path()):
-            return
-
-        self.__synced_watcher.add_path_to_move(event.src_path)
+        self.__synced_watcher.add_path_to_move(event.src_path, self.get_monitor_dir_path())
 
     def on_deleted(self, event):
         pass
