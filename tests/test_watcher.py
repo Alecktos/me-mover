@@ -31,7 +31,13 @@ class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         return f'{self._SHOW_DESTINATION_DIRECTORY}/kolla/Season 5/{self.__test_file_2}'
 
     def test_moving_multiple_files(self):
-        process = self.__run_app()
+        def run_app():
+            args = f'{self._SOURCE_DIRECTORY} {self._SHOW_DESTINATION_DIRECTORY} {self._MOVIE_DESTINATION_DIRECTORY} -q {self.__auto_turn_off}'
+            execution = f'{sys.executable} -m memover watch {args}'
+            p = subprocess.Popen(execution, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            return p
+
+        process = run_app()
         time.sleep(1)
 
         self._createSourceFile(self.__test_file_1)
@@ -66,9 +72,3 @@ class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         synced_watcher.add_path_to_move(dir_path, self._SOURCE_DIRECTORY)
         result = synced_watcher.in_paths_to_move(file_path, self._SOURCE_DIRECTORY)
         self.assertTrue(result)
-
-    def __run_app(self):
-        args = f'{self._SOURCE_DIRECTORY} {self._SHOW_DESTINATION_DIRECTORY} {self._MOVIE_DESTINATION_DIRECTORY} -q {self.__auto_turn_off}'
-        execution = f'{sys.executable} -m memover watch {args}'
-        p = subprocess.Popen(execution, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        return p
