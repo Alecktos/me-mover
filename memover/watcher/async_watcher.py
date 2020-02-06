@@ -4,7 +4,6 @@ import time
 from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
 
-from memover import mover
 from memover.arguments_parser import MeMoverArgs
 from memover.watcher.synced_watcher import SyncedWatcher
 
@@ -14,7 +13,7 @@ class AsyncWatcher:
     def __init__(self, args: MeMoverArgs) -> None:
         self.__start_time = time.time()
         self.__args = args
-        self.__synced_watcher = SyncedWatcher()
+        self.__synced_watcher = SyncedWatcher(args)
 
     @property
     def modified_files_dir_queue(self):
@@ -23,12 +22,6 @@ class AsyncWatcher:
     @property
     def created_paths_to_move(self):
         return self.__synced_watcher.created_paths_to_move
-
-    def get_monitor_dir_path(self):
-        return self.__args.source
-
-    def auto_turn_off(self):
-        return self.__args.quit
 
     async def print_queues_content(self):
         if not self.should_quit():   # Dont run when auto quit is on
@@ -45,25 +38,20 @@ class AsyncWatcher:
             await self.move_created_when_ready(dir_or_file)
 
     async def move_created_when_ready(self, path):
-        while self.__synced_watcher.move_file(
-                path,
-                self.__args.show_destination,
-                self.__args.movie_destination,
-                self.get_monitor_dir_path()
-        ) is False:
+        while self.__synced_watcher.move_file(path) is False:
             await asyncio.sleep(2)  # 1 second
 
     def on_created(self, event):
         # print(f"event_type {event.event_type}")
         # print(f"os stat: {os.stat(event.src_path)}")
-        self.__synced_watcher.add_path_to_move(event.src_path, self.get_monitor_dir_path())
+        self.__synced_watcher.add_path_to_move(event.src_path)
 
     def on_deleted(self, event):
         pass
         # print(f"{event.src_path} has been deleted!")
 
     def on_modified(self, event):
-        self.__synced_watcher.add_to_modified_paths(event.src_path, self.get_monitor_dir_path())
+        self.__synced_watcher.add_to_modified_paths(event.src_path)
 
     def on_moved(event):
         # print(f"{event.src_path} has been moved!")
@@ -81,7 +69,7 @@ class AsyncWatcher:
         my_event_handler.on_modified = self.on_modified
         my_event_handler.on_moved = self.on_moved
 
-        path = self.get_monitor_dir_path()
+        path = self.__args.source
         print(f"Listening on path: {path}")
         go_recursively = True
         my_observer = Observer()
@@ -96,7 +84,7 @@ class AsyncWatcher:
             my_observer.join()
 
     def should_quit(self):
-        return self.auto_turn_off() and (time.time() > self.__start_time + float(self.auto_turn_off()))
+        return self.__args.quit and (time.time() > self.__start_time + float(self.__args.quit))
 
 
 async def run(args: MeMoverArgs):

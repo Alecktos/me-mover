@@ -1,28 +1,30 @@
 import os
 
 from memover import mover
+from memover.arguments_parser import MeMoverArgs
 
 
 class SyncedWatcher:
 
-    def __init__(self):
+    def __init__(self, args: MeMoverArgs):
         self.__modified_files_dir_queue = []
         self.__created_paths_to_move = []
+        self.__args = args
 
     def print_state(self):
         print(f'modified_files_dir_queue: {self.__modified_files_dir_queue}')
         print(f'top_level_created_files_dir_queue: {self.__created_paths_to_move}')
 
-    def move_file(self, path, show_destination, movie_destination, monitor_path):
-        if self.in_modified_files(path, monitor_path):
+    def move_file(self, path):
+        if self.in_modified_files(path, self.__args.source):
             self.remove_path_from_modified_paths(path)
             return False
 
         print(f"Moving path {path}")
         mover.move_media_by_path(
             path,
-            show_destination,
-            movie_destination
+            self.__args.show_destination,
+            self.__args.movie_destination
         )
         return True
 
@@ -40,14 +42,14 @@ class SyncedWatcher:
         del self.__created_paths_to_move[0]
         return first_path_to_move
 
-    def add_path_to_move(self, path, monitor_path):
+    def add_path_to_move(self, path):
         print(f"{path} has been created")
-        if self.in_paths_to_move(path, monitor_path):
+        if self.in_paths_to_move(path, self.__args.source):
             return
         return self.__created_paths_to_move.append(path)
 
     def in_paths_to_move(self, path, monitor_path):
-        return self.__path_in_queue(self.__created_paths_to_move, path, monitor_path)
+        return self.__path_in_queue(self.__created_paths_to_move, path)
 
     # Modified_paths
 
@@ -55,8 +57,8 @@ class SyncedWatcher:
     def modified_files_dir_queue(self):
         return self.__modified_files_dir_queue
 
-    def add_to_modified_paths(self, path, monitor_path):
-        if path.strip('/') == monitor_path.strip('/'):
+    def add_to_modified_paths(self, path):
+        if path.strip('/') == self.__args.source.strip('/'):
             return
 
         if not os.path.exists(path):
@@ -64,11 +66,11 @@ class SyncedWatcher:
             return
 
         # File is already in modified files/dir queue
-        if self.in_modified_files(path, monitor_path):
+        if self.in_modified_files(path, self.__args.source):
             print(f'file is already in modified file queue {path}')
             return
 
-        modified_path = self.queuepath_from_path(self.__created_paths_to_move, path, monitor_path)
+        modified_path = self.__queuepath_from_path(self.__created_paths_to_move, path)
         self.__modified_files_dir_queue.append(modified_path)
 
     def remove_path_from_modified_paths(self, path):
@@ -76,27 +78,27 @@ class SyncedWatcher:
         self.__modified_files_dir_queue.remove(path)
 
     def in_modified_files(self, path, monitor_path):
-        return self.__path_in_queue(self.__modified_files_dir_queue, path, monitor_path)
+        return self.__path_in_queue(self.__modified_files_dir_queue, path)
 
     # Utils
 
-    def __path_in_queue(self, target_list, path, monitor_path):
+    def __path_in_queue(self, target_list, path):
         normalized_path = path.strip('/')
         for target_list_path in target_list:
             normalized_target_list_path = target_list_path.strip('/')
             if os.path.isdir(target_list_path):
-                if target_list_path.replace(monitor_path, '') in path.replace(monitor_path, ''):  # inbox path is not valid
+                if target_list_path.replace(self.__args.source, '') in path.replace(self.__args.source, ''):  # inbox path is not valid
                     return True
-            else: # If file
+            else:  # If file
                 if normalized_target_list_path == normalized_path:
                     return True
 
         return False
 
-    def queuepath_from_path(self, target_list, path, monitor_path):
+    def __queuepath_from_path(self, target_list, path):
         for target_list_path in target_list:
             if os.path.isdir(target_list_path):
-                if target_list_path.replace(monitor_path, '') in path.replace(monitor_path, ''):  # inbox path is not valid
+                if target_list_path.replace(self.__args.source, '') in path.replace(self.__args.source, ''):  # inbox path is not valid
                     return target_list_path
 
         return path
