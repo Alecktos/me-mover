@@ -72,3 +72,5 @@ If the show name or season directory does not exist they will be created.
 
 ## Requirements
 Python 3.7
+
+watchdog
