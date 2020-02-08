@@ -7,42 +7,80 @@ from tests.utils import file_mover_tester
 
 class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
 
-
-    __auto_turn_off = 6  # in seconds
-    __test_file_1 = 'kolla.S04E15.asswe.xTTT-RR[abf].mkv'
-    __test_file_2 = 'kolla.S05E16.asswe.xTTT-RR[abf].mkv'
-    __args = None
-
-
     def setUp(self):
         self._create_test_dirs()
-        self.__args = MeMoverArgs(
-            Commands.WATCH,
-            self._SOURCE_DIRECTORY,
-            self._SHOW_DESTINATION_DIRECTORY,
-            self._MOVIE_DESTINATION_DIRECTORY,
-            self.__auto_turn_off
-        )
 
     def tearDown(self):
         self._delete_test_dirs()
 
-    def __get_destination_path_file_1(self):
-        return f'{self._SHOW_DESTINATION_DIRECTORY}/kolla/Season 4/{self.__test_file_1}'
+    def test_only_root_added_queues(self):
+        episode_name = 'kolla.S04E15.asswe.xTTT-RR[abf]'
 
-    def __get_destination_path_file_2(self):
-        return f'{self._SHOW_DESTINATION_DIRECTORY}/kolla/Season 5/{self.__test_file_2}'
+        args = MeMoverArgs(
+            Commands.WATCH,
+            self._SOURCE_DIRECTORY,
+            self._SHOW_DESTINATION_DIRECTORY,
+            self._MOVIE_DESTINATION_DIRECTORY
+        )
 
-    def test_only_root_added_to_create_paths(self):
-        synced_watcher = SyncedWatcher(self.__args)
+        synced_watcher = SyncedWatcher(args)
 
-        dir_1 = self._create_source_dir('my_dir')
+        # Create dir
+        dir_1 = self._create_source_dir(episode_name)
         synced_watcher.on_created(dir_1)
 
-        file_1 = self._createSourceFile('my_dir/test_file.exe')
+        # Assert
+        self.assertListEqual(synced_watcher.created_paths, [dir_1])
+
+        # Create file 1
+        file_1 = self._createSourceFile(f'{episode_name}/RARBG_DO_NOT_MIRROR.exe')
         synced_watcher.on_created(file_1)
 
-        file_2 = self._createSourceFile('my_dir/an_media_file.mkv')
+        # Assert
+        self.assertListEqual(synced_watcher.created_paths, [dir_1])
+
+        # Modify dir
+        synced_watcher.on_modified(dir_1)
+
+        # Assert
+        self.assertListEqual(synced_watcher.created_paths, [dir_1])
+        self.assertListEqual(synced_watcher.modified_paths, [dir_1])
+
+        # Create file 2
+        file_2 = self._createSourceFile(f'{episode_name}/{episode_name}-mytv.mkv')
         synced_watcher.on_created(file_2)
 
+        # Assert
         self.assertListEqual(synced_watcher.created_paths, [dir_1])
+        self.assertListEqual(synced_watcher.modified_paths, [dir_1])
+
+        # Modify dir
+        synced_watcher.on_modified(dir_1)
+
+        # Assert
+        self.assertListEqual(synced_watcher.created_paths, [dir_1])
+        self.assertListEqual(synced_watcher.modified_paths, [dir_1])
+
+        # Create file 3
+        file_3 = self._createSourceFile(f'{episode_name}/RARBG.txt')
+        synced_watcher.on_created(file_3)
+
+        # Assert
+        self.assertListEqual(synced_watcher.created_paths, [dir_1])
+        self.assertListEqual(synced_watcher.modified_paths, [dir_1])
+
+        # Modify dir
+        synced_watcher.on_modified(dir_1)
+
+        # Assert
+        self.assertListEqual(synced_watcher.created_paths, [dir_1])
+        self.assertListEqual(synced_watcher.modified_paths, [dir_1])
+
+        # Modify file 3
+        synced_watcher.on_modified(file_2)
+        synced_watcher.on_modified(file_2)
+        synced_watcher.on_modified(file_2)
+
+        # Assert
+        self.assertListEqual(synced_watcher.created_paths, [dir_1])
+        self.assertListEqual(synced_watcher.modified_paths, [dir_1])
