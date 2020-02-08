@@ -56,12 +56,10 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
     def test_path_not_added_multiple_times(self):
         synced_watcher = SyncedWatcher(self.__args)
 
-        dir_1 = f'{self._SOURCE_DIRECTORY}my_dir'
-        file_handler.create_dir(dir_1)
+        dir_1 = self._create_source_dir('my_dir')
         synced_watcher.on_created(dir_1)
 
-        file_1 = self._createSourceFile(f'my_dir/RARBG_DO_NOT_MIRROR.exe')
+        file_1 = self._createSourceFile(f'my_dir/test_file.exe')
         synced_watcher.on_created(file_1)
 
-        print(synced_watcher.created_paths_to_move)
         self.assertListEqual(synced_watcher.created_paths_to_move, [dir_1])
