@@ -96,6 +96,10 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         self.assert_moved(file_2_data)
         self.assert_moved(file_1_data)
 
+        # Assert queues cleared
+        self.assertListEqual(self.__synced_watcher.created_paths, [])
+        self.assertListEqual(self.__synced_watcher.modified_paths, [])
+
     def __create_file_and_trigger_created(self, file):
         relative_path = f'{self.__episode_name}/{file}'
         path = self._createSourceFile(relative_path)
