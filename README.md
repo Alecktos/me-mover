@@ -1,6 +1,6 @@
 # me-mover
 
-Python application for moving movies and tv-shows in a specified file structure.
+Me-mover is an application for organizing movies and tv-shows.
 
 TV-shows will be moved to ``[sorted tv-show root directory]/[show name]/[season folder]``. Movies will be moved to ``[movie destination directory]``
 
