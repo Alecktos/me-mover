@@ -43,11 +43,11 @@ class SyncedWatcher:
 
     def on_created(self, path):
         print(f"{path} has been created")
-        if self.in_paths_to_move(path, self.__args.source):
+        if self.__in_paths_to_move(path, self.__args.source):
             return
         return self.__created_paths_to_move.append(path)
 
-    def in_paths_to_move(self, path, monitor_path):
+    def __in_paths_to_move(self, path, monitor_path):
         return self.__path_in_queue(self.__created_paths_to_move, path)
 
     # Modified_paths
