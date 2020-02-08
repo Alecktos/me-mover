@@ -37,7 +37,7 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         # Assert dir only in created_paths
         self.assertListEqual(self.__synced_watcher.created_paths, [dir_1])
-        self.assertListEqual(self.__synced_watcher.created_paths, [])
+        self.assertListEqual(self.__synced_watcher.modified_paths, [])
 
         # Modify dir
         self.__synced_watcher.on_modified(dir_1)
