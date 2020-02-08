@@ -88,7 +88,7 @@ class MeMoverArgsCreator:
         parser_name.add_argument(
             'media_name',
             metavar='name',
-            help='name of show or movie to move'
+            help='name of TV show or movie to move'
         )
         parser_name.add_argument(
             'source',
@@ -114,7 +114,7 @@ class MeMoverArgsCreator:
         parser_watch.add_argument(
             'source',
             metavar='source',
-            help='source directory to to watch for incoming tv-shows or movies'
+            help='source directory to to watch for incoming TV shows and movies'
         )
         self.__add_common_arguments(parser_watch)
         parser_watch.add_argument('--quit', '-q', type=int, required=False, dest='quit', help='Number of seconds until exit')
