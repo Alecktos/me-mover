@@ -34,26 +34,7 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
     def __get_destination_path_file_2(self):
         return f'{self._SHOW_DESTINATION_DIRECTORY}/kolla/Season 5/{self.__test_file_2}'
 
-    def test_in_paths_to_move_with_file(self):
-        synced_watcher = SyncedWatcher(self.__args)
-        file_path = self._createSourceFile(self.__test_file_1)
-
-        synced_watcher.on_created(file_path)
-        result = synced_watcher.in_paths_to_move(file_path, self._SOURCE_DIRECTORY)
-        self.assertTrue(result)
-
-    def test_in_paths_to_move_with_dir(self):
-        dir_path = f'{self._SOURCE_DIRECTORY}/test_dir'
-        file_handler.create_dir(dir_path)
-        file_path = f'{dir_path}/{self.__test_file_1}'
-        file_handler.create_file(file_path)
-        synced_watcher = SyncedWatcher(self.__args)
-
-        synced_watcher.on_created(dir_path)
-        result = synced_watcher.in_paths_to_move(file_path, self._SOURCE_DIRECTORY)
-        self.assertTrue(result)
-
-    def test_path_not_added_multiple_times(self):
+    def test_only_root_added_to_create_paths(self):
         synced_watcher = SyncedWatcher(self.__args)
 
         dir_1 = self._create_source_dir('my_dir')
