@@ -37,14 +37,14 @@ class AsyncWatcher:
     def on_created(self, event):
         # print(f"event_type {event.event_type}")
         # print(f"os stat: {os.stat(event.src_path)}")
-        self.__synced_watcher.add_path_to_move(event.src_path)
+        self.__synced_watcher.on_created(event.src_path)
 
     def on_deleted(self, event):
         pass
         # print(f"{event.src_path} has been deleted!")
 
     def on_modified(self, event):
-        self.__synced_watcher.add_to_modified_paths(event.src_path)
+        self.__synced_watcher.on_modified(event.src_path)
 
     def on_moved(event):
         # print(f"{event.src_path} has been moved!")

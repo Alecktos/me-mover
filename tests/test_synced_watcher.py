@@ -38,7 +38,7 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         synced_watcher = SyncedWatcher(self.__args)
         file_path = self._createSourceFile(self.__test_file_1)
 
-        synced_watcher.add_path_to_move(file_path)
+        synced_watcher.on_created(file_path)
         result = synced_watcher.in_paths_to_move(file_path, self._SOURCE_DIRECTORY)
         self.assertTrue(result)
 
@@ -49,6 +49,19 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         file_handler.create_file(file_path)
         synced_watcher = SyncedWatcher(self.__args)
 
-        synced_watcher.add_path_to_move(dir_path)
+        synced_watcher.on_created(dir_path)
         result = synced_watcher.in_paths_to_move(file_path, self._SOURCE_DIRECTORY)
         self.assertTrue(result)
+
+    def test_path_not_added_multiple_times(self):
+        synced_watcher = SyncedWatcher(self.__args)
+
+        dir_1 = f'{self._SOURCE_DIRECTORY}my_dir'
+        file_handler.create_dir(dir_1)
+        synced_watcher.on_created(dir_1)
+
+        file_1 = self._createSourceFile(f'my_dir/RARBG_DO_NOT_MIRROR.exe')
+        synced_watcher.on_created(file_1)
+
+        print(synced_watcher.created_paths_to_move)
+        self.assertListEqual(synced_watcher.created_paths_to_move, [dir_1])

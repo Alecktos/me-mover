@@ -41,7 +41,7 @@ class SyncedWatcher:
     def created_paths_to_move(self):
         return self.__created_paths_to_move
 
-    def add_path_to_move(self, path):
+    def on_created(self, path):
         print(f"{path} has been created")
         if self.in_paths_to_move(path, self.__args.source):
             return
@@ -56,7 +56,7 @@ class SyncedWatcher:
     def modified_files_dir_queue(self):
         return self.__modified_files_dir_queue
 
-    def add_to_modified_paths(self, path):
+    def on_modified(self, path):
         if path.strip('/') == self.__args.source.strip('/'):
             return
 
@@ -82,14 +82,12 @@ class SyncedWatcher:
     # Utils
 
     def __path_in_queue(self, target_list, path):
-        normalized_path = path.strip('/')
         for target_list_path in target_list:
-            normalized_target_list_path = target_list_path.strip('/')
             if os.path.isdir(target_list_path):
                 if target_list_path.replace(self.__args.source, '') in path.replace(self.__args.source, ''):  # inbox path is not valid
                     return True
             else:  # If file
-                if normalized_target_list_path == normalized_path:
+                if target_list_path == path:
                     return True
 
         return False
