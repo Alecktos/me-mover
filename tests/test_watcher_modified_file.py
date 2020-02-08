@@ -26,8 +26,8 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
 
         await asyncio.sleep(1)
 
-        self.assertTrue(self.__test_file_1_path in self.my_watcher.modified_files_dir_queue)
-        self.assertTrue(self.__test_file_1_path in self.my_watcher.created_paths_to_move)
+        self.assertTrue(self.__test_file_1_path in self.my_watcher.modified_paths)
+        self.assertTrue(self.__test_file_1_path in self.my_watcher.created_paths)
 
         await asyncio.sleep(1)
 
@@ -39,8 +39,8 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
 
         await asyncio.sleep(1)
 
-        self.assertFalse(self.__test_file_1_path in self.my_watcher.modified_files_dir_queue)
-        self.assertFalse(self.__test_file_1_path in self.my_watcher.created_paths_to_move)
+        self.assertFalse(self.__test_file_1_path in self.my_watcher.modified_paths)
+        self.assertFalse(self.__test_file_1_path in self.my_watcher.created_paths)
 
     def test_moving_growing_file(self):
         self.my_watcher = None

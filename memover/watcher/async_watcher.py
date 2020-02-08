@@ -16,12 +16,12 @@ class AsyncWatcher:
         self.__synced_watcher = SyncedWatcher(args)
 
     @property
-    def modified_files_dir_queue(self):
-        return self.__synced_watcher.modified_files_dir_queue
+    def modified_paths(self):
+        return self.__synced_watcher.modified_paths
 
     @property
-    def created_paths_to_move(self):
-        return self.__synced_watcher.created_paths_to_move
+    def created_paths(self):
+        return self.__synced_watcher.created_paths
 
     async def print_queues_content(self):
         if not self.should_quit():   # Dont run when auto quit is on

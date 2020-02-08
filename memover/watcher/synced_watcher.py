@@ -7,19 +7,19 @@ from memover.arguments_parser import MeMoverArgs
 class SyncedWatcher:
 
     def __init__(self, args: MeMoverArgs):
-        self.__modified_files_dir_queue = []
-        self.__created_paths_to_move = []
+        self.__modified_paths = []
+        self.__created_paths = []
         self.__args = args
 
     def print_state(self):
-        print(f'modified_files_dir_queue: {self.__modified_files_dir_queue}')
-        print(f'top_level_created_files_dir_queue: {self.__created_paths_to_move}')
+        print(f'modified_files_dir_queue: {self.__modified_paths}')
+        print(f'top_level_created_files_dir_queue: {self.__created_paths}')
 
     def move_next_path(self):
-        if not self.__created_paths_to_move:
+        if not self.__created_paths:
             return
 
-        path = self.__created_paths_to_move[0]
+        path = self.__created_paths[0]
 
         if self.__in_modified_files(path, self.__args.source):
             self.__remove_path_from_modified_paths(path)
@@ -33,28 +33,28 @@ class SyncedWatcher:
         )
 
         # Remove file from queue when moved
-        del self.__created_paths_to_move[0]
+        del self.__created_paths[0]
 
     # Created_paths_to_move
 
     @property
-    def created_paths_to_move(self):
-        return self.__created_paths_to_move
+    def created_paths(self):
+        return self.__created_paths
 
     def on_created(self, path):
         print(f"{path} has been created")
         if self.__in_paths_to_move(path, self.__args.source):
             return
-        return self.__created_paths_to_move.append(path)
+        return self.__created_paths.append(path)
 
     def __in_paths_to_move(self, path, monitor_path):
-        return self.__path_in_queue(self.__created_paths_to_move, path)
+        return self.__path_in_queue(self.__created_paths, path)
 
     # Modified_paths
 
     @property
-    def modified_files_dir_queue(self):
-        return self.__modified_files_dir_queue
+    def modified_paths(self):
+        return self.__modified_paths
 
     def on_modified(self, path):
         if path.strip('/') == self.__args.source.strip('/'):
@@ -69,15 +69,15 @@ class SyncedWatcher:
             print(f'file is already in modified file queue {path}')
             return
 
-        modified_path = self.__queuepath_from_path(self.__created_paths_to_move, path)
-        self.__modified_files_dir_queue.append(modified_path)
+        modified_path = self.__queuepath_from_path(self.__created_paths, path)
+        self.__modified_paths.append(modified_path)
 
     def __remove_path_from_modified_paths(self, path):
         print(f"Removed from modified path {path}")
-        self.__modified_files_dir_queue.remove(path)
+        self.__modified_paths.remove(path)
 
     def __in_modified_files(self, path, monitor_path):
-        return self.__path_in_queue(self.__modified_files_dir_queue, path)
+        return self.__path_in_queue(self.__modified_paths, path)
 
     # Utils
 

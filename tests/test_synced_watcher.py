@@ -1,6 +1,5 @@
 import unittest
 
-from memover import file_handler
 from memover.arguments_parser import MeMoverArgs, Commands
 from memover.watcher.async_watcher import SyncedWatcher
 from tests.utils import file_mover_tester
@@ -40,7 +39,10 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         dir_1 = self._create_source_dir('my_dir')
         synced_watcher.on_created(dir_1)
 
-        file_1 = self._createSourceFile(f'my_dir/test_file.exe')
+        file_1 = self._createSourceFile('my_dir/test_file.exe')
         synced_watcher.on_created(file_1)
 
-        self.assertListEqual(synced_watcher.created_paths_to_move, [dir_1])
+        file_2 = self._createSourceFile('my_dir/an_media_file.mkv')
+        synced_watcher.on_created(file_2)
+
+        self.assertListEqual(synced_watcher.created_paths, [dir_1])
