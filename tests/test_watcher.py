@@ -1,17 +1,17 @@
-import time
-import unittest
 import subprocess
 import sys
+import time
+import unittest
 
 from memover import file_handler
 from memover.arguments_parser import MeMoverArgs, Commands
-from memover.watcher.async_watcher import SyncedWatcher
 from tests.utils import file_mover_tester
+
 
 class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
 
 
-    __auto_turn_off = 6  # in seconds
+    __auto_turn_off = 4  # in seconds
     __test_file_1 = 'kolla.S04E15.asswe.xTTT-RR[abf].mkv'
     __test_file_2 = 'kolla.S05E16.asswe.xTTT-RR[abf].mkv'
     __args = None
