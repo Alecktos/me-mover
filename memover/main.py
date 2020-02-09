@@ -8,6 +8,8 @@ from . import mover
 
 def main():
     args = arguments_parser.get_args()
+    if not args:
+        return
 
     logging.basicConfig(
         level=args.log_level,
