@@ -159,3 +159,4 @@ def get_args() -> MeMoverArgs:
 
 if __name__ == '__main__':
     current_args = get_args()
+    print(current_args)
