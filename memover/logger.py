@@ -7,6 +7,3 @@ def info(message):
 
 def debug(message):
     Log.debug(message)
-
-def log(message):
-    print(message)

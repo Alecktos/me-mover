@@ -3,7 +3,6 @@ import logging
 
 from memover.watcher import async_watcher
 from . import arguments_parser
-from . import logger
 from . import mover
 
 
@@ -35,5 +34,3 @@ def main():
     if args.type == arguments_parser.Commands.WATCH:
         asyncio.run(async_watcher.run(args))
         return
-
-    logger.log('No action was made')
