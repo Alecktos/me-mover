@@ -1,7 +1,8 @@
 import re
-from . import logger
+
 from . import file_handler
 from . import file_matcher
+from . import logger
 from . import media_file_extractor
 
 
@@ -107,7 +108,6 @@ def __find_show_name_dir(root_directory, searching_show_name):
 
 def __is_right_season_directory(path, season_number):
     season_name = 'Season ' + str(season_number)
-    print(path)
     if season_name in path:
         return True
     return False

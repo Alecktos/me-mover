@@ -43,6 +43,5 @@ def __move_file(source_path, destination_path):
         source_path,
         destination_path
     )
-    print(('Movie destination: ' + destination_path))
 
 

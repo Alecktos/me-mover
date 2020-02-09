@@ -1,3 +1,4 @@
+import logging
 import os
 
 from memover import mover
@@ -10,10 +11,7 @@ class SyncedWatcher:
         self.__modified_paths = []
         self.__created_paths = []
         self.__args = args
-
-    def print_state(self):
-        print(f'modified_files_dir_queue: {self.__modified_paths}')
-        print(f'top_level_created_files_dir_queue: {self.__created_paths}')
+        self.__log = logging.getLogger(__name__)
 
     def move_next_path(self):
         if not self.__created_paths:
@@ -25,7 +23,6 @@ class SyncedWatcher:
             self.__modified_paths.remove(path)
             return
 
-        print(f"Moving path {path}")
         mover.move_media_by_path(
             path,
             self.__args.show_destination,
@@ -34,6 +31,8 @@ class SyncedWatcher:
 
         # Remove file from queue when moved
         del self.__created_paths[0]
+        self.__log.debug(f'modified_paths queue: {self.__modified_paths}')
+        self.__log.debug(f'created_paths queue: {self.__created_paths}')
 
     # Created_paths_to_move
 
@@ -42,7 +41,6 @@ class SyncedWatcher:
         return self.__created_paths
 
     def on_created(self, path):
-        print(f"{path} has been created")
         if self.__in_paths_to_move(path, self.__args.source):
             return
         return self.__created_paths.append(path)
