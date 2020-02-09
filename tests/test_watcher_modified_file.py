@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import unittest
 
 from memover.arguments_parser import MeMoverArgs, Commands
@@ -51,6 +52,7 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
             self._SOURCE_DIRECTORY,
             self._SHOW_DESTINATION_DIRECTORY,
             self._MOVIE_DESTINATION_DIRECTORY,
+            logging.DEBUG,
             auto_turn_off
         )
 
