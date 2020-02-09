@@ -1,4 +1,5 @@
 import argparse
+import logging
 from enum import Enum
 
 
@@ -15,6 +16,7 @@ class MeMoverArgs:
             source: str,
             show_destination: str,
             movie_destination: str,
+            log_level: int,
             auto_quit: int = None,
             media_name: str = None
     ):
@@ -24,6 +26,7 @@ class MeMoverArgs:
         self.__movie_destination = movie_destination
         self.__media_name = media_name
         self.__quit = auto_quit
+        self.__log_level = log_level
         super().__init__()
 
     @property
@@ -41,6 +44,10 @@ class MeMoverArgs:
     @property
     def movie_destination(self) -> str:
         return self.__movie_destination
+
+    @property
+    def log_level(self) -> int:
+        return self.__log_level
 
     @property
     def quit(self) -> int:
@@ -75,13 +82,13 @@ class MeMoverArgsCreator:
         return self.__args
 
     def __set_to_name(self, args):
-        self.__args = MeMoverArgs(Commands.BY_NAME, args.source, args.show_destination, args.movie_destination, None, args.media_name)
+        self.__args = MeMoverArgs(Commands.BY_NAME, args.source, args.show_destination, args.movie_destination, args.verbose, None, args.media_name)
 
     def __set_to_path(self, args):
-        self.__args = MeMoverArgs(Commands.BY_PATH, args.source, args.show_destination, args.movie_destination)
+        self.__args = MeMoverArgs(Commands.BY_PATH, args.source, args.show_destination, args.movie_destination, args.verbose)
 
     def __set_to_watch(self, args):
-        self.__args = MeMoverArgs(Commands.WATCH, args.source, args.show_destination, args.movie_destination, args.quit)
+        self.__args = MeMoverArgs(Commands.WATCH, args.source, args.show_destination, args.movie_destination, args.verbose, args.quit)
 
     def __create_name(self, subparsers):
         parser_name = subparsers.add_parser('by-name')
@@ -133,6 +140,13 @@ class MeMoverArgsCreator:
             help='movie destination directory'
         )
 
+        parser.add_argument(
+            "-v", "--verbose",
+            help="Increase output verbosity",
+            action="store_const",
+            const=logging.DEBUG,
+            default=logging.INFO
+        )
 
 me_mover_args_creator = MeMoverArgsCreator()
 
