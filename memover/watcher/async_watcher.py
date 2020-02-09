@@ -1,10 +1,10 @@
 import asyncio
-import logging
 import time
 
 from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
 
+from memover import logger
 from memover.arguments_parser import MeMoverArgs
 from memover.watcher.synced_watcher import SyncedWatcher
 
@@ -15,7 +15,6 @@ class AsyncWatcher:
         self.__start_time = time.time()
         self.__args = args
         self.__synced_watcher = SyncedWatcher(args)
-        self.__log = logging.getLogger(__name__)
 
     @property
     def modified_paths(self):
@@ -55,7 +54,7 @@ class AsyncWatcher:
         my_event_handler.on_moved = self.on_moved
 
         path = self.__args.source
-        self.__log.info(f"Watching: {path}")
+        logger.info(f"Watching: {path}")
         go_recursively = True
         my_observer = Observer()
         my_observer.schedule(my_event_handler, path, recursive=go_recursively)

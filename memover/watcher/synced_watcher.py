@@ -1,7 +1,6 @@
-import logging
 import os
 
-from memover import mover
+from memover import mover, logger
 from memover.arguments_parser import MeMoverArgs
 
 
@@ -11,7 +10,6 @@ class SyncedWatcher:
         self.__modified_paths = []
         self.__created_paths = []
         self.__args = args
-        self.__log = logging.getLogger(__name__)
 
     def move_next_path(self):
         if not self.__created_paths:
@@ -31,8 +29,8 @@ class SyncedWatcher:
 
         # Remove file from queue when moved
         del self.__created_paths[0]
-        self.__log.debug(f'modified_paths queue: {self.__modified_paths}')
-        self.__log.debug(f'created_paths queue: {self.__created_paths}')
+        logger.debug(f'modified_paths queue: {self.__modified_paths}')
+        logger.debug(f'created_paths queue: {self.__created_paths}')
 
     # Created_paths_to_move
 
