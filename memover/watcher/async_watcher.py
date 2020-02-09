@@ -55,7 +55,7 @@ class AsyncWatcher:
         my_event_handler.on_moved = self.on_moved
 
         path = self.__args.source
-        self.__log.info(f"Listening on path: {path}")
+        self.__log.info(f"Watching: {path}")
         go_recursively = True
         my_observer = Observer()
         my_observer.schedule(my_event_handler, path, recursive=go_recursively)
