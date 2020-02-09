@@ -38,7 +38,7 @@ class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     def test_moving_multiple_files(self):
         def run_app():
-            args = f'{self._SOURCE_DIRECTORY} {self._SHOW_DESTINATION_DIRECTORY} {self._MOVIE_DESTINATION_DIRECTORY} -q {self.__auto_turn_off}'
+            args = f'{self._SOURCE_DIRECTORY} {self._SHOW_DESTINATION_DIRECTORY} {self._MOVIE_DESTINATION_DIRECTORY} --lifetime {self.__auto_turn_off}'
             execution = f'{sys.executable} -m memover watch {args}'
             p = subprocess.Popen(execution, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             return p

@@ -58,7 +58,7 @@ class MeMoverArgs:
         return self.__media_name
 
     def __str__(self) -> str:
-        return f'type: {self.__type}, source: {self.__source}, show_destination: {self.__show_destination}, movie_destination: {self.__movie_destination}, quit: {self.__quit}, media_name: {self.__media_name}'
+        return f'type: {self.__type}, source: {self.__source}, show_destination: {self.__show_destination}, movie_destination: {self.__movie_destination}, lifetime: {self.__quit}, media_name: {self.__media_name}'
 
 
 class MeMoverArgsCreator:
@@ -127,7 +127,7 @@ class MeMoverArgsCreator:
             help='source directory to to watch for incoming TV shows and movies'
         )
         self.__add_common_arguments(parser_watch)
-        parser_watch.add_argument('--quit', '-q', type=int, required=False, dest='quit', help='Number of seconds until exit')
+        parser_watch.add_argument('--lifetime', type=int, required=False, dest='quit', help='Number of seconds until exit')
         parser_watch.set_defaults(func=self.__set_to_watch)
 
     @staticmethod
