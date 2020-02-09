@@ -1,8 +1,7 @@
 import asyncio
-import logging
 
 from memover.watcher import async_watcher
-from . import arguments_parser
+from . import arguments_parser, logger
 from . import mover
 
 
@@ -11,10 +10,7 @@ def main():
     if not args:
         return
 
-    logging.basicConfig(
-        level=args.log_level,
-        format="%(asctime)s %(levelname)-8s %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S")
+    logger.setup(args.log_level)
 
     if args.type == arguments_parser.Commands.BY_NAME:
         mover.move_media_by_name(
