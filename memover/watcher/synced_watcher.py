@@ -17,7 +17,7 @@ class SyncedWatcher:
 
         path = self.__created_paths[0]
 
-        if self.__in_modified_files(path, self.__args.source):
+        if self.__in_modified_files(path):
             self.__modified_paths.remove(path)
             return
 
@@ -39,11 +39,11 @@ class SyncedWatcher:
         return self.__created_paths
 
     def on_created(self, path):
-        if self.__in_paths_to_move(path, self.__args.source):
+        if self.__in_create_files(path):
             return
         return self.__created_paths.append(path)
 
-    def __in_paths_to_move(self, path, monitor_path):
+    def __in_create_files(self, path):
         return self.__path_in_queue(self.__created_paths, path)
 
     # Modified_paths
@@ -59,14 +59,17 @@ class SyncedWatcher:
         if not os.path.exists(path):
             return
 
+        if not self.__in_create_files(path):
+            return
+
         # File is already in modified files/dir queue
-        if self.__in_modified_files(path, self.__args.source):
+        if self.__in_modified_files(path):
             return
 
         modified_path = self.__queuepath_from_path(self.__created_paths, path)
         self.__modified_paths.append(modified_path)
 
-    def __in_modified_files(self, path, monitor_path):
+    def __in_modified_files(self, path):
         return self.__path_in_queue(self.__modified_paths, path)
 
     # Utils

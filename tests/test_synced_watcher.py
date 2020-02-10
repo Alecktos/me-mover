@@ -25,6 +25,19 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
     def tearDown(self):
         self._delete_test_dirs()
 
+    def test_dont_add_modified_files_not_created(self):
+        episode_name = self.__episode_name
+        path = self._createSourceFile(episode_name)
+        self.__synced_watcher.on_modified(path)
+
+        self.assertFalse(path in self.__synced_watcher.modified_paths)
+
+        self.__synced_watcher.on_created(path)
+        self.__synced_watcher.on_modified(path)
+        self.assertTrue(path in self.__synced_watcher.created_paths)
+        self.assertTrue(path in self.__synced_watcher.modified_paths)
+
+
     def test_only_root_added_queues(self):
         # Create dir
         dir_1 = self._create_source_dir(self.__episode_name)
