@@ -1,5 +1,4 @@
 from . import file_handler
-from . import logger
 
 
 def search_files_with_file_type(search, path, file_type):
@@ -15,11 +14,8 @@ def search_files(search, path):
 
         match = __match_file(keywords, file_name)
         if match:
-            logger.log('Found file/folder: ' + file_path)
             files.append(file_path)
 
-    if not files:
-        logger.log('No matching files found: ' + search)
     return files
 
 

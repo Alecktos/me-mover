@@ -1,7 +1,8 @@
 import re
-from . import logger
+
 from . import file_handler
 from . import file_matcher
+from . import logger
 from . import media_file_extractor
 
 
@@ -40,7 +41,7 @@ def __move_file_to_show_destination(root_destination, file_path):
         __create_season_folder(root_destination, show_name_dir_name, season_number)
 
     file_handler.move(file_path, season_path + '/' + file_handler.get_last_path_part(file_path))
-    logger.log('"' + file_path + '" moved to "' + season_path + '"')
+    logger.info('"' + file_path + '" moved to: "' + season_path + '"')
     return root_destination + '/' + show_name_dir_name + '/'
 
 
@@ -59,25 +60,21 @@ def __remove_old_if_new_is_proper(file_path, season_dir_path):
 
 def __create_show_dir(root_destination, show_name):
     show_destination = root_destination + '/' + show_name
-    logger.log('Show folder does not exist. Creating ' + show_destination)
+    logger.debug('Directory does not exist. Creating: ' + show_destination)
     file_handler.create_dir(show_destination)
-    logger.log(show_destination + ' created')
     return show_name
 
 
 def __create_season_folder(root_destination, show_name, season_number):
     season_path = root_destination + '/' + show_name + '/Season ' + season_number
-    logger.log('Season folder does not exist. Creating ' + season_path)
+    logger.debug('Directory does not exist. Creating: ' + season_path)
     file_handler.create_dir(season_path)
-    logger.log(season_path + ' created')
 
 
 def __find_show_name_dir(root_directory, searching_show_name):
     search_query = searching_show_name.lower().strip()
 
-    logger.log(
-        'searching for matching folders in ' + root_directory + ' for query "' + search_query + '". Searching show name: "' + searching_show_name + '"'
-    )
+    logger.debug('Searching for matching directories with query: "' + search_query + '".')
 
     found_directories = __find_matching_directories(root_directory, search_query)
     if len(found_directories) is 1:
@@ -107,7 +104,6 @@ def __find_show_name_dir(root_directory, searching_show_name):
 
 def __is_right_season_directory(path, season_number):
     season_name = 'Season ' + str(season_number)
-    print(path)
     if season_name in path:
         return True
     return False

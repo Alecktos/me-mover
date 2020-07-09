@@ -103,15 +103,16 @@ class TestApp(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     @staticmethod
     def __run_by_name(show_name):
-        TestApp.__run_app('name -name "' + show_name + '" -source sourcefolder -show-destination show-destination -movie-destination movie-destination')
+        TestApp.__run_app(f'by-name "{show_name}" sourcefolder show-destination movie-destination')
 
     @staticmethod
     def __run_by_file(source_file_path):
-        TestApp.__run_app('file -file-path ' + source_file_path + ' -show-destination show-destination -movie-destination movie-destination')
+        TestApp.__run_app(f'by-path {source_file_path} show-destination movie-destination')
 
     @staticmethod
     def __run_app(args):
         p = subprocess.Popen(f'{sys.executable} -m memover {args}', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         for line in p.stdout.readlines():
             print(line)
+        p.wait()
 
