@@ -1,9 +1,8 @@
 # coding=utf-8
-import os
 import re
+
 from . import file_handler
 from . import show_name_extractor
-
 
 __MEDIA_FILE_MIN_FILE_SIZE_MB = 50
 
@@ -155,7 +154,7 @@ def _get_episode_match(file_path):
         matches = _get_episode_number_matches(file_path)
         show_name = _get_show_name(file_path)
 
-        if len(matches) is 0 or not show_name:
+        if len(matches) == 0 or not show_name:
             raise WrongMediaTypeException('Can not parse episode')
 
         episode = matches[0]

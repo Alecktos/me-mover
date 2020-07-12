@@ -51,7 +51,7 @@ def __remove_old_if_new_is_proper(file_path, season_dir_path):
 
     search_query = media_file_extractor.get_tv_show_name(file_path) + ' S' + media_file_extractor.get_season(file_path) + ' E' + media_file_extractor.get_episode_number(file_path)
     files = file_matcher.search_files_with_file_type(search_query, season_dir_path, media_file_extractor.get_file_type(file_path))
-    if len(files) is 0:
+    if len(files) == 0:
         return
 
     for found_file in files:
@@ -77,7 +77,7 @@ def __find_show_name_dir(root_directory, searching_show_name):
     logger.debug('Searching for matching directories with query: "' + search_query + '".')
 
     found_directories = __find_matching_directories(root_directory, search_query)
-    if len(found_directories) is 1:
+    if len(found_directories) == 1:
         return found_directories[0]
 
     # remove words with one or two letters in the beginning of the name if number of characters are bigger then five
@@ -90,13 +90,13 @@ def __find_show_name_dir(root_directory, searching_show_name):
     if len(found_directories) > 1:
         raise MultipleDirectoryMatchesException(searching_show_name, root_directory, found_directories)
 
-    if len(found_directories) is 0 and 'proper' in search_query:
+    if len(found_directories) == 0 and 'proper' in search_query:
         return __find_show_name_dir(
             root_directory,
             search_query.replace('proper', '').strip()
         )  # remove proper key word, trim string and try again
 
-    if len(found_directories) is 0:
+    if len(found_directories) == 0:
         return None
 
     return found_directories[0]
