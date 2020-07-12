@@ -3,6 +3,7 @@ let
     my-python-packages = python-packages: with python-packages; [
         watchdog
         setuptools
+        flake8
     ];
     python-with-packages = python3.withPackages my-python-packages;
 in
