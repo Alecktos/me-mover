@@ -7,6 +7,9 @@ TV shows will be moved to ``[tv-show destination directory]/[show name]/[season 
 Movies will be moved to ``[movie destination directory]/[movie name directory]``
 
 ## 1. Install me-mover
+### pip
+        pip install me-mover
+### From source
         git clone https://github.com/Alecktos/me-mover.git
         cd me-mover
         
