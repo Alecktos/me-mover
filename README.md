@@ -18,13 +18,13 @@ Movies will be moved to ``[movie destination directory]/[movie name directory]``
         # or run it directly 
         python -m memover
 
-## 2. Move episodes and movies with me-mover
+## 2. Usage
 ### By-name
 Moves a movie or tv-show from a source directory by searching for its name.
 ```    
 me-mover by-name {name} {source-dir-path} {show-destination-dir-path} {movie-destination-dir-path}
 ```
-#### Example:
+#### Example
 ```
 me-mover by-name "halt and catch fire" sourcedir media/sorted-tv-shows media/movies
 ```
@@ -37,15 +37,15 @@ They will be moved to
 * `media/sorted-tv-shows/Halt And Catch Fire/Season 2/Halt.and.Catch.Fire.S02E08.mp4` 
 * `media/sorted-tv-shows/Halt And Catch Fire/Season 2/Halt.and.Catch.Fire.S02E09.mp4`
 
-### By-path:
-#### example:
+### By-path
+#### Example
     me-mover by-path sourcefolder/Star.Wars.The.Clone.Wars.BluRay.1080p.x264.5.1.mp4 media/sorted-tv-shows media/movies
 Movie will be moved to `media/movies/Star.Wars.The.Clone.Wars.BluRay.1080p.x264.5.1/Star.Wars.The.Clone.Wars.BluRay.1080p.x264.5.1.mp4`
 
     me-mover by-path sourcefolder/Vikings.S04E15.720p.mkv media/sorted-tv-shows media/movies    
 Episode will be moved to `media/sorted-tv-shows/Vikings/Season 4/Vikings.S04E15.720p.mkv`
 
-### Commands:
+### Commands
     by-name                Moves all found episodes of specified tv-show. If matching movie all movies matching that name will be moved
       positional arguments:
         name                name of TV show or movie to move
