@@ -9,29 +9,28 @@ Movies will be moved to ``[movie destination directory]/[movie name directory]``
 ## 1. Install me-mover
 ### pip
 ```
-pip install me-mover
+> pip install me-mover
 ```
 ### From source
 ```
-git clone https://github.com/Alecktos/me-mover.git
-cd me-mover
+> git clone https://github.com/Alecktos/me-mover.git
+> cd me-mover
 
-python setup.py install
-python memover
+> python setup.py install
+> python memover
 # or run it directly 
-python -m memover
+> python -m memover
 ```
 
 ## 2. Usage
 ### By-name
 Moves a movie or tv-show from a source directory by searching for its name.
 ```    
-me-mover by-name {name} {source-dir-path} {show-destination-dir-path} {movie-destination-dir-path}
+> me-mover by-name {name} {source-dir-path} {show-destination-dir-path} {movie-destination-dir-path}
 ```
 #### Example
 ```
-me-mover by-name "halt and catch fire" sourcedir media/sorted-tv-shows media/movies
-```
+> me-mover by-name "halt and catch fire" sourcedir media/sorted-tv-shows media/movies
 
 If following files exist:
 * `sourcedir/Halt.and.Catch.Fire.S02E08.mp4` 
@@ -40,27 +39,27 @@ If following files exist:
 They will be moved to 
 * `media/sorted-tv-shows/Halt And Catch Fire/Season 2/Halt.and.Catch.Fire.S02E08.mp4` 
 * `media/sorted-tv-shows/Halt And Catch Fire/Season 2/Halt.and.Catch.Fire.S02E09.mp4`
-
+```
 ### By-path
 Moves a movie or tv-show by its path.
 ```
-me-mover by-path {source-path} {show-destination-dir-path} {movie-destination-path}
+> me-mover by-path {source-path} {show-destination-dir-path} {movie-destination-path}
 ```
 #### Example
 ```
-me-mover by-path sourcefolder/Star.Wars.The.Clone.Wars.BluRay.1080p.x264.5.1.mp4 media/sorted-tv-shows media/movies
-```
+> me-mover by-path sourcefolder/Star.Wars.The.Clone.Wars.BluRay.1080p.x264.5.1.mp4 media/sorted-tv-shows media/movies
+
 Movie will be moved to `media/movies/Star.Wars.The.Clone.Wars.BluRay.1080p.x264.5.1/Star.Wars.The.Clone.Wars.BluRay.1080p.x264.5.1.mp4`
 
-```
-me-mover by-path sourcefolder/Vikings.S04E15.720p.mkv media/sorted-tv-shows media/movies
-```
+> me-mover by-path sourcefolder/Vikings.S04E15.720p.mkv media/sorted-tv-shows media/movies
+
 Episode will be moved to `media/sorted-tv-shows/Vikings/Season 4/Vikings.S04E15.720p.mkv`
+```
 
 ### Watch
 Watches a directory and moves new files that are placed in it. Assuming that it's either a movie or tv-show.
 ```
-me-mover watch {source-dir-path} {show-destination-path} {movie-destination-path}
+> me-mover watch {source-dir-path} {show-destination-path} {movie-destination-path}
 ```
 #### Example
 
