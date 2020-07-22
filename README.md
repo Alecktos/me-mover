@@ -57,6 +57,20 @@ me-mover by-path sourcefolder/Vikings.S04E15.720p.mkv media/sorted-tv-shows medi
 ```
 Episode will be moved to `media/sorted-tv-shows/Vikings/Season 4/Vikings.S04E15.720p.mkv`
 
+### Watch
+Watches a directory and moves new files that are placed in it. Assuming that it's either a movie or tv-show.
+```
+me-mover watch {source-dir-path} {show-destination-path} {movie-destination-path}
+```
+#### Example
+
+```
+> me-mover watch media/inbox media/sorted-tv-shows media/movies
+
+When moving Vikings.S04E15.720p.mkv to media/inbox
+It will be moved to media/sorted-tv-shows/Vikings/Season 4/Vikings.S04E15.720p.m
+```
+
 ### Commands
     by-name                Moves all found episodes of specified tv-show. If matching movie all movies matching that name will be moved
       positional arguments:
