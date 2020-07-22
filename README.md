@@ -8,15 +8,19 @@ Movies will be moved to ``[movie destination directory]/[movie name directory]``
 
 ## 1. Install me-mover
 ### pip
-        pip install me-mover
+```
+pip install me-mover
+```
 ### From source
-        git clone https://github.com/Alecktos/me-mover.git
-        cd me-mover
-        
-        python setup.py install
-        python memover
-        # or run it directly 
-        python -m memover
+```
+git clone https://github.com/Alecktos/me-mover.git
+cd me-mover
+
+python setup.py install
+python memover
+# or run it directly 
+python -m memover
+```
 
 ## 2. Usage
 ### By-name
