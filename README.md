@@ -19,10 +19,15 @@ Movies will be moved to ``[movie destination directory]/[movie name directory]``
         python -m memover
 
 ## 2. Move episodes and movies with me-mover
-### Move by-name example:
 Moves a movie or tv-show from a source directory by searching for its name.
-    me-mover by-name {name} {source-dir-path} {show-destination-dir-path} {movie-destination-dir-pat
-    me-mover by-name "halt and catch fire" sourcedir media/sorted-tv-shows media/movies
+```    
+me-mover by-name {name} {source-dir-path} {show-destination-dir-path} {movie-destination-dir-path}
+```
+### Move by-name example:
+```
+me-mover by-name "halt and catch fire" sourcedir media/sorted-tv-shows media/movies
+```
+
 If following files exist:
 * `sourcedir/Halt.and.Catch.Fire.S02E08.mp4` 
 * `sourcedir/Halt.and.Catch.Fire.S02E09.mp4` 
