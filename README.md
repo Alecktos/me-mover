@@ -38,11 +38,19 @@ They will be moved to
 * `media/sorted-tv-shows/Halt And Catch Fire/Season 2/Halt.and.Catch.Fire.S02E09.mp4`
 
 ### By-path
+Moves a movie or tv-show by its path.
+```
+me-mover by-path {source-path} {show-destination-dir-path} {movie-destination-path}
+```
 #### Example
-    me-mover by-path sourcefolder/Star.Wars.The.Clone.Wars.BluRay.1080p.x264.5.1.mp4 media/sorted-tv-shows media/movies
+```
+me-mover by-path sourcefolder/Star.Wars.The.Clone.Wars.BluRay.1080p.x264.5.1.mp4 media/sorted-tv-shows media/movies
+```
 Movie will be moved to `media/movies/Star.Wars.The.Clone.Wars.BluRay.1080p.x264.5.1/Star.Wars.The.Clone.Wars.BluRay.1080p.x264.5.1.mp4`
 
-    me-mover by-path sourcefolder/Vikings.S04E15.720p.mkv media/sorted-tv-shows media/movies    
+```
+me-mover by-path sourcefolder/Vikings.S04E15.720p.mkv media/sorted-tv-shows media/movies
+```
 Episode will be moved to `media/sorted-tv-shows/Vikings/Season 4/Vikings.S04E15.720p.mkv`
 
 ### Commands
