@@ -45,7 +45,7 @@ def __should_be_renamed(subtitle_path):
     subtitle_file_name = file_handler.get_last_path_part(subtitle_path)
 
     # should be moved if subtitle is not already named after media file in directory
-    return subtitle_file_name.find(biggest_file_name) is -1
+    return subtitle_file_name.find(biggest_file_name) == -1
 
 
 def __move_subtitle(subtitle_path, source_directory):

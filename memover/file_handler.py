@@ -1,5 +1,5 @@
-import shutil
 import os
+import shutil
 
 
 def delete_file(path):
@@ -65,7 +65,7 @@ def get_biggest_file(dir_path):
             self.path = None
 
         def exist(self):
-            return self.size is not -1
+            return self.size != -1
 
     biggest_file = BiggestFile()
 
