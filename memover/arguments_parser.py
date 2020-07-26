@@ -18,6 +18,7 @@ class MeMoverArgs:
             movie_destination: str,
             log_level: int,
             auto_quit: int = None,
+            moves_before_quit: int = None,
             media_name: str = None
     ):
         self.__type = type
@@ -27,6 +28,7 @@ class MeMoverArgs:
         self.__media_name = media_name
         self.__quit = auto_quit
         self.__log_level = log_level
+        self.__moves_before_quit = moves_before_quit
         super().__init__()
 
     @property
@@ -54,11 +56,15 @@ class MeMoverArgs:
         return self.__quit
 
     @property
+    def moves_before_quit(self) -> int:
+        return self.__moves_before_quit
+
+    @property
     def media_name(self) -> str:
         return self.__media_name
 
     def __str__(self) -> str:
-        return f'type: {self.__type}, source: {self.__source}, show_destination: {self.__show_destination}, movie_destination: {self.__movie_destination}, lifetime: {self.__quit}, media_name: {self.__media_name}'
+        return f'type: {self.__type}, source: {self.__source}, show_destination: {self.__show_destination}, movie_destination: {self.__movie_destination}, lifetime: {self.__quit}, moves_before_quit: {self.__moves_before_quit}, media_name: {self.__media_name}'
 
 
 class MeMoverArgsCreator:
@@ -85,13 +91,13 @@ class MeMoverArgsCreator:
         return self.__args
 
     def __set_to_name(self, args):
-        self.__args = MeMoverArgs(Commands.BY_NAME, args.source, args.show_destination, args.movie_destination, args.verbose, None, args.media_name)
+        self.__args = MeMoverArgs(Commands.BY_NAME, args.source, args.show_destination, args.movie_destination, args.verbose, None, None, args.media_name)
 
     def __set_to_path(self, args):
         self.__args = MeMoverArgs(Commands.BY_PATH, args.source, args.show_destination, args.movie_destination, args.verbose)
 
     def __set_to_watch(self, args):
-        self.__args = MeMoverArgs(Commands.WATCH, args.source, args.show_destination, args.movie_destination, args.verbose, args.quit)
+        self.__args = MeMoverArgs(Commands.WATCH, args.source, args.show_destination, args.movie_destination, args.verbose, args.quit, args.moves)
 
     def __create_name(self, subparsers):
         parser_name = subparsers.add_parser('by-name')
@@ -128,6 +134,7 @@ class MeMoverArgsCreator:
         )
         self.__add_common_arguments(parser_watch)
         parser_watch.add_argument('--lifetime', type=int, required=False, dest='quit', help='Number of seconds until exit')
+        parser_watch.add_argument('--moves', type=int, required=False, dest='moves', help='Number of moves before exit')
         parser_watch.set_defaults(func=self.__set_to_watch)
 
     @staticmethod

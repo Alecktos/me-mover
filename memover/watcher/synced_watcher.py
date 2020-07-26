@@ -13,13 +13,13 @@ class SyncedWatcher:
 
     def move_next_path(self):
         if not self.__created_paths:
-            return
+            return False
 
         path = self.__created_paths[0]
 
         if self.__in_modified_files(path):
             self.__modified_paths.remove(path)
-            return
+            return False
 
         # Remove file from queue before moving to avoid changes to file in modify queue
         del self.__created_paths[0]
@@ -32,6 +32,7 @@ class SyncedWatcher:
 
         logger.debug(f'modified_paths queue: {self.__modified_paths}')
         logger.debug(f'created_paths queue: {self.__created_paths}')
+        return True
 
     # Created_paths_to_move
 
