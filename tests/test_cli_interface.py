@@ -17,22 +17,27 @@ class TestCliInterface(unittest.TestCase, file_mover_tester.FileMoverTester):
     def test_watch(self):
         args = 'watch test-source-watch test-show-destination-path test-movie-destination'
         result = execute(args)
-        self.assertEqual(b'type: Commands.WATCH, source: test-source-watch, show_destination: test-show-destination-path, movie_destination: test-movie-destination, lifetime: None, media_name: None\n', result)
+        self.assertEqual(b'type: Commands.WATCH, source: test-source-watch, show_destination: test-show-destination-path, movie_destination: test-movie-destination, lifetime: None, moves_before_quit: None, media_name: None\n', result)
 
     def test_watch_auto_quit(self):
         args = 'watch test-source-watch test-show-destination-path test-movie-destination --lifetime 5'
         result = execute(args)
-        self.assertEqual(b'type: Commands.WATCH, source: test-source-watch, show_destination: test-show-destination-path, movie_destination: test-movie-destination, lifetime: 5, media_name: None\n', result)
+        self.assertEqual(b'type: Commands.WATCH, source: test-source-watch, show_destination: test-show-destination-path, movie_destination: test-movie-destination, lifetime: 5, moves_before_quit: None, media_name: None\n', result)
+
+    def test_watch_quit_after_moves(self):
+        args = 'watch test-source-watch test-show-destination-path test-movie-destination --moves 4'
+        result = execute(args)
+        self.assertEqual(b'type: Commands.WATCH, source: test-source-watch, show_destination: test-show-destination-path, movie_destination: test-movie-destination, lifetime: None, moves_before_quit: 4, media_name: None\n', result)
 
     def test_by_name(self):
         args = 'by-name "The name of my show " test-source-dir test-show-destination test-movie-destination'
         result = execute(args)
-        self.assertEqual(b'type: Commands.BY_NAME, source: test-source-dir, show_destination: test-show-destination, movie_destination: test-movie-destination, lifetime: None, media_name: The name of my show \n', result)
+        self.assertEqual(b'type: Commands.BY_NAME, source: test-source-dir, show_destination: test-show-destination, movie_destination: test-movie-destination, lifetime: None, moves_before_quit: None, media_name: The name of my show \n', result)
 
     def test_by_path(self):
         args = 'by-path test-source-path test-show-destination test-movie-destination'
         result = execute(args)
-        self.assertEqual(b'type: Commands.BY_PATH, source: test-source-path, show_destination: test-show-destination, movie_destination: test-movie-destination, lifetime: None, media_name: None\n', result)
+        self.assertEqual(b'type: Commands.BY_PATH, source: test-source-path, show_destination: test-show-destination, movie_destination: test-movie-destination, lifetime: None, moves_before_quit: None, media_name: None\n', result)
 
 
 def execute(args):
