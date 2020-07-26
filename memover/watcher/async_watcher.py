@@ -25,12 +25,10 @@ class AsyncWatcher:
     def created_paths(self):
         return self.__synced_watcher.created_paths
 
-    async def move_created_files(self):
-        while not self.should_quit():
-            success = self.__synced_watcher.move_next_path()
-            if success:
-                self.__moves += 1
-            await asyncio.sleep(1)  # 1 second
+    def move_created_files(self):
+        success = self.__synced_watcher.move_next_path()
+        if success:
+            self.__moves += 1
 
     def on_created(self, event):
         self.__synced_watcher.on_created(event.src_path)
@@ -65,6 +63,7 @@ class AsyncWatcher:
 
         try:
             while not self.should_quit():
+                self.move_created_files()
                 await asyncio.sleep(1)
         finally:
             my_observer.stop()
@@ -83,6 +82,5 @@ class AsyncWatcher:
 async def run(args: MeMoverArgs):
     my_watcher = AsyncWatcher(args)
     await asyncio.gather(
-        my_watcher.observe(),
-        my_watcher.move_created_files()
+        my_watcher.observe()
     )

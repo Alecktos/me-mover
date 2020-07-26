@@ -20,27 +20,44 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
     async def make_file_bigger(self):
         await asyncio.sleep(1)
 
+        # modify and create file
         self._createSourceFile(test_file_1)
-        self._set_size_in_mb(test_file_1, 2)
+        self._set_size_in_mb(test_file_1, 1)
 
         await asyncio.sleep(1)
+
+        # modify file
+        self._set_size_in_mb(test_file_1, 1)
 
         self.assertTrue(self.__test_file_1_path in self.my_watcher.modified_paths)
         self.assertTrue(self.__test_file_1_path in self.my_watcher.created_paths)
 
         await asyncio.sleep(1)
 
-        self._set_size_in_mb(test_file_1, 2)
+        self.assertTrue(self.__test_file_1_path in self.my_watcher.modified_paths)
+        self.assertTrue(self.__test_file_1_path in self.my_watcher.created_paths)
+
+        # modify file
+        self._set_size_in_mb(test_file_1, 1)
 
         await asyncio.sleep(1)
 
-        self._set_size_in_mb(test_file_1, 2)
+        self.assertTrue(self.__test_file_1_path in self.my_watcher.modified_paths)
+        self.assertTrue(self.__test_file_1_path in self.my_watcher.created_paths)
 
+        # no modification to file
+        await asyncio.sleep(1)
+
+        self.assertFalse(self.__test_file_1_path in self.my_watcher.modified_paths)
+        self.assertTrue(self.__test_file_1_path in self.my_watcher.created_paths)
+
+        # No modification so should be moved
         await asyncio.sleep(1)
 
         self.assertFalse(self.__test_file_1_path in self.my_watcher.modified_paths)
         self.assertFalse(self.__test_file_1_path in self.my_watcher.created_paths)
 
+    # @unittest.skip("Does not work on github")
     def test_moving_growing_file(self):
         self.my_watcher = None
         self.__test_file_1_path = f'{self._SOURCE_DIRECTORY}{test_file_1}'
@@ -59,11 +76,10 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
 
         self.my_watcher = AsyncWatcher(args)
 
-        all_groups = asyncio.gather(
-            self.make_file_bigger(),
-            self.my_watcher.observe(),
-            self.my_watcher.move_created_files()
-        )
+        async def run_watcher_with_growing_file():
+            await asyncio.gather(
+                self.make_file_bigger(),
+                self.my_watcher.observe()
+            )
 
-        results = loop.run_until_complete(all_groups)
-        loop.close()  # It's possible that'm using thwe old asyncio API here.
+        asyncio.run(run_watcher_with_growing_file())
