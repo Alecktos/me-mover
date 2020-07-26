@@ -57,7 +57,7 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
         self.assertFalse(self.__test_file_1_path in self.my_watcher.modified_paths)
         self.assertFalse(self.__test_file_1_path in self.my_watcher.created_paths)
 
-    # @unittest.skip("Does not work on github")
+    @unittest.skip("Does not work on github")
     def test_moving_growing_file(self):
         self.my_watcher = None
         self.__test_file_1_path = f'{self._SOURCE_DIRECTORY}{test_file_1}'
