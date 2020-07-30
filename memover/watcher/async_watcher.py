@@ -70,9 +70,6 @@ class AsyncWatcher:
             my_observer.join()
 
     def should_quit(self):
-        if self.__args.quit and time.time() > self.__start_time + float(self.__args.quit):
-            return True
-
         if self.__args.moves_before_quit and self.__moves >= self.__args.moves_before_quit:
             return True
 

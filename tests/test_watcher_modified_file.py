@@ -68,7 +68,6 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
             self._SHOW_DESTINATION_DIRECTORY,
             self._MOVIE_DESTINATION_DIRECTORY,
             logging.DEBUG,
-            None,
             1
         )
 
