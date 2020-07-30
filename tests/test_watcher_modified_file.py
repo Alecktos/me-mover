@@ -67,8 +67,8 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
             self._SOURCE_DIRECTORY,
             self._SHOW_DESTINATION_DIRECTORY,
             self._MOVIE_DESTINATION_DIRECTORY,
-            logging.DEBUG,
-            1
+            log_level=logging.DEBUG,
+            moves_before_quit=1
         )
 
         loop = asyncio.get_event_loop()

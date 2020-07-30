@@ -18,7 +18,7 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
             self._SOURCE_DIRECTORY,
             self._SHOW_DESTINATION_DIRECTORY,
             self._MOVIE_DESTINATION_DIRECTORY,
-            logging.DEBUG
+            log_level=logging.DEBUG
         )
         self.__synced_watcher = SyncedWatcher(args)
 
