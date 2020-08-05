@@ -1,4 +1,4 @@
-from . import file_handler
+from . import file_handler, logger
 
 
 def move(movie_root_path, path):
@@ -43,5 +43,4 @@ def __move_file(source_path, destination_path):
         source_path,
         destination_path
     )
-
-
+    logger.info('"' + source_path + '" moved to: "' + destination_path + '"')
