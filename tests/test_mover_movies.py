@@ -1,6 +1,7 @@
 import unittest
-from tests.utils import file_mover_tester
+
 from memover import file_handler, mover
+from tests.utils import file_mover_tester
 
 
 class TestMoverMovies(unittest.TestCase, file_mover_tester.FileMoverTester):
@@ -24,10 +25,10 @@ class TestMoverMovies(unittest.TestCase, file_mover_tester.FileMoverTester):
     def test_moving_movie_in_directory(self):
         folder_path = self._SOURCE_DIRECTORY + '007 Going For Old Time HD-TS x264-CPG'
         file_handler.create_dir(folder_path)
-        file_path = folder_path + '/007 Going For Old Time  HD-TS x264-CPG.mp4'
+        file_path = folder_path + '/007 Going For Old Time HD-TS x264-CPG.mp4'
         file_handler.create_file(file_path)
-        mover.move_media_by_path(file_path, self._SHOW_DESTINATION_DIRECTORY, self._MOVIE_DESTINATION_DIRECTORY)
-        file_destination_path = self._MOVIE_DESTINATION_DIRECTORY + '/007 Going For Old Time  HD-TS x264-CPG/007 Going For Old Time  HD-TS x264-CPG.mp4'
+        mover.move_media_by_path(folder_path, self._SHOW_DESTINATION_DIRECTORY, self._MOVIE_DESTINATION_DIRECTORY)
+        file_destination_path = self._MOVIE_DESTINATION_DIRECTORY + '007 Going For Old Time HD-TS x264-CPG/007 Going For Old Time HD-TS x264-CPG.mp4'
         self._assert_file_moved(file_path, file_destination_path)
 
     def test_moving_movie_with_image(self):
