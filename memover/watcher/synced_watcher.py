@@ -24,14 +24,15 @@ class SyncedWatcher:
         # Remove file from queue before moving to avoid changes to file in modify queue
         del self.__created_paths[0]
 
+        logger.debug(f'modified_paths queue before move: {self.__modified_paths}')
+        logger.debug(f'created_paths queue before move: {self.__created_paths}')
         mover.move_media_by_path(
             path,
             self.__args.show_destination,
             self.__args.movie_destination
         )
-
-        logger.debug(f'modified_paths queue: {self.__modified_paths}')
-        logger.debug(f'created_paths queue: {self.__created_paths}')
+        logger.debug(f'modified_paths queue after move: {self.__modified_paths}')
+        logger.debug(f'created_paths queue after move: {self.__created_paths}')
         return True
 
     # Created_paths_to_move
