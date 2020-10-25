@@ -11,6 +11,8 @@ from memover.watcher.synced_watcher import SyncedWatcher
 
 class AsyncWatcher:
 
+    SLEEP_SECONDS = 2
+
     def __init__(self, args: MeMoverArgs) -> None:
         self.__start_time = time.time()
         self.__args = args
@@ -56,7 +58,7 @@ class AsyncWatcher:
         try:
             while not self.should_quit():
                 self.move_created_files()
-                await asyncio.sleep(1)
+                await asyncio.sleep(self.SLEEP_SECONDS)
         finally:
             my_observer.stop()
             my_observer.join()

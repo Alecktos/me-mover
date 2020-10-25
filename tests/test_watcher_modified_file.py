@@ -23,7 +23,7 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
         self._createSourceFile(test_file_1)
         self._set_size_in_mb(test_file_1, 1)
 
-        await asyncio.sleep(1)
+        await asyncio.sleep(AsyncWatcher.SLEEP_SECONDS)
 
         # Can't assert modified_queue because it might already have been removed from queue
         # But file should never disappear from created queue if we keep modifying it
@@ -32,20 +32,20 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
 
         # modify file
         self._set_size_in_mb(test_file_1, 1)
-        await asyncio.sleep(1)
+        await asyncio.sleep(AsyncWatcher.SLEEP_SECONDS)
 
         self.assertTrue(self.__test_file_1_path in self.my_watcher.created_paths)
 
         # modify file
         self._set_size_in_mb(test_file_1, 1)
 
-        await asyncio.sleep(1)
+        await asyncio.sleep(AsyncWatcher.SLEEP_SECONDS)
 
         self.assertTrue(self.__test_file_1_path in self.my_watcher.created_paths)
 
         # No modification to file.
-        # Sleep 2 seconds to be sure that file has been moved
-        await asyncio.sleep(2)
+        # Sleep longer to be sure that file has been moved
+        await asyncio.sleep(AsyncWatcher.SLEEP_SECONDS + 1)
 
         self.assertFalse(self.__test_file_1_path in self.my_watcher.modified_paths)
         self.assertFalse(self.__test_file_1_path in self.my_watcher.created_paths)
@@ -54,7 +54,6 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
             self.__test_file_1_path,
             f'{self._SHOW_DESTINATION_DIRECTORY}/kolla/Season 4/{test_file_1}'
         )
-
 
     def test_moving_growing_file(self):
         logger.setup(logging.DEBUG)
