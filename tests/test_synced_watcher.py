@@ -43,16 +43,16 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         dir_1 = self._create_source_dir(self.__episode_name)
         self.__synced_watcher.on_created(dir_1)
 
-        # Assert dir only in created_paths
+        # Assert dir in both queues
         self.assertListEqual(self.__synced_watcher.created_paths, [dir_1])
-        self.assertListEqual(self.__synced_watcher.modified_paths, [])
+        self.assertListEqual(self.__synced_watcher.modified_paths, [dir_1])
 
         # Create file 1
         file_1_data = self.__create_file_and_trigger_created('DO_NOT_MIRROR.exe')
 
-        # Assert dir only in created_paths
+        # Assert dir in both queues
         self.assertListEqual(self.__synced_watcher.created_paths, [dir_1])
-        self.assertListEqual(self.__synced_watcher.modified_paths, [])
+        self.assertListEqual(self.__synced_watcher.modified_paths, [dir_1])
 
         # Modify dir
         self.__synced_watcher.on_modified(dir_1)
@@ -132,4 +132,3 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
             file_data['relative_path'],
             f'{self._SHOW_DESTINATION_DIRECTORY}/kolla/Season 4/{file_data["file"]}'
         )
-

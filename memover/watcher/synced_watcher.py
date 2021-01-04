@@ -44,7 +44,8 @@ class SyncedWatcher:
     def on_created(self, path):
         if self.__in_create_files(path):
             return
-        return self.__created_paths.append(path)
+        self.__created_paths.append(path)
+        self.on_modified(path)
 
     def __in_create_files(self, path):
         return self.__path_in_queue(self.__created_paths, path)
