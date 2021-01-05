@@ -5,7 +5,7 @@ let
         setuptools
         flake8
     ];
-    python-with-packages = python3.withPackages my-python-packages;
+    python-with-packages = python38.withPackages my-python-packages;
 in
     stdenv.mkDerivation rec {
         name = "memover-env";

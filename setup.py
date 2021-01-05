@@ -20,5 +20,5 @@ setup(name='me-mover',
       install_requires=[
             'watchdog'
       ],
-      python_requires='>=3.7'
+      python_requires='>=3.8'
 )
