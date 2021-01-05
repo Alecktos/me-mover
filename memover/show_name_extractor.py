@@ -2,17 +2,21 @@ import datetime
 import re
 
 
-def extract_delete_test_dirs_show_name(show_name):
+def extract_show_name(show_name):
     show_name_words = __extract_urls(show_name) \
         .replace('.', ' ') \
         .split()
 
     show_name_words = __extract_release_date(show_name_words)
     show_name_words = __extract_sample_word(show_name_words)
+    show_name_words = __extract_garbage_words(show_name_words)
     show_name_words = __extract_meta_info(show_name_words)
     show_name_words = __trim_garbage_chars(show_name_words)
     show_name_words = __strip_from_season(show_name_words)
-    return ' '.join(show_name_words)
+    extracted_show_name = ' '.join(show_name_words)
+    if extracted_show_name == '':
+        return None
+    return extracted_show_name
 
 
 def __extract_urls(show_name):
@@ -41,6 +45,19 @@ def __extract_sample_word(show_name_words):
     return [re.sub('\W*sample\W*', '', word, 0, re.IGNORECASE) for word in show_name_words]
 
 
+def __extract_garbage_words(show_name_words):
+    garbage_words = ['title']
+    lower_cases = list(map(str.lower, show_name_words))
+
+    for garbage_word in garbage_words:
+        for word in lower_cases:
+            if word == garbage_word:
+                index = lower_cases.index(garbage_word)
+                del show_name_words[index]
+                del lower_cases[index]
+    return show_name_words
+
+
 def __extract_meta_info(show_name_words):
     if '[' in show_name_words and ']' in show_name_words:
         start_meta_info = show_name_words.index('[')
@@ -52,6 +69,9 @@ def __extract_meta_info(show_name_words):
 
 
 def __trim_garbage_chars(show_name_words):
+    if not show_name_words:
+        return show_name_words
+
     garbage_chars = ['-']
 
     if show_name_words[0] in garbage_chars:

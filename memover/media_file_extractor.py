@@ -53,7 +53,14 @@ def get_episode_number(file_path):
 
 def get_tv_show_name(file_path):
     match = _get_episode_match(file_path)
-    return show_name_extractor.extract_delete_test_dirs_show_name(match['show_name'])
+    show_name = show_name_extractor.extract_show_name(match['show_name'])
+    if show_name is None:
+        parent_folder = file_handler.get_parent(file_path)
+        parent_folder_name = file_handler.get_last_path_part(parent_folder)
+        show_name = show_name_extractor.extract_show_name(parent_folder_name)
+    if show_name is None:
+        raise CouldNotExtractShowNameException(f'Could not extract show name from file path: {file_path}')
+    return show_name
 
 
 def get_file_type(file_path):
@@ -170,3 +177,8 @@ def _get_episode_match(file_path):
 class WrongMediaTypeException(Exception):
     def __init__(self, message):
         super(WrongMediaTypeException, self).__init__(message)
+
+
+class CouldNotExtractShowNameException(Exception):
+    def __init__(self, message):
+        super(CouldNotExtractShowNameException, self).__init__(message)

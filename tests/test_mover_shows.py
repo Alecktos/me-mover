@@ -1,6 +1,7 @@
 import unittest
-from tests.utils import file_mover_tester
+
 from memover import file_handler, mover
+from tests.utils import file_mover_tester
 
 
 class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
@@ -209,7 +210,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
         )
         show_name = 'Last Last/'
 
-        self.__move_and_validate_episodes(episodes, show_name)
+        self.__create_move_and_validate_season1_episodes(episodes, show_name)
 
     def test_moving_one_season_only_show(self):
         episodes = (
@@ -230,7 +231,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         show_name = '[SyS] Wall Hunger/'
 
-        self.__move_and_validate_episodes(episodes, show_name)
+        self.__create_move_and_validate_season1_episodes(episodes, show_name)
 
         episodes = (
             '[ABA]_and_and_axa_-_01_-_Ijfdsklalllk_[720p]_[ghjk].mkv',
@@ -249,7 +250,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         show_name = '[ABA]_and_and_axa_-/'  # for now show name will be stripped just before episode
 
-        self.__move_and_validate_episodes(episodes, show_name)
+        self.__create_move_and_validate_season1_episodes(episodes, show_name)
 
     def test_moving_one_season_different_episodes_naming_schemes_1(self):
         show_name = 'First Test [ONE_SEASON_DIFFERENT_NAMING_SCHEMES]/'
@@ -267,7 +268,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             '10 - djksalo-jjj.mkv'
         )
 
-        self.__move_and_validate_episodes(episodes, show_name)
+        self.__create_move_and_validate_season1_episodes(episodes, show_name)
 
     def test_moving_one_season_different_episodes_naming_schemes_2(self):
 
@@ -289,7 +290,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             '[ATBC] Jkl Jkl Jkl Jkl Has - 13[1233].mkv'
         )
 
-        self.__move_and_validate_episodes(episodes, show_name)
+        self.__create_move_and_validate_season1_episodes(episodes, show_name)
 
     def test_moving_one_season_different_episodes_naming_schemes_3(self):
 
@@ -310,7 +311,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             'Third Test ONE_SEASON_DIFFERENT_NAMING_SCHEMES - 06 (1920x1080 HEVC2 EAC3).mkv'
         )
 
-        self.__move_and_validate_episodes(episodes, show_name)
+        self.__create_move_and_validate_season1_episodes(episodes, show_name)
 
     def test_moving_with_only_season(self):
         episode = 'Lisa.Mirrander.S02.Special.Rocked.Summer.1080p.WEB-Org.AA02.1.LKIO.mkv'
@@ -331,7 +332,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             'Episode 07 - Stong the Ring.avi'
         )
 
-        self.__move_and_validate_episodes(episodes, show_name)
+        self.__create_move_and_validate_season1_episodes(episodes, show_name)
 
     def test_moving_episode_short(self):
         show_name = "Storage Found (1080p A789 10bit dksala)/"
@@ -354,7 +355,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             'Storage Found E05 A dsasaaaa Cat (1080p A789 10bit dksala).mkv',
             'Storage Found E03 Sounding (1080p A789 10bit dksala).mkv'
         )
-        self.__move_and_validate_episodes(episodes, show_name)
+        self.__create_move_and_validate_season1_episodes(episodes, show_name)
 
         for file in meta_root_files:
             self._assert_file_moved(show_name + file, self._SHOW_DESTINATION_DIRECTORY + show_name + file)
@@ -427,7 +428,21 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             f'{self._SHOW_DESTINATION_DIRECTORY}mr test/Season 7/{episode_name}.mp4'
         )
 
-    def __move_and_validate_episodes(self, episodes, show_name):
+    def test_title_in_file_name(self):
+        show_name = 'Mr Wayne A Ale & Faber in The Cure/'
+
+        episodes = [
+            'Title 01 - Some title 1.mp4',
+            'Title 02 - Some title 2.mp4',
+            'Title 03 - Some title 3.mp4',
+            'Title 04 - Some title 4.mp4',
+            'Title 05 - Some title 5.mp4',
+            'Title 06 - Some title 6.mp4'
+        ]
+
+        self.__create_move_and_validate_season1_episodes(episodes, show_name)
+
+    def __create_move_and_validate_season1_episodes(self, episodes, show_name):
         for episode in episodes:
             file_path = show_name + episode
             self._createSourceFile(file_path)
