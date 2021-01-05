@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
       long_description = fh.read()
 
 setup(name='me-mover',
-      version='3.1.0',
+      version='3.1.1',
       packages=find_packages(exclude=['tests', 'tests.*']),
       author='Alexander Berlind',
       url='https://github.com/Alecktos/me-mover.git',
