@@ -65,12 +65,12 @@ class SyncedWatcher:
         if not os.path.exists(path):
             return
 
-        if not self.__created_paths_queue.in_queue(path): # self.__in_create_files(path):
+        if not self.__created_paths_queue.in_queue(path):
             return
 
         # File is already in modified files/dir queue
-        if self.__modified_paths_queue.in_queue(path):  # self.__in_modified_files(path):
+        if self.__modified_paths_queue.in_queue(path):
             return
 
-        modified_path = self.__created_paths_queue.queue_path_from_path(path)  # self.__queuepath_from_path(self.__created_paths_queue, path)
+        modified_path = self.__created_paths_queue.queue_path_from_path(path)
         self.__modified_paths_queue.append(modified_path)

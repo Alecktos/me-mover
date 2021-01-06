@@ -46,5 +46,4 @@ class PathQueue:
             if os.path.isdir(target_list_path):
                 if target_list_path.replace(self.__args.source, '') in path.replace(self.__args.source, ''):  # inbox path is not valid
                     return target_list_path
-
         return path
