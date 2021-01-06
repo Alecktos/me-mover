@@ -28,27 +28,27 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
         # Can't assert modified_queue because it might already have been removed from queue
         # But file should never disappear from created queue if we keep modifying it
         # self.assertTrue(self.__test_file_1_path in self.my_watcher.modified_paths)
-        self.assertTrue(self.my_watcher.created_paths.in_queue(self.__test_file_1_path))
+        self.assertEqual(self.my_watcher.created_paths, [self.__test_file_1_path])
 
         # modify file
         self._set_size_in_mb(test_file_1, 1)
         await asyncio.sleep(AsyncWatcher.SLEEP_SECONDS)
 
-        self.assertTrue(self.my_watcher.created_paths.in_queue(self.__test_file_1_path))
+        self.assertEqual(self.my_watcher.created_paths, [self.__test_file_1_path])
 
         # modify file
         self._set_size_in_mb(test_file_1, 1)
 
         await asyncio.sleep(AsyncWatcher.SLEEP_SECONDS)
 
-        self.assertTrue(self.my_watcher.created_paths.in_queue(self.__test_file_1_path))
+        self.assertEqual(self.my_watcher.created_paths, [self.__test_file_1_path])
 
         # No modification to file.
         # Sleep longer to be sure that file has been moved
         await asyncio.sleep(AsyncWatcher.SLEEP_SECONDS + 1)
 
-        self.assertFalse(self.my_watcher.modified_paths.in_queue(self.__test_file_1_path))
-        self.assertFalse(self.my_watcher.created_paths.in_queue(self.__test_file_1_path))
+        self.assertEqual(self.my_watcher.modified_paths, [])
+        self.assertEqual(self.my_watcher.created_paths, [])
 
         self._assert_file_moved(
             self.__test_file_1_path,

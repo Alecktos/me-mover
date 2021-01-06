@@ -47,8 +47,6 @@ class SyncedWatcher:
         return self.__created_paths_queue
 
     def on_created(self, path):
-        if self.__created_paths_queue.in_queue(path):
-            return
         self.__created_paths_queue.append(path)
         self.on_modified(path)
 
@@ -68,9 +66,4 @@ class SyncedWatcher:
         if not self.__created_paths_queue.in_queue(path):
             return
 
-        # File is already in modified files/dir queue
-        if self.__modified_paths_queue.in_queue(path):
-            return
-
-        modified_path = self.__created_paths_queue.queue_path_from_path(path)
-        self.__modified_paths_queue.append(modified_path)
+        self.__modified_paths_queue.append(path)
