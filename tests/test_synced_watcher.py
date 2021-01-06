@@ -30,12 +30,12 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         path = self._createSourceFile(episode_name)
         self.__synced_watcher.on_modified(path)
 
-        self.assertFalse(path in self.__synced_watcher.modified_paths)
+        self.assertFalse(self.__synced_watcher.modified_paths.in_queue(path))
 
         self.__synced_watcher.on_created(path)
         self.__synced_watcher.on_modified(path)
-        self.assertTrue(path in self.__synced_watcher.created_paths)
-        self.assertTrue(path in self.__synced_watcher.modified_paths)
+        self.assertTrue(self.__synced_watcher.created_paths.in_queue(path))
+        self.assertTrue(self.__synced_watcher.modified_paths.in_queue(path))
 
 
     def test_only_root_added_queues(self):
@@ -44,50 +44,50 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         self.__synced_watcher.on_created(dir_1)
 
         # Assert dir in both queues
-        self.assertListEqual(self.__synced_watcher.created_paths, [dir_1])
-        self.assertListEqual(self.__synced_watcher.modified_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.created_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.modified_paths, [dir_1])
 
         # Create file 1
         file_1_data = self.__create_file_and_trigger_created('DO_NOT_MIRROR.exe')
 
         # Assert dir in both queues
-        self.assertListEqual(self.__synced_watcher.created_paths, [dir_1])
-        self.assertListEqual(self.__synced_watcher.modified_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.created_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.modified_paths, [dir_1])
 
         # Modify dir
         self.__synced_watcher.on_modified(dir_1)
 
         # Assert dir in both queues
-        self.assertListEqual(self.__synced_watcher.created_paths, [dir_1])
-        self.assertListEqual(self.__synced_watcher.modified_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.created_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.modified_paths, [dir_1])
 
         # Create file 2
         file_2_data = self.__create_file_and_trigger_created(f'{self.__episode_name}-mytv.mkv')
 
         # Assert dir in both queues
-        self.assertListEqual(self.__synced_watcher.created_paths, [dir_1])
-        self.assertListEqual(self.__synced_watcher.modified_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.created_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.modified_paths, [dir_1])
 
         # Modify dir
         self.__synced_watcher.on_modified(dir_1)
 
         # Assert dir in both queues
-        self.assertListEqual(self.__synced_watcher.created_paths, [dir_1])
-        self.assertListEqual(self.__synced_watcher.modified_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.created_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.modified_paths, [dir_1])
 
         # Create file 3
         file_3_data = self.__create_file_and_trigger_created('Gamma.txt')
 
         # Assert dir in both queues
-        self.assertListEqual(self.__synced_watcher.created_paths, [dir_1])
-        self.assertListEqual(self.__synced_watcher.modified_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.created_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.modified_paths, [dir_1])
 
         # Modify dir
         self.__synced_watcher.on_modified(dir_1)
 
         # Assert dir in both queues
-        self.assertListEqual(self.__synced_watcher.created_paths, [dir_1])
-        self.assertListEqual(self.__synced_watcher.modified_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.created_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.modified_paths, [dir_1])
 
         # Modify file 2
         self.__synced_watcher.on_modified(file_2_data['path'])
@@ -95,15 +95,15 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         self.__synced_watcher.on_modified(file_2_data['path'])
 
         # Assert dir in both queues
-        self.assertListEqual(self.__synced_watcher.created_paths, [dir_1])
-        self.assertListEqual(self.__synced_watcher.modified_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.created_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.modified_paths, [dir_1])
 
         # Try to move
         self.__synced_watcher.move_next_path()
 
         # Assert dir only in created_paths
-        self.assertListEqual(self.__synced_watcher.created_paths, [dir_1])
-        self.assertListEqual(self.__synced_watcher.modified_paths, [])
+        self.assertEqual(self.__synced_watcher.created_paths, [dir_1])
+        self.assertEqual(self.__synced_watcher.modified_paths, [])
 
         # Actually moving
         self.__synced_watcher.move_next_path()
@@ -114,8 +114,8 @@ class TestSyncedWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         self.assert_moved(file_1_data)
 
         # Assert queues cleared
-        self.assertListEqual(self.__synced_watcher.created_paths, [])
-        self.assertListEqual(self.__synced_watcher.modified_paths, [])
+        self.assertEqual(self.__synced_watcher.created_paths, [])
+        self.assertEqual(self.__synced_watcher.modified_paths, [])
 
     def __create_file_and_trigger_created(self, file):
         relative_path = f'{self.__episode_name}/{file}'
