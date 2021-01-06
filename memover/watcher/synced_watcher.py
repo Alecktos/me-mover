@@ -22,10 +22,12 @@ class SyncedWatcher:
             self.__modified_paths_queue.remove(path)
             return False
 
+        self.__log_queue_status('Queues Before Move: Before removing path')
+
         # Remove file from queue before moving to avoid changes to file in modify queue
         self.__created_paths_queue.remove(path)
 
-        self.__log_queue_status('Queues Before Move')
+        self.__log_queue_status('Queues Before Move: after removing path')
         mover.move_media_by_path(
             path,
             self.__args.show_destination,
