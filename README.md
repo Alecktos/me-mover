@@ -107,6 +107,6 @@ If the show name or season directory does not exist they will be created.
     python -m unittest discover tests
 
 ## Requirements
-Python 3.8
+Python 3.11
 
 watchdog
