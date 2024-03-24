@@ -20,5 +20,10 @@ setup(name='me-mover',
       install_requires=[
             'watchdog==3.0.0',
       ],
+      extras_require={
+            'dev': [
+                  'flake8==7.0.0',
+            ]
+        },
       python_requires='>=3.11'
 )
