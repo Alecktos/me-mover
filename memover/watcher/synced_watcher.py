@@ -3,6 +3,7 @@ import os
 from memover import mover, logger
 from memover.arguments_parser import MeMoverArgs
 from memover.watcher.path_queue import PathQueue
+from pathlib import Path
 
 
 class SyncedWatcher:
@@ -20,6 +21,7 @@ class SyncedWatcher:
 
         if self.__modified_paths_queue.in_queue(path):
             self.__modified_paths_queue.remove(path)
+            logger.debug(f'Removed {path} from modified queue')
             return False
 
         self.__log_queue_status('Queues Before Move: Before removing path')
@@ -42,6 +44,9 @@ class SyncedWatcher:
         self.__created_paths_queue.log_debug('created_paths')
         logger.debug('-- End --')
 
+    def __is_source_dir(self, path):
+        return path.strip('/') == self.__args.source.strip('/') or Path(self.__args.source).parent == Path(path)
+
     # Created_paths_to_move
 
     @property
@@ -49,6 +54,8 @@ class SyncedWatcher:
         return self.__created_paths_queue
 
     def on_created(self, path):
+        if self.__is_source_dir(path):
+            return
         self.__created_paths_queue.append(path)
         self.on_modified(path)
 
@@ -59,7 +66,7 @@ class SyncedWatcher:
         return self.__modified_paths_queue
 
     def on_modified(self, path):
-        if path.strip('/') == self.__args.source.strip('/'):
+        if self.__is_source_dir(path):
             return
 
         if not os.path.exists(path):
