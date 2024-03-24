@@ -18,7 +18,7 @@ setup(name='me-mover',
             'console_scripts': ['me-mover = memover.main:main']
       },
       install_requires=[
-            'watchdog'
+            'watchdog==3.0.0',
       ],
-      python_requires='>=3.8'
+      python_requires='>=3.11'
 )
