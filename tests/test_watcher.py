@@ -11,7 +11,6 @@ class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     __test_file_1 = 'kolla.S04E15.asswe.xTTT-RR[abf].mkv'
     __test_file_2 = 'kolla.S05E16.asswe.xTTT-RR[abf].mkv'
-    __args = None
 
     def setUp(self):
         self._create_test_dirs()
@@ -29,21 +28,19 @@ class TestWatcher(unittest.TestCase, file_mover_tester.FileMoverTester):
         def run_app():
             args = f'{self._SOURCE_DIRECTORY} {self._SHOW_DESTINATION_DIRECTORY} {self._MOVIE_DESTINATION_DIRECTORY} --moves 2'
             execution = f'{sys.executable} -m memover watch {args}'
-            p = subprocess.Popen(execution, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            p = subprocess.Popen(execution, shell=True)
             return p
 
         process = run_app()
-        time.sleep(1)
+        time.sleep(1)  # Run app for a second before creating files
 
         self._createSourceFile(self.__test_file_1)
         self._createSourceFile(self.__test_file_2)
 
-        for line in process.stdout.readlines():
-            print(line)
-
         process.wait()
 
-        file_is_in_new_path = file_handler.file_exist(self.__get_destination_path_file_1())
+        destination_path_file_1 = self.__get_destination_path_file_1()
+        file_is_in_new_path = file_handler.file_exist(destination_path_file_1)
         self.assertTrue(file_is_in_new_path)
 
         file_is_in_new_path = file_handler.file_exist(self.__get_destination_path_file_2())

@@ -1,11 +1,23 @@
 from memover import file_handler
-
+import os
 
 class FileMoverTester:
 
-    _SOURCE_DIRECTORY = 'sourcefolder/'
-    _SHOW_DESTINATION_DIRECTORY = 'show-destination/'
-    _MOVIE_DESTINATION_DIRECTORY = 'movie-destination/'
+    @property
+    def _SOURCE_DIRECTORY(self):
+        return f'{self._WORKING_DIRECTORY}/sourcefolder/'
+
+    @property
+    def _SHOW_DESTINATION_DIRECTORY(self):
+        return f'{self._WORKING_DIRECTORY}/show-destination/'
+    
+    @property
+    def _MOVIE_DESTINATION_DIRECTORY(self):
+        return f'{self._WORKING_DIRECTORY}/movie-destination/'
+
+    @property
+    def _WORKING_DIRECTORY(self):
+        return os.getcwd()
 
     def _create_test_dirs(self):
         self._delete_test_dirs()
