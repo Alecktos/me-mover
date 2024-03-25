@@ -56,6 +56,10 @@ class SyncedWatcher:
     def on_created(self, path):
         if self.__is_source_dir(path):
             return
+
+        if not os.path.exists(path):
+            return
+
         self.__created_paths_queue.append(path)
         self.on_modified(path)
 
