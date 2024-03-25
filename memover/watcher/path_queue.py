@@ -56,7 +56,5 @@ class PathQueue:
         return f'{source}/{first_root_path}'
 
     def __lstrip_source(self, path):
-        print('path __lstrip_source: ' + path)
         index = path.index(self.__args.source) + len(self.__args.source)
-        print('index: ' + str(index))
         return path[index:]
