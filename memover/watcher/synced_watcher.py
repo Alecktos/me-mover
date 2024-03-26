@@ -58,6 +58,7 @@ class SyncedWatcher:
             return
 
         if not os.path.exists(path):
+            logger.debug(f'FileCreated event for path {path} that does not exist')
             return
 
         self.__created_paths_queue.append(path)
