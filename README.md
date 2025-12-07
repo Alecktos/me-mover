@@ -11,18 +11,26 @@ Movies will be moved to ``[movie destination directory]/[movie name directory]``
 ```
 > pip install me-mover
 ```
-### From source
+## 2. Setup for development
 ```
 > git clone https://github.com/Alecktos/me-mover.git
 > cd me-mover
 
-> python setup.py install
-> python memover
-# or run it directly 
-> python -m memover
+# create and activate virtual environment
+> python -m venv venv
+> source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# install project locally for development
+> pip install -e .[dev]
+
 ```
 
-## 2. Usage
+### Run tests
+```
+> python -m unittest discover tests
+```
+
+## 3. Usage
 ### By-name
 Moves a movie or tv-show from a source directory by searching for its name.
 ```    
@@ -100,13 +108,7 @@ A parent directory will be created for each moved movie.
 
 If the show name or season directory does not exist they will be created.
 
-## Development
-
-
-### Run tests
-    python -m unittest discover tests
-
 ## Requirements
-Python 3.11
+Python 3.14
 
 watchdog

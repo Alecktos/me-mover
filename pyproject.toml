@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "me-mover"
+version = "3.1.9"
+description = "Organize movies and tv-shows"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Alexander Berlind" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "watchdog==3.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Alecktos/me-mover.git"
+
+[project.scripts]
+me-mover = "memover.main:main"
+
+[project.optional-dependencies]
+dev = [
+    "flake8==7.0.0",
+]
+
+[tool.setuptools.packages.find]
+exclude = ["tests", "tests.*"]
