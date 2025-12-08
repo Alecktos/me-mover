@@ -39,7 +39,7 @@ def __should_be_renamed(subtitle_path):
     subtitle_dir = file_handler.get_parent(subtitle_path)
     biggest_file = file_handler.get_biggest_file(subtitle_dir)
     if not media_file_extractor.is_media_file(biggest_file.path):
-        return False # No media file. Nothing to rename to
+        return False  # No media file. Nothing to rename to
 
     biggest_file_name = file_handler.get_last_path_part(biggest_file.path)
     subtitle_file_name = file_handler.get_last_path_part(subtitle_path)

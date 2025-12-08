@@ -81,7 +81,7 @@ def __path_contains_multiple_tv_episodes(path):
 
     for index, element in enumerate(episode_numbers[1:], start=1):
         # Allow same or one less
-        if element is not episode_numbers[index-1] + 1 and element is not episode_numbers[index-1]:
+        if element is not episode_numbers[index - 1] + 1 and element is not episode_numbers[index - 1]:
             return False
 
     return True
@@ -99,7 +99,7 @@ def __contains_episode_number(file_path):
 
 
 def _get_episode_number_matches(file_path):
-    file = '/' + file_handler.get_last_path_part(file_path) # Add slash for regex compability
+    file = '/' + file_handler.get_last_path_part(file_path)  # Add slash for regex compability
     matches = re.findall(r'(?<=\s|_|E|\/)\d+(?=\s|\w|\[)', file)
     return matches
 

@@ -24,8 +24,8 @@ jobs:
         pip install -e .[dev]
     - name: Lint with flake8
       run: |
-        flake8 memover --max-complexity=10 --max-line-length=300 --statistics
-        flake8 tests --max-complexity=10 --max-line-length=300 --statistics
+        flake8 memover --max-complexity=10 --max-line-length=300 --statistics --ignore=W605
+        flake8 tests --max-complexity=10 --max-line-length=300 --statistics --ignore=W605
     - name: Test
       run: |
         python -m unittest discover tests

@@ -28,4 +28,3 @@ def __match_file(keywords, file_name):
 
 def __is_keyword_part_of_filename(keyword, file_name):
     return keyword.lower() in file_name.lower()  # keyword is part of name
-

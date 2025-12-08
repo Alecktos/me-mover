@@ -110,8 +110,7 @@ def __is_right_season_directory(path, season_number):
 
 
 def __find_matching_directories(root_directory, search_query):
-    return [dir_name for dir_name in file_handler.get_directory_content(root_directory) if
-                         search_query in dir_name.lower().strip()]
+    return [dir_name for dir_name in file_handler.get_directory_content(root_directory) if search_query in dir_name.lower().strip()]
 
 
 class MultipleDirectoryMatchesException(Exception):
