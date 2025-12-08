@@ -46,7 +46,7 @@ class TestApp(unittest.TestCase, file_mover_tester.FileMoverTester):
         self._delete_test_dirs()
 
     def test_moving_shows_with_wrong_formated_parent_folder(self):
-        self.__run_by_file('sourcefolder/[\ www.gallero.it\ ]\ -\ Longer.S01E02.abg.AQS-A/Information\ Downloaded\ From\ www.akkero.com.txt')
+        self.__run_by_file(r'sourcefolder/[\ www.gallero.it\ ]\ -\ Longer.S01E02.abg.AQS-A/Information\ Downloaded\ From\ www.akkero.com.txt')
         destination_path = self._SHOW_DESTINATION_DIRECTORY + 'Longer/Season 1/' + self.__TV_SHOW_FILE_NAME_4
         self._assert_file_moved(
             self._SOURCE_DIRECTORY + self.__TV_SHOW_FILE_NAME_4_PARENT_FOLDER + '/' + self.__TV_SHOW_FILE_NAME_4,
@@ -54,7 +54,7 @@ class TestApp(unittest.TestCase, file_mover_tester.FileMoverTester):
         )
 
     def test_moving_show_with_urls(self):
-        self.__run_by_file('sourcefolder/www.Lobertar.com\ -\ Long.S01E02.720p.KOOK.asdf-Risig/Stuff\ from\ www.Lobertar.com.mkv')
+        self.__run_by_file(r'sourcefolder/www.Lobertar.com\ -\ Long.S01E02.720p.KOOK.asdf-Risig/Stuff\ from\ www.Lobertar.com.mkv')
         destination_path = self._SHOW_DESTINATION_DIRECTORY + 'Long/Season 1/' + self.__TV_SHOW_FILE_NAME_5
         self._assert_file_moved(
             self._SOURCE_DIRECTORY + self.__TV_SHOW_FILE_NAME_5_PARENT_FOLDER + '/' + self.__TV_SHOW_FILE_NAME_5,
@@ -98,7 +98,7 @@ class TestApp(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     def test_moving_file_by_parent(self):
         source_dir = self._SOURCE_DIRECTORY + self.__TV_SHOW_FILE_NAME_4_PARENT_FOLDER + '/'
-        self.__run_by_file('sourcefolder/[\ www.gallero.it\ ]\ -\ Longer.S01E02.abg.AQS-A')
+        self.__run_by_file(r'sourcefolder/[\ www.gallero.it\ ]\ -\ Longer.S01E02.abg.AQS-A')
         self._assert_file_moved(source_dir, self._SHOW_DESTINATION_DIRECTORY + 'Longer/Season 1/' + self.__TV_SHOW_FILE_NAME_4)
 
     @staticmethod
@@ -111,7 +111,12 @@ class TestApp(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     @staticmethod
     def __run_app(args):
-        p = subprocess.Popen(f'{sys.executable} -m memover {args}', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        for line in p.stdout.readlines():
-            print(line)
-        p.wait()
+        with subprocess.Popen(
+                f'{sys.executable} -m memover {args}',
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+        ) as p:
+            for line in p.stdout:
+                print(line)
+            p.wait()

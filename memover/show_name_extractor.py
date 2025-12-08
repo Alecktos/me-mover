@@ -37,12 +37,13 @@ def __remove_release_date(show_name_words):
         last_word_date = datetime.datetime.strptime(show_name_words[-1], '%Y').date()
         if d1 <= last_word_date <= d2:
             del show_name_words[-1]
-    finally:
-        return show_name_words
+    except (ValueError, IndexError):
+        pass
+    return show_name_words
 
 
 def __remove_sample_word(show_name_words):
-    return [re.sub('\W*sample\W*', '', word, 0, re.IGNORECASE) for word in show_name_words]
+    return [re.sub(r'\W*sample\W*', '', word, count=0, flags=re.IGNORECASE) for word in show_name_words]
 
 
 def __remove_garbage_words(show_name_words):
