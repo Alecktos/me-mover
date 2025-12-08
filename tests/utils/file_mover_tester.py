@@ -1,6 +1,7 @@
 from memover import file_handler
 import os
 
+
 class FileMoverTester:
 
     @property
@@ -10,7 +11,7 @@ class FileMoverTester:
     @property
     def _SHOW_DESTINATION_DIRECTORY(self):
         return f'{self._WORKING_DIRECTORY}/show-destination/'
-    
+
     @property
     def _MOVIE_DESTINATION_DIRECTORY(self):
         return f'{self._WORKING_DIRECTORY}/movie-destination/'

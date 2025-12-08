@@ -103,7 +103,7 @@ class TestMoverMovies(unittest.TestCase, file_mover_tester.FileMoverTester):
 
     def test_movie_destination_no_slash_in_path(self):
         dir_name = 'Tah Felling Out Of hope In Valley (2019) [Converted] [movie-test-no-path]/'
-        file_handler.create_dir(self._SOURCE_DIRECTORY  + dir_name)
+        file_handler.create_dir(self._SOURCE_DIRECTORY + dir_name)
         movie_file = 'Tah.Fellingr Out Of hope In Valley.2019.1080p.Converted-[movie-test-no-path].mp4'
         file_handler.create_file(self._SOURCE_DIRECTORY + dir_name + movie_file)
 

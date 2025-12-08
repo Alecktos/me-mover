@@ -6,7 +6,6 @@ class TestFileMatcher(unittest.TestCase):
 
     __SOURCE_DIRECTORY_PATH = 'testfolder'
 
-
     def setUp(self):
         file_handler.create_dir(self.__SOURCE_DIRECTORY_PATH)
 

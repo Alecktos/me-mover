@@ -106,4 +106,3 @@ class TestSubtitles(unittest.TestCase, file_mover_tester.FileMoverTester):
 
         for path in paths:
             self._assert_file_moved(path.source, self._MOVIE_DESTINATION_DIRECTORY + path.destination)
-

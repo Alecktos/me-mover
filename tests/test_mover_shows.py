@@ -404,7 +404,7 @@ class TestMoverShows(unittest.TestCase, file_mover_tester.FileMoverTester):
             self._MOVIE_DESTINATION_DIRECTORY
         )
 
-        self._assert_file_moved(source_show_dir + screen_dir + screen_file, self._SHOW_DESTINATION_DIRECTORY + show_name + screen_file )
+        self._assert_file_moved(source_show_dir + screen_dir + screen_file, self._SHOW_DESTINATION_DIRECTORY + show_name + screen_file)
 
         self.__validate_episodes_season_1([episode], show_name)
 

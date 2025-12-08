@@ -115,4 +115,3 @@ class TestApp(unittest.TestCase, file_mover_tester.FileMoverTester):
         for line in p.stdout.readlines():
             print(line)
         p.wait()
-
