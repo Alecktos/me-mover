@@ -44,7 +44,7 @@ class AsyncWatcher:
         ignore_directories = False
         case_sensitive = True
 
-        my_event_handler = PatternMatchingEventHandler(patterns, ignore_patterns, ignore_directories, case_sensitive)
+        my_event_handler = PatternMatchingEventHandler(patterns=patterns, ignore_patterns=ignore_patterns, ignore_directories=ignore_directories, case_sensitive=case_sensitive)
         my_event_handler.on_created = self.on_created
         my_event_handler.on_modified = self.on_modified
 
