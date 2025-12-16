@@ -45,7 +45,7 @@ class SyncedWatcher:
             self.__args.movie_destination
         )
         self.__log_queue_status('Queues After Move')
-        
+
         return True
 
     def __log_queue_status(self, header):
@@ -69,7 +69,7 @@ class SyncedWatcher:
             return
 
         self.__created_paths_queue.append(path, time.time())
-        
+
         self.on_modified(path)
 
     def on_modified(self, path):
