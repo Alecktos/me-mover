@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "me-mover"
-version = "3.2.0"
+version = "3.2.1"
 description = "Organize movies and tv-shows"
 readme = "README.md"
-license = { text = "MIT" }
+license = "MIT"
 authors = [
     { name = "Alexander Berlind" }
 ]
