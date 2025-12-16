@@ -50,7 +50,6 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
         # Sleep longer to be sure that file has been moved
         await asyncio.sleep(AsyncWatcher.SLEEP_SECONDS + 1)
 
-        self.assertEqual(self.my_watcher.modified_paths, [])
         self.assertEqual(self.my_watcher.created_paths, [])
 
         self._assert_file_moved(
@@ -71,7 +70,7 @@ class TestWatcherModifiedFile(unittest.TestCase, file_mover_tester.FileMoverTest
             moves_before_quit=1
         )
 
-        self.my_watcher = AsyncWatcher(args)
+        self.my_watcher = AsyncWatcher(args, stable_seconds=0)
 
         async def run_watcher_with_growing_file():
             await asyncio.gather(

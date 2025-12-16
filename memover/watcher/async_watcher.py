@@ -13,15 +13,11 @@ class AsyncWatcher:
 
     SLEEP_SECONDS = 2
 
-    def __init__(self, args: MeMoverArgs) -> None:
+    def __init__(self, args: MeMoverArgs, stable_seconds: float = None) -> None:
         self.__start_time = time.time()
         self.__args = args
-        self.__synced_watcher = SyncedWatcher(args)
+        self.__synced_watcher = SyncedWatcher(args, stable_seconds=stable_seconds)
         self.__moves = 0
-
-    @property
-    def modified_paths(self):
-        return self.__synced_watcher.modified_paths
 
     @property
     def created_paths(self):
