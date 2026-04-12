@@ -101,6 +101,36 @@ class TestMoverMovies(unittest.TestCase, file_mover_tester.FileMoverTester):
         self._assert_file_moved(extras_soundtrack_file1, self._MOVIE_DESTINATION_DIRECTORY + extras_soundtrack_file1)
         self._assert_file_moved(extras_soundtrack_file2, self._MOVIE_DESTINATION_DIRECTORY + extras_soundtrack_file2)
 
+    def test_moving_movie_dir_to_existing_destination_dir(self):
+        folder_name = 'A Test Movie (2017) [Tatt] [720p] [YTS.LT]'
+        source_folder_path = self._SOURCE_DIRECTORY + folder_name
+        file_handler.create_dir(source_folder_path)
+        source_file_path = source_folder_path + '/A Test Movie.20197108TattRip720.mkv'
+        file_handler.create_file(source_file_path)
+
+        # Simulate destination directory already existing (e.g. from a prior partial move)
+        destination_dir = self._MOVIE_DESTINATION_DIRECTORY + folder_name
+        file_handler.create_dir(destination_dir)
+
+        mover.move_media_by_path(source_folder_path, self._SHOW_DESTINATION_DIRECTORY, self._MOVIE_DESTINATION_DIRECTORY)
+
+        destination_file_path = destination_dir + '/A Test Movie.20197108TattRip720.mkv'
+        self._assert_file_moved(source_file_path, destination_file_path)
+
+    def test_moving_movie_file_to_existing_destination_dir(self):
+        movie_file_name = 'A Test Movie (2017) [Tatt] [720p] [AB.CD].mkv'
+        source_file_path = self._SOURCE_DIRECTORY + '/' + movie_file_name
+        file_handler.create_file(source_file_path)
+
+        # Simulate destination directory already existing
+        destination_dir = self._MOVIE_DESTINATION_DIRECTORY + 'A Test Movie (2017) [Tatt] [720p] [AB.CD]'
+        file_handler.create_dir(destination_dir)
+
+        mover.move_media_by_path(source_file_path, self._SHOW_DESTINATION_DIRECTORY, self._MOVIE_DESTINATION_DIRECTORY)
+
+        destination_file_path = destination_dir + '/' + movie_file_name
+        self._assert_file_moved(source_file_path, destination_file_path)
+
     def test_movie_destination_no_slash_in_path(self):
         dir_name = 'Tah Felling Out Of hope In Valley (2019) [Converted] [movie-test-no-path]/'
         file_handler.create_dir(self._SOURCE_DIRECTORY + dir_name)
