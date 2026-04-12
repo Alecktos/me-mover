@@ -7,13 +7,15 @@ def move(movie_root_path, path):
 
     if file_handler.path_is_directory(path):
         movie_dir = movie_root_path + file_handler.get_last_path_part(path)
-        file_handler.create_dir(movie_dir)
+        if not file_handler.directory_exist(movie_dir):
+            file_handler.create_dir(movie_dir)
 
         __move_dir(path, movie_dir)
     else:
 
         movie_dir = movie_root_path + file_handler.get_last_name_from_path(path)
-        file_handler.create_dir(movie_dir)
+        if not file_handler.directory_exist(movie_dir):
+            file_handler.create_dir(movie_dir)
 
         __move_file(
             path,
@@ -29,7 +31,8 @@ def __move_dir(root_source_path, root_destination_path):
         source_path = root_source_path + '/' + relative_source_path
         destination_path = root_destination_path + '/' + relative_source_path
         if file_handler.path_is_directory(source_path):
-            file_handler.create_dir(destination_path)
+            if not file_handler.directory_exist(destination_path):
+                file_handler.create_dir(destination_path)
             __move_dir(source_path, destination_path)
         else:
             __move_file(
